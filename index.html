@@ -1,0 +1,5444 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/png" href="imgs/logooo.png">
+    <link rel="apple-touch-icon" href="imgs/logooo.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="Ew0cvasxdIkyF7znEE-AMz_DiELiTQ0e9AuhjbRlHJU" />
+    <meta name="facebook-domain-verification" content="zldjgptx9hd0f4uq82uniufhva9vmm" />
+    <title>
+      Confirm It — Automate E-commerce Order Confirmations via WhatsApp
+    </title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --- 1. Global Styles & Variables --- */
+      :root {
+        --brand-dark: #121212;
+        --brand-card: #151515;
+        --brand-border: #3a3a3a;
+        --brand-green: #27ae60;
+        --brand-green-bright: #4ade80;
+        --brand-text: #e0e0e0;
+        --brand-text-grey: #a0a0a0;
+        --accent-gold: #d4af37;
+        --accent-gold-bright: #f5d576;
+        --font-main: "Inter", sans-serif;
+        --font-nav: "Poppins", sans-serif;
+        --font-arabic: "IBM Plex Sans Arabic", "Inter", sans-serif;
+
+        --header-height: 80px;
+        --topbar-height: 44px;
+      }
+
+      /* Basic Reset */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        width: 100%;
+      }
+
+      body {
+        font-family: var(--font-main);
+        background-color: var(--brand-dark);
+        color: var(--brand-text);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+        position: relative;
+        width: 100%;
+      }
+
+      /* Stop scroll when mobile menu is open */
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      /* --- Bilingual EN/AR toggle --- */
+      body.lang-ar {
+        font-family: var(--font-arabic);
+      }
+
+      [data-lang] {
+        display: none;
+      }
+      body.lang-en [data-lang="en"] {
+        display: initial;
+      }
+      body.lang-ar [data-lang="ar"] {
+        display: initial;
+      }
+      body.lang-en [data-lang="en"].d-block,
+      body.lang-ar [data-lang="ar"].d-block {
+        display: block;
+      }
+      body.lang-en [data-lang="en"].d-flex,
+      body.lang-ar [data-lang="ar"].d-flex {
+        display: flex;
+      }
+      body.lang-en [data-lang="en"].d-inline-flex,
+      body.lang-ar [data-lang="ar"].d-inline-flex {
+        display: inline-flex;
+      }
+      body.lang-en .section-title > [data-lang="en"],
+      body.lang-ar .section-title > [data-lang="ar"],
+      body.lang-en .section-subtitle > [data-lang="en"],
+      body.lang-ar .section-subtitle > [data-lang="ar"],
+      body.lang-en .integrations-subtitle > [data-lang="en"],
+      body.lang-ar .integrations-subtitle > [data-lang="ar"],
+      body.lang-en .ivr-pitch-heading > [data-lang="en"],
+      body.lang-ar .ivr-pitch-heading > [data-lang="ar"],
+      body.lang-en .ivr-pitch-copy > [data-lang="en"],
+      body.lang-ar .ivr-pitch-copy > [data-lang="ar"],
+      body.lang-en .ivr-pitch-note > [data-lang="en"],
+      body.lang-ar .ivr-pitch-note > [data-lang="ar"],
+      body.lang-en .ivr-audio-disclaimer > [data-lang="en"],
+      body.lang-ar .ivr-audio-disclaimer > [data-lang="ar"],
+      body.lang-en .footer-col-1 p > [data-lang="en"],
+      body.lang-ar .footer-col-1 p > [data-lang="ar"],
+      body.lang-en .footer-copyright > [data-lang="en"],
+      body.lang-ar .footer-copyright > [data-lang="ar"],
+      body.lang-en .features-text-content h2 > [data-lang="en"],
+      body.lang-ar .features-text-content h2 > [data-lang="ar"],
+      body.lang-en .features-text-content p > [data-lang="en"],
+      body.lang-ar .features-text-content p > [data-lang="ar"] {
+        display: block;
+      }
+      [data-lang="ar"] {
+        font-family: var(--font-arabic);
+      }
+
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      ul,
+      li {
+        list-style: none;
+      }
+
+      button {
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      /* --- 2. Reusable Components --- */
+
+      .container {
+        width: 100%;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      /* --- BUTTON STYLES --- */
+      .btn-unified {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: var(--font-nav);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: center;
+        text-decoration: none;
+        background-color: transparent;
+        color: #fff;
+        border: 1px solid #444;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .btn-unified:hover {
+        background-color: #fff;
+        color: #000 !important;
+        border-color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-unified.btn-sm {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+      }
+
+      .btn-cta-green {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: var(--font-nav);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        background-color: transparent;
+        border: 1px solid var(--brand-green);
+        color: var(--brand-green);
+        box-shadow: 0 0 10px rgba(39, 174, 96, 0.1);
+      }
+
+      .btn-cta-green:hover {
+        background-color: var(--brand-green);
+        color: #fff;
+        border-color: var(--brand-green);
+        transform: translateY(-1px);
+        box-shadow: 0 0 20px rgba(39, 174, 96, 0.4);
+      }
+
+      .nav-link-login {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        font-family: var(--font-nav);
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ccc;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+
+      .nav-link-login:hover {
+        color: #fff;
+        border-color: #fff;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .btn-hero-secondary {
+        display: inline-block;
+        padding: 0.6rem 1.25rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        font-family: var(--font-nav);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: center;
+        text-decoration: none;
+        background-color: transparent;
+        color: var(--brand-text-grey);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .btn-hero-secondary:hover {
+        color: #fff;
+        border-color: #fff;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .section-title {
+        font-size: 2.25rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: white;
+      }
+
+      .section-subtitle {
+        margin-top: 1rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        color: var(--brand-text-grey);
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      /* --- 2.5 Top Bar (social + language switcher) --- */
+      .top-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 101;
+        width: 100%;
+        height: var(--topbar-height);
+        background-color: #0a0a0a;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .top-bar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        max-width: 1400px;
+      }
+
+      .social-icons {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+      }
+
+      .social-icon-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        transition: transform 0.3s ease;
+      }
+
+      .social-icon-link:hover {
+        transform: translateY(-2px) scale(1.12);
+      }
+
+      .social-icon {
+        width: 20px;
+        height: 20px;
+        filter: drop-shadow(0 0 0 rgba(74, 222, 128, 0));
+        transition: filter 0.3s ease;
+      }
+
+      .social-icon-link:hover .social-icon {
+        filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.65));
+      }
+
+      .lang-switch {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 76px;
+        height: 26px;
+        padding: 3px;
+        border-radius: 100px;
+        border: 1px solid var(--brand-border);
+        background: rgba(255, 255, 255, 0.03);
+        cursor: pointer;
+        font-family: var(--font-nav);
+      }
+
+      .lang-switch-thumb {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 34px;
+        height: 18px;
+        border-radius: 100px;
+        background: linear-gradient(
+          135deg,
+          var(--brand-green),
+          var(--brand-green-bright)
+        );
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+      }
+
+      body.lang-ar .lang-switch-thumb {
+        transform: translateX(36px);
+      }
+
+      .lang-switch-option {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        text-align: center;
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: var(--brand-text-grey);
+        transition: color 0.3s ease;
+      }
+
+      body.lang-en .lang-switch-option[data-set-lang="en"],
+      body.lang-ar .lang-switch-option[data-set-lang="ar"] {
+        color: #08150c;
+      }
+
+      /* --- 3. Page Header & Navigation --- */
+
+      .header {
+        position: fixed;
+        top: var(--topbar-height);
+        left: 0;
+        right: 0;
+        z-index: 100;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background-color: rgba(18, 18, 18, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        max-width: 1400px;
+        margin-left: 0;
+        margin-right: auto;
+        padding: 0 1.5rem;
+        position: relative;
+      }
+
+      .nav-logo-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 101;
+      }
+
+      .brand-logo {
+        width: 210px;
+        height: auto;
+      }
+
+      .nav-center {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-nav);
+      }
+
+      .nav-center a {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #a0a0a0;
+        transition: all 0.2s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+      }
+
+      .nav-center a:hover {
+        color: #fff;
+        background-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .nav-right {
+        display: none;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .nav-mobile-btn {
+        display: block;
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        border-radius: 4px;
+        color: var(--brand-text-grey);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 102;
+        position: relative;
+        margin-left: auto;
+      }
+
+      .nav-mobile-btn:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-mobile-btn svg {
+        width: 24px;
+        height: 24px;
+        stroke-width: 2;
+        stroke: currentColor;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+      }
+
+      .nav-mobile-btn .icon-close {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-90deg);
+      }
+      .nav-mobile-btn .icon-hamburger {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      body.menu-open .nav-mobile-btn .icon-hamburger {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+      body.menu-open .nav-mobile-btn .icon-close {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      /* --- MOBILE DRAWER --- */
+      .mobile-menu-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 98;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .mobile-menu-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .mobile-menu-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 85%;
+        max-width: 320px;
+        background-color: #121212;
+        z-index: 99;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        padding: calc(var(--header-height) + 2rem) 2rem 2rem;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .mobile-menu-drawer.active {
+        transform: translateX(0);
+      }
+
+      .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .mobile-nav-link {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #e0e0e0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: color 0.2s ease;
+      }
+
+      .mobile-nav-link:hover {
+        color: #fff;
+      }
+
+      .mobile-nav-link svg {
+        width: 1rem;
+        height: 1rem;
+        color: var(--brand-green);
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .mobile-nav-link:hover svg {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .mobile-menu-footer {
+        margin-top: auto;
+        padding-top: 2rem;
+      }
+      .mobile-cta-btn {
+        display: block;
+        width: 100%;
+      }
+
+      /* --- 4. Hero Section --- */
+      .hero-section {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        padding-top: calc(var(--header-height) + var(--topbar-height) + 8rem);
+        padding-bottom: 5rem;
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .hero-glow {
+        position: absolute;
+        inset: 0;
+        z-index: -10;
+        overflow: hidden;
+      }
+      .hero-glow-inner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 60rem;
+        height: 60rem;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(39, 174, 96, 0.1),
+          transparent 70%
+        );
+      }
+
+      .hero-layout-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+      }
+
+      .hero-content {
+        max-width: 42rem;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        flex-shrink: 0;
+        opacity: 0;
+        animation: slideInLeft 1s ease-out forwards;
+      }
+
+      .hero-title {
+        font-size: 2.25rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: white;
+      }
+      .hero-title .whatsapp-highlight {
+        color: var(--brand-green);
+        display: inline-flex;
+        align-items: flex-start;
+      }
+
+      .icon-tm {
+        width: 0.6em;
+        height: 0.6em;
+        fill: currentColor;
+        margin-left: 0.15em;
+        transform: translateY(0.1em);
+      }
+
+      .hero-subtitle {
+        margin-top: 1.5rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        color: var(--brand-text-grey);
+      }
+
+      .highlight-brand {
+        position: relative;
+        display: inline-block;
+        color: white;
+        font-weight: 600;
+        z-index: 1;
+        margin: 0 2px;
+      }
+      .highlight-brand::before {
+        content: "";
+        position: absolute;
+        inset: -2px -6px;
+        background: var(--brand-green);
+        opacity: 0.25;
+        transform: rotate(-2deg);
+        border-radius: 4px;
+        z-index: -1;
+      }
+
+      .hero-buttons {
+        margin-top: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      /* HERO IMAGE CONTAINER */
+      .hero-image-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0;
+        animation: slideInRight 1s ease-out forwards;
+        animation-delay: 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hero-image-wrapper::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+        background: radial-gradient(
+          circle,
+          rgba(39, 174, 96, 0.2) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        z-index: -1;
+        filter: blur(40px);
+      }
+
+      .hero-3d-image {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        animation: floatImage 6s ease-in-out infinite alternate;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Mobile Float Animation */
+      @keyframes floatImage {
+        0% {
+          transform: scale(1.2) translateY(0px);
+        }
+        100% {
+          transform: translateY(-15px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-3d-image {
+          animation: none;
+          transform: scale(1.2);
+        }
+      }
+
+      /* Desktop specific keyframes for BALANCED image scale */
+      @keyframes floatImageDesktop {
+        0% {
+          transform: scale(1.5) translateY(0px);
+        }
+        100% {
+          transform: scale(1.5) translateY(-15px);
+        }
+      }
+
+      /* --- 5. "How It Works" Section (MOBILE FIXED) --- */
+      .how-it-works-section {
+        background-color: var(--brand-dark);
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        position: relative;
+      }
+
+      .how-it-works-scale {
+        transform: scale(0.95);
+        transform-origin: top center;
+      }
+
+      .how-it-works-header {
+        max-width: 42rem;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .how-it-works-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* MOBILE BEAM */
+      .timeline-line-bg {
+        position: absolute;
+        top: 2rem;
+        bottom: 2rem;
+        left: 30px;
+        transform: translateX(-50%);
+        width: 2px;
+        background-color: #2a2a2a;
+        display: block;
+      }
+
+      .timeline-line-fill {
+        position: absolute;
+        left: 30px;
+        transform: translateX(-50%);
+        height: 200px;
+        width: 2px;
+        top: 0;
+        display: block;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(74, 222, 128, 0.8) 80%,
+          var(--brand-green-bright) 100%
+        );
+        box-shadow: 0 10px 20px -2px var(--brand-green-bright);
+        transition: top 0.1s linear;
+        z-index: 1;
+        border-radius: 100px;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 30px;
+        transform: translateX(-50%);
+        top: 50%;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: var(--brand-dark);
+        border: 2px solid #3a3a3a;
+        z-index: 2;
+        transition: all 0.3s ease;
+        display: block;
+      }
+
+      .timeline-dot.active {
+        border-color: var(--brand-green-bright);
+        background-color: var(--brand-green);
+        box-shadow: 0 0 15px var(--brand-green);
+        transform: translateX(-50%) scale(1.4);
+      }
+
+      .how-it-works-step {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+        padding-bottom: 3rem;
+        padding-left: 80px;
+      }
+
+      .how-it-works-text {
+        text-align: left;
+        margin-bottom: 1.5rem;
+        z-index: 3;
+      }
+
+      .how-it-works-image-wrapper {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        background: transparent;
+        border: none;
+        z-index: 3;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .how-it-works-image-wrapper.img-visible {
+        opacity: 1;
+        transform: translateY(0) !important;
+      }
+
+      .how-it-works-image-wrapper img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 9 / 16;
+        object-fit: contain;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      .how-it-works-icon {
+        display: flex;
+        height: 3rem;
+        width: 3rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem;
+        background-color: rgba(39, 174, 96, 0.1);
+        color: var(--brand-green);
+        margin-bottom: 0.75rem;
+        margin-left: 0;
+        margin-right: auto;
+      }
+      .how-it-works-icon svg {
+        height: 1.5rem;
+        width: 1.5rem;
+        stroke-width: 1.5;
+        stroke: currentColor;
+        fill: none;
+      }
+
+      .how-it-works-text h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 2rem;
+        color: white;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease, transform 0.3s ease;
+        transform-origin: left;
+      }
+      .how-it-works-text h3 span {
+        color: var(--brand-green);
+      }
+
+      .how-it-works-text p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--brand-text-grey);
+      }
+
+      .how-it-works-step.active-step .how-it-works-text h3 {
+        color: var(--brand-green);
+        transform: scale(1.05);
+      }
+
+      /* --- Step 3: a second inner row for the "what if they cancel" mockup,
+         stacked directly under the main text+mockup row --- */
+      .how-it-works-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        position: relative;
+      }
+
+      /* The dot now lives inside the row (so it centers on row 1 only, like
+         every other step); compensate for the step's own left padding so it
+         still lands on the vertical rail on mobile */
+      .how-it-works-row .timeline-dot {
+        left: -50px;
+      }
+
+      .cancel-feedback-row {
+        margin-top: 2.5rem;
+      }
+
+      .cancel-feedback-text .how-it-works-icon {
+        background-color: rgba(229, 72, 77, 0.12);
+        color: #ff6b6f;
+      }
+
+      .cancel-feedback-text h3 {
+        color: #ff6b6f;
+      }
+
+      /* Gets a spotlight moment as the scroll timeline reaches this step,
+         overriding the default green highlight with red for this sub-row */
+      .how-it-works-step.active-step .cancel-feedback-text h3 {
+        color: #ff6b6f;
+        transform: scale(1.05);
+      }
+
+      .cancel-mockup-wrapper {
+        max-width: 92%;
+      }
+
+      /* --- "What if they cancel?" attention effects, triggered purely by
+         this row's own visibility (not the timeline's active-step) so the
+         timing always matches when the user actually scrolls to it --- */
+      @keyframes cancelShakeIn {
+        0% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-6px);
+        }
+        40% {
+          transform: translateX(5px);
+        }
+        60% {
+          transform: translateX(-4px);
+        }
+        80% {
+          transform: translateX(2px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      .cancel-feedback-row.shake-once {
+        animation: cancelShakeIn 0.5s ease;
+      }
+
+      @keyframes cancelIconPing {
+        0% {
+          box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.55);
+        }
+        70% {
+          box-shadow: 0 0 0 14px rgba(229, 72, 77, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(229, 72, 77, 0);
+        }
+      }
+
+      .cancel-feedback-row.in-view .cancel-feedback-text .how-it-works-icon {
+        animation: cancelIconPing 1.8s ease-out infinite;
+      }
+
+      @keyframes cancelHeadingGlow {
+        0%,
+        100% {
+          text-shadow: 0 0 0 rgba(255, 107, 111, 0);
+        }
+        50% {
+          text-shadow: 0 0 16px rgba(255, 107, 111, 0.55);
+        }
+      }
+
+      .cancel-feedback-row.in-view .cancel-feedback-text h3 {
+        animation: cancelHeadingGlow 2.2s ease-in-out infinite;
+      }
+
+      @keyframes cancelMockupPulse {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 0 rgba(229, 72, 77, 0));
+        }
+        50% {
+          filter: drop-shadow(0 0 20px rgba(229, 72, 77, 0.5));
+        }
+      }
+
+      .cancel-feedback-row.in-view .cancel-mockup-wrapper img {
+        animation: cancelMockupPulse 2.2s ease-in-out infinite;
+      }
+
+      .how-it-works-step.active-step .cancel-mockup-wrapper img {
+        filter: drop-shadow(0 0 20px rgba(229, 72, 77, 0.25));
+      }
+
+      /* --- 5b. "Prepaid Upsell" Gold Highlight Step --- */
+      .step-highlight .how-it-works-icon {
+        background-color: rgba(212, 175, 55, 0.12);
+        color: var(--accent-gold-bright);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+      }
+
+      .step-highlight .how-it-works-text h3 {
+        color: var(--accent-gold-bright);
+        text-shadow: 0 0 18px rgba(212, 175, 55, 0.35);
+      }
+
+      .step-highlight .how-it-works-text h3 span {
+        color: var(--accent-gold);
+      }
+
+      .step-highlight.active-step .how-it-works-text h3 {
+        color: var(--accent-gold-bright);
+        transform: scale(1.05);
+      }
+
+      .step-highlight-badge {
+        display: inline-block;
+        margin-bottom: 0.75rem;
+        padding: 0.3rem 0.75rem;
+        font-family: var(--font-nav);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent-gold-bright);
+        border: 1px solid rgba(212, 175, 55, 0.4);
+        border-radius: 100px;
+        background: rgba(212, 175, 55, 0.08);
+      }
+
+      .step-highlight-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+
+      .step-highlight-list .feature-item {
+        align-items: flex-start;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--brand-text-grey);
+      }
+
+      .step-highlight-list .feature-item svg {
+        color: var(--accent-gold-bright);
+        margin-top: 0.15rem;
+      }
+
+      /* Real checkout screenshot, layered as a small tilted "peek" card behind
+         the main Apple Pay mockup -- adds no extra height to the timeline row */
+      .prepaid-mockup-wrapper {
+        position: relative;
+      }
+
+      .prepaid-checkout-peek {
+        position: absolute;
+        right: 2%;
+        bottom: -20%;
+        width: 40%;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1.5px solid rgba(212, 175, 55, 0.45);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55);
+        transform: rotate(-7deg) translateY(16px);
+        opacity: 0;
+        transition: opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s;
+        z-index: 4;
+      }
+
+      .prepaid-mockup-wrapper.img-visible .prepaid-checkout-peek {
+        opacity: 1;
+        transform: rotate(-7deg) translateY(0);
+      }
+
+      .prepaid-checkout-peek img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 9 / 16;
+        object-fit: cover;
+        object-position: top;
+      }
+
+      .prepaid-checkout-tag {
+        position: absolute;
+        left: 50%;
+        bottom: 0.4rem;
+        transform: translateX(-50%);
+        padding: 0.2rem 0.55rem;
+        font-family: var(--font-nav);
+        font-size: 0.55rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--brand-dark);
+        background: var(--accent-gold-bright);
+        border-radius: 100px;
+        white-space: nowrap;
+      }
+
+      /* Cancellation reason redirect page, layered the same way as the
+         Apple Pay checkout peek -- shows where the "write your reason" tap leads */
+      .cancel-mockup-wrapper {
+        position: relative;
+      }
+
+      .cancel-redirect-peek {
+        position: absolute;
+        right: 2%;
+        bottom: -20%;
+        width: 40%;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1.5px solid rgba(229, 72, 77, 0.45);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55);
+        transform: rotate(-7deg) translateY(16px);
+        opacity: 0;
+        transition: opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s;
+        z-index: 4;
+      }
+
+      .cancel-mockup-wrapper.img-visible .cancel-redirect-peek {
+        opacity: 1;
+        transform: rotate(-7deg) translateY(0);
+      }
+
+      .cancel-redirect-peek img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 9 / 16;
+        object-fit: cover;
+        object-position: top;
+      }
+
+      .cancel-redirect-tag {
+        position: absolute;
+        left: 50%;
+        bottom: 0.4rem;
+        transform: translateX(-50%);
+        padding: 0.2rem 0.55rem;
+        font-family: var(--font-nav);
+        font-size: 0.55rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: white;
+        background: #e5484d;
+        border-radius: 100px;
+        white-space: nowrap;
+      }
+
+      .step-highlight .timeline-dot {
+        border-color: rgba(212, 175, 55, 0.5);
+      }
+
+      .step-highlight .timeline-dot.active {
+        border-color: var(--accent-gold-bright);
+        background-color: var(--accent-gold);
+        box-shadow: 0 0 15px var(--accent-gold);
+      }
+
+      .step-highlight::before {
+        content: "";
+        position: absolute;
+        left: 30px;
+        top: 10%;
+        bottom: 10%;
+        width: 2px;
+        transform: translateX(-50%);
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(212, 175, 55, 0.6),
+          transparent
+        );
+        filter: blur(1px);
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* --- 5c. "IVR Fallback" Section --- */
+      .ivr-section {
+        background-color: var(--brand-dark);
+        padding-top: 5rem;
+        padding-bottom: 6rem;
+        position: relative;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        overflow: visible;
+      }
+
+      /* Cinematic "lights up" veil: the whole scene fades in from black once scrolled into view */
+      .ivr-cinematic-veil {
+        position: absolute;
+        inset: 0;
+        background: var(--brand-dark);
+        z-index: 5;
+        opacity: 1;
+        pointer-events: none;
+        transition: opacity 1.4s ease;
+      }
+
+      .ivr-section.in-view .ivr-cinematic-veil {
+        opacity: 0;
+      }
+
+      .ivr-header {
+        max-width: 44rem;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .ivr-header > * {
+        opacity: 0;
+        filter: blur(6px);
+        transform: translateY(18px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out,
+          filter 0.8s ease-out;
+      }
+
+      .ivr-section.in-view .ivr-header > * {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+
+      .ivr-section.in-view .ivr-header > *:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      .ivr-section.in-view .ivr-header > *:nth-child(2) {
+        transition-delay: 0.25s;
+      }
+      .ivr-section.in-view .ivr-header > *:nth-child(3) {
+        transition-delay: 0.4s;
+      }
+
+      .ivr-eyebrow {
+        display: inline-block;
+        margin-bottom: 1rem;
+        font-family: var(--font-nav);
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--brand-green-bright);
+      }
+
+      .ivr-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 3.5rem;
+        align-items: center;
+        max-width: 32rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .ivr-pitch-col {
+        width: 100%;
+      }
+
+      .ivr-pitch-col > * {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .ivr-section.in-view .ivr-pitch-col > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .ivr-section.in-view .ivr-pitch-col > *:nth-child(1) {
+        transition-delay: 0.6s;
+      }
+      .ivr-section.in-view .ivr-pitch-col > *:nth-child(2) {
+        transition-delay: 0.8s;
+      }
+      .ivr-section.in-view .ivr-pitch-col > *:nth-child(3) {
+        transition-delay: 0.95s;
+      }
+      .ivr-section.in-view .ivr-pitch-col > *:nth-child(4) {
+        transition-delay: 1.1s;
+      }
+      .ivr-section.in-view .ivr-pitch-col > *:nth-child(5) {
+        transition-delay: 1.25s;
+      }
+
+      /* Scroll-triggered "message -> call" intro animation */
+      .ivr-transition-anim {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+      }
+
+      .ivr-anim-message,
+      .ivr-anim-call {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+
+      .ivr-anim-message {
+        background: rgba(39, 174, 96, 0.12);
+        color: var(--brand-green-bright);
+        position: relative;
+      }
+
+      .ivr-anim-message .ivr-anim-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 1.1rem;
+        height: 1.1rem;
+        border-radius: 50%;
+        background: var(--brand-green);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: scale(0);
+        transition: transform 0.4s ease-out 0.7s;
+      }
+
+      .ivr-anim-call {
+        background: rgba(212, 175, 55, 0.12);
+        color: var(--accent-gold-bright);
+        transition-delay: 0.35s;
+      }
+
+      .ivr-anim-message svg,
+      .ivr-anim-call svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        stroke-width: 1.5;
+        stroke: currentColor;
+        fill: none;
+      }
+
+      .ivr-anim-arrow {
+        color: var(--brand-text-grey);
+        opacity: 0;
+        transition: opacity 0.6s ease-out 0.2s;
+      }
+      .ivr-anim-arrow svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        stroke: currentColor;
+        stroke-width: 1.5;
+        fill: none;
+      }
+
+      .ivr-section.in-view .ivr-transition-anim .ivr-anim-message {
+        opacity: 1;
+        transform: scale(1);
+        transition-delay: 1s;
+      }
+      .ivr-section.in-view .ivr-transition-anim .ivr-anim-arrow {
+        opacity: 1;
+        transition-delay: 1.2s;
+      }
+      .ivr-section.in-view .ivr-transition-anim .ivr-anim-call {
+        opacity: 1;
+        transform: scale(1);
+        transition-delay: 1.35s;
+        animation: ivrCallRing 1.2s ease-in-out 2s 2;
+      }
+      .ivr-section.in-view .ivr-transition-anim .ivr-anim-message .ivr-anim-badge {
+        transform: scale(1);
+        transition-delay: 1.7s;
+      }
+
+      @keyframes ivrCallRing {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+        }
+      }
+
+      .ivr-pitch-heading {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        margin-bottom: 1rem;
+        line-height: 1.3;
+        max-width: 26rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .ivr-pitch-copy {
+        text-align: center;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--brand-text-grey);
+        margin-bottom: 1.25rem;
+        max-width: 26rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .ivr-pitch-list {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        margin-bottom: 0.5rem;
+        max-width: 26rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Top-align the checkmark with the first line of text when a bullet wraps */
+      .ivr-pitch-list .feature-item {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .ivr-pitch-list .feature-item svg {
+        margin-top: 0.2rem;
+      }
+
+      .ivr-pitch-note {
+        text-align: center;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        color: var(--brand-text-grey);
+        opacity: 0.75;
+        margin-bottom: 1.25rem;
+      }
+
+      /* Script preview: revealed only while the demo audio is playing */
+      .ivr-script-preview {
+        max-width: 24rem;
+        margin: 0 auto;
+        padding: 0 1.1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--brand-border);
+        border-left: 2px solid var(--brand-green);
+        border-radius: 4px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-6px);
+        transition: max-height 0.5s ease, opacity 0.4s ease,
+          transform 0.4s ease, margin 0.4s ease, padding 0.4s ease;
+      }
+
+      .ivr-script-preview.visible {
+        max-height: 12rem;
+        opacity: 1;
+        margin: 1rem auto 0;
+        padding: 0.75rem 1.1rem;
+        transform: translateY(0);
+      }
+
+      .ivr-script-preview p {
+        margin: 0;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--brand-text-grey);
+        font-style: italic;
+      }
+
+      /* Custom Audio Player */
+      .ivr-audio-player {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        max-width: 24rem;
+        margin: 0 auto;
+        padding: 0.9rem 1.25rem;
+        background: rgba(30, 30, 30, 0.6);
+        border: 1px solid var(--brand-border);
+        border-radius: 100px;
+      }
+
+      .ivr-audio-toggle {
+        position: relative;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        background-color: var(--brand-green);
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .ivr-audio-toggle:hover {
+        transform: scale(1.06);
+        box-shadow: 0 0 16px rgba(39, 174, 96, 0.5);
+      }
+
+      /* Quiet pulsing ring that invites a first click; stops for good the
+         moment the visitor has actually played the demo once */
+      .ivr-audio-ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: var(--brand-green);
+        opacity: 0.55;
+        animation: ivrAcceptPulse 2.2s ease-out infinite;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .ivr-audio-player.audio-interacted .ivr-audio-ring {
+        animation: none;
+        opacity: 0;
+      }
+
+      .ivr-audio-toggle svg {
+        position: relative;
+        z-index: 1;
+        width: 1.1rem;
+        height: 1.1rem;
+        fill: white;
+      }
+
+      .ivr-audio-toggle .icon-pause {
+        display: none;
+      }
+      .ivr-audio-player.playing .ivr-audio-toggle .icon-play {
+        display: none;
+      }
+      .ivr-audio-player.playing .ivr-audio-toggle .icon-pause {
+        display: block;
+      }
+
+      .ivr-audio-player[disabled] .ivr-audio-toggle,
+      .ivr-audio-player.disabled .ivr-audio-toggle {
+        background-color: #444;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .ivr-audio-meta {
+        flex-grow: 1;
+        min-width: 0;
+      }
+
+      .ivr-audio-label {
+        display: block;
+        font-family: var(--font-nav);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--brand-text-grey);
+        margin-bottom: 0.4rem;
+      }
+
+      .ivr-waveform {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        height: 1.5rem;
+      }
+
+      .ivr-waveform span {
+        flex: 1;
+        min-width: 2px;
+        max-width: 4px;
+        height: 30%;
+        border-radius: 2px;
+        background-color: #4a4a4a;
+        transition: background-color 0.3s ease;
+      }
+
+      .ivr-audio-player.playing .ivr-waveform span {
+        background-color: var(--brand-green-bright);
+        animation: ivrWaveBounce 0.9s ease-in-out infinite;
+      }
+
+      .ivr-audio-disclaimer {
+        max-width: 24rem;
+        margin: 0.75rem auto 0;
+        font-size: 0.75rem;
+        line-height: 1.5;
+        color: var(--brand-text-grey);
+        opacity: 0.7;
+        text-align: center;
+      }
+
+      @keyframes ivrWaveBounce {
+        0%,
+        100% {
+          height: 30%;
+        }
+        50% {
+          height: 100%;
+        }
+      }
+
+      .ivr-visual-col {
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* Phone is now the sole hero visual of the section */
+      .ivr-phone-stage {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2.5rem 0 1rem;
+      }
+
+      .ivr-phone-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 22rem;
+        height: 22rem;
+        background: radial-gradient(
+          circle,
+          rgba(39, 174, 96, 0.28) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        filter: blur(50px);
+        z-index: 0;
+        opacity: 0;
+        transition: opacity 1.6s ease-out;
+        transition-delay: 0.5s;
+      }
+
+      .ivr-section.in-view .ivr-phone-glow {
+        opacity: 1;
+      }
+
+      /* Pure-CSS iOS "Incoming Call" phone mockup */
+      .ivr-phone-overlay {
+        position: relative;
+        z-index: 1;
+        width: 240px;
+        aspect-ratio: 9 / 19;
+        background: #0a0a0a;
+        border: 2px solid #2c2c2c;
+        border-radius: 32px;
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+        padding: 20px 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        opacity: 0;
+      }
+
+      /* Cinematic "power on" entrance, then settles into the idle float loop */
+      @keyframes ivrPhoneEntrance {
+        0% {
+          opacity: 0;
+          transform: scale(0.7);
+          filter: blur(16px) brightness(0.5);
+        }
+        55% {
+          opacity: 1;
+          filter: blur(0) brightness(1.4);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+          filter: blur(0) brightness(1);
+        }
+      }
+
+      .ivr-section.in-view .ivr-phone-overlay {
+        animation: ivrPhoneEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s
+            both,
+          float 5s ease-in-out 1.9s infinite;
+      }
+
+      .ivr-phone-overlay::before {
+        content: "";
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30%;
+        height: 8px;
+        border-radius: 4px;
+        background: #1c1c1c;
+        z-index: 2;
+      }
+
+      .ivr-phone-screen {
+        display: none;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .ivr-phone-overlay[data-state="incoming"] .ivr-phone-screen-incoming,
+      .ivr-phone-overlay[data-state="active"] .ivr-phone-screen-active,
+      .ivr-phone-overlay[data-state="ended"] .ivr-phone-screen-ended {
+        display: flex;
+      }
+
+      .ivr-phone-callscreen {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .ivr-phone-avatar {
+        width: 30%;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        background: linear-gradient(
+          145deg,
+          rgba(39, 174, 96, 0.35),
+          rgba(39, 174, 96, 0.1)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--brand-green-bright);
+      }
+      .ivr-phone-avatar.small {
+        width: 20%;
+      }
+      .ivr-phone-avatar svg {
+        width: 45%;
+        height: 45%;
+        stroke: currentColor;
+        stroke-width: 1.5;
+        fill: none;
+      }
+
+      .ivr-phone-callstatus {
+        font-family: var(--font-nav);
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--brand-text-grey);
+      }
+
+      .ivr-phone-callername {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        text-align: center;
+      }
+
+      .ivr-phone-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        margin-bottom: 12px;
+      }
+
+      .ivr-phone-btn {
+        position: relative;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .ivr-phone-btn:hover {
+        transform: scale(1.08);
+      }
+      .ivr-phone-btn svg {
+        width: 42%;
+        height: 42%;
+        fill: white;
+        position: relative;
+        z-index: 1;
+      }
+      .ivr-phone-btn.decline {
+        background: #e5484d;
+      }
+      .ivr-phone-btn.accept {
+        background: var(--brand-green);
+      }
+
+      /* "Tap me" pulsing affordance on the accept button */
+      .ivr-accept-ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: var(--brand-green);
+        opacity: 0.6;
+        animation: ivrAcceptPulse 1.8s ease-out infinite;
+        z-index: 0;
+      }
+
+      @keyframes ivrAcceptPulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.6;
+        }
+        100% {
+          transform: scale(2.2);
+          opacity: 0;
+        }
+      }
+
+      /* Floating "tap me to answer" callout, shifted to point at the green accept button */
+      .ivr-tap-hint {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+        opacity: 0;
+        pointer-events: none;
+        position: relative;
+        z-index: 1;
+        transform: translateX(38px);
+        transition: opacity 0.6s ease-out;
+        transition-delay: 2.1s;
+      }
+
+      .ivr-tap-hint-arrow {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--brand-green-bright);
+        filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.5));
+      }
+
+      .ivr-tap-hint-label {
+        padding: 0.45rem 1rem;
+        background: rgba(30, 30, 30, 0.85);
+        border: 1px solid var(--brand-border);
+        border-radius: 100px;
+        font-size: 0.8rem;
+        font-family: var(--font-nav);
+        color: var(--brand-text);
+        white-space: nowrap;
+      }
+
+      .ivr-section.in-view .ivr-tap-hint {
+        opacity: 1;
+        animation: ivrHintBounce 1.8s ease-in-out 2.1s infinite;
+      }
+
+      .ivr-visual-col.interacted .ivr-tap-hint {
+        opacity: 0;
+        transition-delay: 0s;
+        animation: none;
+      }
+
+      @keyframes ivrHintBounce {
+        0%,
+        100% {
+          transform: translateX(38px) translateY(0);
+        }
+        50% {
+          transform: translateX(38px) translateY(-6px);
+        }
+      }
+
+      /* Respect reduced-motion preference: keep the reveal, drop the loops */
+      @media (prefers-reduced-motion: reduce) {
+        .ivr-section.in-view .ivr-phone-overlay {
+          animation: none;
+          opacity: 1;
+          transform: none;
+          filter: none;
+        }
+        .ivr-accept-ring,
+        .ivr-audio-ring {
+          animation: none;
+          opacity: 0;
+        }
+        .ivr-section.in-view .ivr-tap-hint {
+          animation: none;
+        }
+        .cancel-feedback-row.shake-once,
+        .cancel-feedback-row.in-view .cancel-feedback-text .how-it-works-icon,
+        .cancel-feedback-row.in-view .cancel-feedback-text h3,
+        .cancel-feedback-row.in-view .cancel-mockup-wrapper img {
+          animation: none;
+        }
+      }
+
+      /* Short landscape viewports (mobile rotated): shrink the phone so the
+         accept button doesn't require excessive scrolling to reach. */
+      @media (max-height: 480px) and (orientation: landscape) {
+        .ivr-phone-stage {
+          padding: 1rem 0 0.5rem;
+        }
+        .ivr-phone-overlay {
+          width: 160px;
+        }
+        .ivr-phone-glow {
+          width: 14rem;
+          height: 14rem;
+        }
+      }
+
+      /* Active call: live caption + keypad */
+      .ivr-caption-box {
+        width: 100%;
+        min-height: 4.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0.25rem;
+      }
+
+      .ivr-caption-text {
+        text-align: center;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        color: var(--brand-text);
+      }
+
+      .ivr-keypad {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .ivr-key {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        width: 3.4rem;
+        height: 3.4rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #fff;
+        transition: all 0.2s ease;
+      }
+      .ivr-key:hover {
+        background: rgba(39, 174, 96, 0.2);
+        border-color: var(--brand-green);
+      }
+      .ivr-key-num {
+        font-size: 1.1rem;
+        font-weight: 700;
+        font-family: var(--font-nav);
+      }
+      .ivr-key-label {
+        font-size: 0.55rem;
+        color: var(--brand-text-grey);
+      }
+
+      /* Ended screen: outcome + replay */
+      .ivr-outcome-icon {
+        width: 3rem;
+        height: 3rem;
+        margin: 0 auto 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-top: 32px;
+      }
+      .ivr-outcome-icon svg {
+        display: none;
+        width: 55%;
+        height: 55%;
+      }
+      .ivr-outcome-icon[data-outcome="confirm"] {
+        background: rgba(39, 174, 96, 0.15);
+        color: var(--brand-green-bright);
+      }
+      .ivr-outcome-icon[data-outcome="confirm"] .icon-confirm {
+        display: block;
+      }
+      .ivr-outcome-icon[data-outcome="cancel"] {
+        background: rgba(229, 72, 77, 0.15);
+        color: #ff6b6f;
+      }
+      .ivr-outcome-icon[data-outcome="cancel"] .icon-cancel {
+        display: block;
+      }
+      .ivr-outcome-icon[data-outcome="contact"] {
+        background: rgba(212, 175, 55, 0.15);
+        color: var(--accent-gold-bright);
+      }
+      .ivr-outcome-icon[data-outcome="contact"] .icon-contact {
+        display: block;
+      }
+
+      .ivr-outcome-icon svg {
+        stroke: currentColor;
+        stroke-width: 1.5;
+        fill: none;
+      }
+
+      .ivr-replay-btn {
+        margin-bottom: 24px;
+        padding: 0.5rem 1.25rem;
+        font-family: var(--font-nav);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #fff;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 100px;
+        transition: all 0.2s ease;
+      }
+      .ivr-replay-btn:hover {
+        border-color: var(--brand-green);
+        color: var(--brand-green-bright);
+      }
+
+      /* --- 6. Integrations Section --- */
+      .integrations-section {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+        background-color: var(--brand-card);
+      }
+
+      .integrations-subtitle {
+        text-align: center;
+        font-size: 1.125rem;
+        font-weight: 600;
+        line-height: 1.75rem;
+        color: var(--brand-text-grey);
+      }
+
+      .integrations-grid {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4rem;
+      }
+
+      .integrations-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+      }
+
+      @keyframes popFadeIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        60% {
+          transform: scale(1.05);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .integrations-grid img {
+        max-height: 3rem;
+        width: auto;
+        object-fit: contain;
+        filter: grayscale(0);
+        opacity: 0;
+        transition: filter 0.2s ease;
+      }
+
+      .integrations-grid img.animate-pop {
+        animation: popFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .integrations-grid img:hover {
+        filter: grayscale(1);
+        opacity: 0.6 !important;
+      }
+
+      .integrations-grid .logo-aramex {
+        width: 160px;
+      }
+      .integrations-grid .logo-shopify {
+        height: 70px;
+        width: 300px;
+        max-height: 70px;
+      }
+
+      /* --- 7. Features Section (CLEAN MOBILE STACKING) --- */
+      .features-section {
+        padding-top: 0rem !important;
+        padding-bottom: 5rem;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .features-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3rem;
+        margin-bottom: 4rem;
+      }
+
+      .features-row:last-child {
+        margin-bottom: 0;
+      }
+
+      /* On Mobile: Force Image to Order -1 (Top) */
+      .features-visual {
+        order: -1;
+        width: 100%;
+        position: relative;
+        opacity: 0;
+        transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        /* Mobile Slide Up */
+        transform: translateY(30px);
+      }
+
+      /* Features Text: Centered on Mobile */
+      .features-text-content {
+        width: 100%;
+        text-align: center; /* Center align for clean mobile look */
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 1s ease-out, transform 1s ease-out;
+      }
+
+      .features-text-content.animate-in,
+      .features-visual.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .features-text-content h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+      }
+
+      .features-text-content p {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        color: var(--brand-text-grey);
+        margin-bottom: 2rem;
+      }
+
+      .features-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        align-items: center; /* Center items on mobile */
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--brand-text);
+        font-weight: 500;
+      }
+
+      .feature-item svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: var(--brand-green-bright);
+        flex-shrink: 0;
+      }
+
+      .dashboard-console {
+        position: relative;
+        z-index: 10;
+        transition: transform 0.5s ease;
+      }
+
+      .dashboard-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 12px;
+        box-shadow: none;
+        border: none;
+      }
+
+      .tilt-left-persp,
+      .tilt-right-persp {
+        transform: none;
+      }
+
+      .float-card {
+        position: absolute;
+        top: 20%;
+        right: 0;
+        background: rgba(30, 30, 30, 0.9);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        animation: float 4s ease-in-out infinite;
+        display: none;
+      }
+
+      .float-card span {
+        display: block;
+        font-size: 0.7rem;
+        color: #aaa;
+        text-transform: uppercase;
+      }
+      .float-card strong {
+        display: block;
+        font-size: 1.1rem;
+        color: var(--brand-green-bright);
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .dashboard-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle,
+          rgba(39, 174, 96, 0.25) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        z-index: -1;
+        filter: blur(60px);
+      }
+
+      .features-cta-wrapper {
+        text-align: center;
+        margin-top: 4rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .btn-feature-match {
+        display: inline-block;
+        padding: 12px 40px;
+        border: 1px solid #444;
+        color: #fff;
+        text-decoration: none;
+        font-family: var(--font-nav);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: 0.2s;
+        background: transparent;
+        border-radius: 4px;
+      }
+
+      .btn-feature-match:hover {
+        background: #fff;
+        color: #000;
+        border-color: #fff;
+      }
+
+      /* --- 8. NEW 3D CAROUSEL PRICING --- */
+      .pricing-section {
+        padding: 80px 0;
+        background-color: var(--brand-dark);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .carousel-scene {
+        position: relative;
+        max-width: 100%;
+        margin: 40px auto 0;
+        height: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 600px;
+        opacity: 0;
+        transform: translateY(100px);
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .carousel-scene.animate-entrance {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .carousel-track {
+        position: relative;
+        width: 280px;
+        height: 420px;
+        transform-style: preserve-3d;
+      }
+
+      .nav-arrow {
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid #444;
+        color: var(--brand-green);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 50;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .nav-arrow.left {
+        left: 20px;
+      }
+      .nav-arrow.right {
+        right: 20px;
+      }
+
+      /* THE CARDS */
+      .pricing-card {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #181818;
+        border: 1px solid #333;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        clip-path: polygon(
+          0 0,
+          100% 0,
+          100% calc(100% - 15px),
+          calc(100% - 15px) 100%,
+          0 100%
+        );
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .pricing-card.active {
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 10;
+        transform: translateX(0) scale(1) rotateY(0deg);
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+      }
+
+      .pricing-card.prev {
+        opacity: 0.4;
+        z-index: 5;
+        transform: translateX(-110%) scale(0.85) rotateY(25deg);
+        filter: blur(2px);
+      }
+
+      .pricing-card.next {
+        opacity: 0.4;
+        z-index: 5;
+        transform: translateX(110%) scale(0.85) rotateY(-25deg);
+        filter: blur(2px);
+      }
+
+      .pricing-card span.line-1,
+      .pricing-card span.line-2,
+      .pricing-card span.line-3,
+      .pricing-card span.line-4 {
+        position: absolute;
+        background: var(--brand-green);
+        transition: all 0.4s ease-in-out;
+      }
+      .pricing-card span.line-1 {
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+      }
+      .pricing-card span.line-2 {
+        top: 0;
+        right: 0;
+        width: 2px;
+        height: 0;
+        transition-delay: 0.1s;
+      }
+      .pricing-card span.line-3 {
+        bottom: 0;
+        right: 0;
+        width: 0;
+        height: 2px;
+        transition-delay: 0.2s;
+      }
+      .pricing-card span.line-4 {
+        bottom: 0;
+        left: 0;
+        width: 2px;
+        height: 0;
+        transition-delay: 0.3s;
+      }
+
+      .pricing-card.active:hover span.line-1 {
+        width: 100%;
+      }
+      .pricing-card.active:hover span.line-2 {
+        height: 100%;
+      }
+      .pricing-card.active:hover span.line-3 {
+        width: 100%;
+      }
+      .pricing-card.active:hover span.line-4 {
+        height: 100%;
+      }
+
+      .card-top {
+        margin-bottom: 25px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 20px;
+      }
+      .tier-label {
+        display: block;
+        font-family: var(--font-nav);
+        color: var(--brand-text-grey);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+      }
+      .tier-price {
+        font-family: var(--font-main);
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .tier-price .currency {
+        font-size: 1rem;
+        color: var(--brand-green);
+        font-weight: 400;
+      }
+      .tier-price .period {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: 400;
+      }
+
+      .card-specs {
+        flex-grow: 1;
+      }
+      .spec-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #ccc;
+        font-family: var(--font-main);
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+      }
+      .spec-dot {
+        width: 6px;
+        height: 6px;
+        background: #333;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px #444;
+        transition: all 0.4s ease;
+      }
+      .pricing-card.active:hover .spec-dot {
+        background: var(--brand-green);
+        box-shadow: 0 0 6px var(--brand-green);
+      }
+
+      .btn-activate {
+        display: block;
+        text-align: center;
+        padding: 12px 0;
+        border: 1px solid #444;
+        color: #fff;
+        text-decoration: none;
+        font-family: var(--font-nav);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: 0.2s;
+        z-index: 5;
+        position: relative;
+      }
+      .btn-activate:hover {
+        background: #fff;
+        color: #000;
+        border-color: #fff;
+      }
+
+      /* --- 9. Final CTA Section --- */
+      .cta-section {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+      }
+
+      .cta-box {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        border-radius: 1rem;
+        border: 1px solid var(--brand-border);
+        background-color: var(--brand-card);
+        padding: 3rem 1.5rem;
+        text-align: center;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      .cta-box .section-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 42rem;
+      }
+
+      .cta-buttons {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .cta-glow {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%);
+        z-index: -10;
+        height: 64rem;
+        width: 64rem;
+      }
+      .cta-glow circle {
+        fill: url(#gradient-glow);
+        opacity: 0.3;
+      }
+
+      /* --- 10. Footer --- */
+      .footer {
+        position: relative;
+        border-top: 1px solid var(--brand-border);
+        padding-top: 4.5rem;
+        padding-bottom: 3rem;
+        overflow: hidden;
+      }
+
+      /* A quiet green glow line replaces the flat border for a more premium finish */
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(640px, 82%);
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--brand-green),
+          transparent
+        );
+        opacity: 0.55;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 3rem;
+      }
+
+      .footer-col-1 p {
+        margin-top: 1rem;
+        max-width: 20rem;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--brand-text-grey) !important;
+      }
+
+      .footer-col h3 {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 0.7rem;
+        font-family: var(--font-nav);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: white;
+      }
+
+      .footer-col h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 1.5rem;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--brand-green);
+      }
+
+      .footer-col ul {
+        margin-top: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .footer-col ul li {
+        font-size: 0.875rem;
+        color: var(--brand-text-grey);
+      }
+
+      .footer-col ul a {
+        position: relative;
+        display: inline-block;
+        font-size: 0.875rem;
+        color: var(--brand-text-grey);
+        transition: color 0.25s ease, transform 0.25s ease;
+      }
+      .footer-col ul a::before {
+        content: "";
+        position: absolute;
+        left: -0.9rem;
+        top: 50%;
+        width: 6px;
+        height: 1px;
+        background: var(--brand-green-bright);
+        transform: translateY(-50%) scaleX(0);
+        transform-origin: left;
+        transition: transform 0.25s ease;
+      }
+      .footer-col ul a:hover {
+        color: var(--brand-green-bright);
+        transform: translateX(0.6rem);
+      }
+      .footer-col ul a:hover::before {
+        transform: translateY(-50%) scaleX(1);
+      }
+
+      .footer-bottom {
+        margin-top: 4rem;
+        border-top: 1px solid var(--brand-border);
+        padding-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.9rem;
+        text-align: center;
+      }
+      .footer-copyright {
+        font-size: 0.875rem;
+        color: var(--brand-text-grey);
+      }
+
+      .footer-legal-strip {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+        max-width: 46rem;
+      }
+
+      .footer-legal-line {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: #6b6b6b;
+      }
+
+      .footer-legal-line span:not(.footer-legal-divider) {
+        white-space: nowrap;
+      }
+
+      .footer-legal-divider {
+        color: rgba(255, 255, 255, 0.15);
+      }
+
+      /* Desktop Layout (Zig-Zag) Media Query */
+      @media (min-width: 1024px) {
+        .nav-mobile-btn {
+          display: none !important;
+        }
+        .nav-center,
+        .nav-right {
+          display: flex;
+        }
+        .mobile-menu-overlay,
+        .mobile-menu-drawer {
+          display: none !important;
+        }
+
+        .container {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+        .nav-container {
+          margin-left: 60px;
+          padding-left: 0;
+          padding-right: 2rem;
+        }
+
+        .hero-section {
+          padding-top: calc(200px + var(--topbar-height));
+          padding-bottom: 8rem;
+        }
+        .hero-layout-grid {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          gap: 4rem;
+        }
+        .hero-content {
+          text-align: left;
+          margin-left: 0;
+          margin-right: 0;
+          flex: 1;
+          max-width: none;
+        }
+        .hero-image-wrapper {
+          flex: 1;
+        }
+        .hero-buttons {
+          justify-content: flex-start;
+        }
+        .hero-title {
+          font-size: 3.5rem;
+          line-height: 1.15;
+          letter-spacing: -0.03em;
+        }
+        .hero-subtitle {
+          font-size: 1.15rem;
+          max-width: 90%;
+          margin-left: 0;
+        }
+        .hero-3d-image {
+          animation: floatImageDesktop 6s ease-in-out infinite alternate;
+        }
+
+        /* TIMELINE RESTORE */
+        .timeline-line-bg {
+          left: 50%;
+        }
+        .timeline-line-fill {
+          left: 50%;
+        }
+        .timeline-dot {
+          left: 50%;
+        }
+        .how-it-works-row .timeline-dot {
+          left: 50%;
+        }
+        .step-highlight::before {
+          left: 50%;
+        }
+
+        .how-it-works-grid {
+          gap: 0rem;
+        }
+
+        .how-it-works-step {
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 5rem;
+          align-items: center;
+          text-align: left;
+          padding-left: 0;
+          padding-bottom: 2rem;
+        }
+        /* Step 3 stacks a second text+mockup row underneath the main one,
+           each row laid out like a normal step (text left, mockup right) */
+        .how-it-works-step[data-step="3"] {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+        }
+        .how-it-works-row {
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 5rem;
+        }
+        .cancel-feedback-row {
+          margin-top: 3rem;
+        }
+        .how-it-works-step:nth-child(even) {
+          flex-direction: row-reverse;
+        }
+        .how-it-works-text {
+          text-align: left;
+          align-items: flex-start;
+          padding: 0 3rem;
+          flex-basis: 50%;
+          margin-bottom: 0;
+        }
+        .how-it-works-text h3 {
+          transform-origin: center;
+        }
+
+        .how-it-works-image-wrapper {
+          flex-basis: 50%;
+          width: 100%;
+          max-width: 300px;
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        .how-it-works-step:nth-child(even) .how-it-works-image-wrapper {
+          transform: translateX(-50px);
+        }
+        .cancel-mockup-wrapper {
+          max-width: 265px;
+        }
+        .prepaid-checkout-peek {
+          right: -22%;
+          bottom: -8%;
+          width: 50%;
+        }
+        .cancel-redirect-peek {
+          right: -30%;
+          bottom: -8%;
+          width: 58%;
+        }
+        /* Shift the whole Apple Pay mockup group left so the bigger peek
+           card doesn't hang over the timeline's center line */
+        .prepaid-mockup-wrapper {
+          margin-right: 2.5rem;
+        }
+        .how-it-works-image-wrapper.img-visible {
+          opacity: 1;
+          transform: translateX(0) !important;
+        }
+
+        .how-it-works-icon {
+          margin-left: 0;
+          margin-right: 0;
+        }
+
+        /* --- IVR FALLBACK SECTION DESKTOP --- */
+        .ivr-grid {
+          flex-direction: row;
+          align-items: center;
+          gap: 5rem;
+          max-width: none;
+          margin-left: 0;
+          margin-right: 0;
+        }
+        .ivr-pitch-col {
+          flex-basis: 55%;
+        }
+        .ivr-visual-col {
+          flex-basis: 45%;
+          max-width: none;
+        }
+        .ivr-transition-anim {
+          justify-content: flex-start;
+        }
+        .ivr-pitch-heading,
+        .ivr-pitch-copy {
+          text-align: left;
+          max-width: none;
+          margin-left: 0;
+          margin-right: 0;
+        }
+        .ivr-pitch-list {
+          align-items: flex-start;
+          max-width: none;
+          margin-left: 0;
+          margin-right: 0;
+        }
+        .ivr-pitch-note {
+          text-align: left;
+        }
+        .ivr-script-preview {
+          margin-left: 0;
+          margin-right: 0;
+        }
+        .ivr-script-preview.visible {
+          margin: 1rem 0 0;
+        }
+        .ivr-audio-player {
+          margin: 0;
+        }
+        .ivr-audio-disclaimer {
+          margin: 0.75rem 0 0;
+          text-align: left;
+        }
+        .ivr-phone-overlay {
+          width: 260px;
+        }
+
+        .integrations-grid {
+          gap: 8rem;
+        }
+        .integrations-grid img {
+          max-height: 4rem;
+        }
+
+        /* --- FEATURES SECTION DESKTOP --- */
+        .features-row {
+          flex-direction: row;
+          gap: 4rem;
+          margin-bottom: 2rem;
+        }
+
+        /* Order reset for Desktop */
+        .features-visual {
+          order: initial;
+          width: initial;
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        .features-text-content {
+          text-align: left;
+          width: initial;
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        .features-list {
+          align-items: flex-start;
+        }
+
+        /* Row 1: Text Left, Image Right */
+        .features-row > .features-text-content {
+          flex: 1;
+          order: 1;
+          padding-top: 5rem;
+        }
+        .features-row > .features-visual {
+          flex: 1;
+          order: 2;
+        }
+
+        /* Row 2: Image Left, Text Right */
+        .features-row.reverse-mobile > .features-visual {
+          order: 1;
+          transform: translateX(-50px);
+        }
+        .features-row.reverse-mobile > .features-text-content {
+          order: 2;
+        }
+
+        .features-text-content h2 {
+          font-size: 2.25rem;
+        }
+
+        .features-visual.animate-in {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .tilt-left-persp {
+          transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+        }
+        .tilt-right-persp {
+          transform: perspective(1000px) rotateY(5deg) rotateX(2deg);
+        }
+
+        .tilt-left-persp:hover {
+          transform: perspective(1000px) rotateY(0deg) scale(1.02);
+        }
+        .tilt-right-persp:hover {
+          transform: perspective(1000px) rotateY(0deg) scale(1.02);
+        }
+
+        .float-card {
+          display: block;
+        }
+
+        .carousel-scene {
+          max-width: 1200px;
+          perspective: 1000px;
+        }
+        .carousel-track {
+          width: 340px;
+          height: 480px;
+        }
+        .nav-arrow {
+          top: 50%;
+          bottom: auto;
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+
+        .cta-box {
+          padding: 5rem 1.5rem;
+        }
+        .cta-buttons {
+          flex-direction: row;
+        }
+
+        .footer-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 2rem;
+        }
+
+        .footer-bottom {
+          flex-direction: row;
+          justify-content: space-between;
+          text-align: left;
+        }
+
+        .footer-legal-strip {
+          align-items: flex-end;
+        }
+
+        .footer-legal-line {
+          justify-content: flex-end;
+        }
+      }
+
+      /* ============================================================
+         RTL OVERRIDES (Arabic layout mirroring)
+         ============================================================ */
+      body.lang-ar {
+        direction: rtl;
+      }
+
+      /* Nav / header */
+      body.lang-ar .icon-tm {
+        margin-left: 0;
+        margin-right: 0.15em;
+      }
+      body.lang-ar .nav-mobile-btn {
+        margin-right: 0;
+      }
+      @media (min-width: 1024px) {
+        body.lang-ar .nav-container {
+          margin-left: 0;
+          margin-right: 60px;
+          padding-left: 2rem;
+          padding-right: 0;
+        }
+      }
+
+      /* Mobile drawer opens from the left in RTL */
+      body.lang-ar .mobile-menu-drawer {
+        right: auto;
+        left: 0;
+        transform: translateX(-100%);
+        border-left: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+      }
+      body.lang-ar .mobile-menu-drawer.active {
+        transform: translateX(0);
+      }
+
+      /* Hero */
+      body.lang-ar .hero-content {
+        text-align: center;
+      }
+      @media (min-width: 1024px) {
+        body.lang-ar .hero-content {
+          text-align: right;
+        }
+        body.lang-ar .hero-subtitle {
+          margin-right: 0;
+          margin-left: auto;
+        }
+      }
+
+      /* Generic text-align helpers used across sections */
+      body.lang-ar .footer-bottom,
+      body.lang-ar .footer-col-1,
+      body.lang-ar .footer-col {
+        text-align: center;
+      }
+      @media (min-width: 1024px) {
+        body.lang-ar .footer-bottom {
+          text-align: right;
+        }
+        body.lang-ar .footer-legal-strip {
+          align-items: flex-start;
+        }
+        body.lang-ar .footer-legal-line {
+          justify-content: flex-start;
+        }
+        body.lang-ar .how-it-works-text,
+        body.lang-ar .features-text-content {
+          text-align: right;
+        }
+      }
+
+      body.lang-ar .mobile-menu-drawer {
+        padding: calc(var(--header-height) + var(--topbar-height) + 2rem) 2rem
+          2rem;
+      }
+
+      /* Timeline — mirror beam to right on mobile */
+      body.lang-ar .timeline-line-bg,
+      body.lang-ar .timeline-line-fill,
+      body.lang-ar .timeline-dot {
+        left: auto;
+        right: 30px;
+        transform: translateX(50%);
+      }
+      body.lang-ar .timeline-dot.active {
+        transform: translateX(50%) scale(1.4);
+      }
+      body.lang-ar .how-it-works-step {
+        padding-left: 0;
+        padding-right: 80px;
+        align-items: flex-end;
+      }
+      body.lang-ar .how-it-works-row .timeline-dot {
+        left: auto;
+        right: -50px;
+        transform: translateX(50%);
+      }
+      body.lang-ar .how-it-works-text {
+        text-align: right;
+      }
+
+      /* Feature list items */
+      body.lang-ar .feature-item {
+        flex-direction: row-reverse;
+        text-align: right;
+      }
+      body.lang-ar .features-list {
+        align-items: flex-end;
+      }
+      body.lang-ar .ivr-pitch-list {
+        align-items: flex-end;
+      }
+      body.lang-ar .step-highlight-list {
+        align-items: flex-end;
+      }
+
+      /* IVR section */
+      body.lang-ar .ivr-anim-arrow svg {
+        transform: scaleX(-1);
+      }
+      body.lang-ar .ivr-tap-hint {
+        transform: translateX(-38px);
+      }
+      body.lang-ar .ivr-section.in-view .ivr-tap-hint {
+        animation-name: ivrHintBounceRtl;
+      }
+      @keyframes ivrHintBounceRtl {
+        0%,
+        100% {
+          transform: translateX(-38px) translateY(0);
+        }
+        50% {
+          transform: translateX(-38px) translateY(-6px);
+        }
+      }
+
+      /* Hero entrance animations mirrored */
+      body.lang-ar .hero-content {
+        animation-name: slideInRight;
+      }
+      body.lang-ar .hero-image-wrapper {
+        animation-name: slideInLeft;
+      }
+
+      /* Footer link hover direction */
+      body.lang-ar .footer-col h3::after {
+        left: auto;
+        right: 0;
+      }
+      body.lang-ar .footer-col ul a::before {
+        left: auto;
+        right: -0.9rem;
+        transform-origin: right;
+      }
+      body.lang-ar .footer-col ul a:hover {
+        transform: translateX(-0.6rem);
+      }
+
+      /* Peek cards mirror */
+      body.lang-ar .prepaid-checkout-peek,
+      body.lang-ar .cancel-redirect-peek {
+        right: auto;
+        left: 2%;
+        transform: rotate(7deg) translateY(16px);
+      }
+      body.lang-ar .prepaid-mockup-wrapper.img-visible .prepaid-checkout-peek,
+      body.lang-ar .cancel-mockup-wrapper.img-visible .cancel-redirect-peek {
+        transform: rotate(7deg) translateY(0);
+      }
+
+      /* Pricing carousel arrows */
+      body.lang-ar .nav-arrow.left {
+        left: auto;
+        right: 0;
+      }
+      body.lang-ar .nav-arrow.right {
+        right: auto;
+        left: 0;
+      }
+
+      @media (min-width: 1024px) {
+        /* Timeline stays centered on desktop */
+        body.lang-ar .timeline-line-bg,
+        body.lang-ar .timeline-line-fill,
+        body.lang-ar .timeline-dot,
+        body.lang-ar .how-it-works-row .timeline-dot {
+          left: 50%;
+          right: auto;
+          transform: translateX(-50%);
+        }
+        body.lang-ar .timeline-dot.active {
+          transform: translateX(-50%) scale(1.4);
+        }
+        body.lang-ar .how-it-works-step {
+          padding-right: 0;
+          align-items: center;
+        }
+
+        /* Zigzag layout mirrored */
+        body.lang-ar .how-it-works-step:nth-child(even) {
+          flex-direction: row;
+        }
+        body.lang-ar .how-it-works-step:nth-child(odd) {
+          flex-direction: row-reverse;
+        }
+        body.lang-ar .how-it-works-image-wrapper {
+          transform: translateX(-50px);
+        }
+        body.lang-ar .how-it-works-step:nth-child(even) .how-it-works-image-wrapper {
+          transform: translateX(50px);
+        }
+        body.lang-ar .how-it-works-image-wrapper.img-visible {
+          transform: translateX(0) !important;
+        }
+
+        body.lang-ar .features-row > .features-text-content {
+          text-align: right;
+        }
+        body.lang-ar .features-row.reverse-mobile > .features-visual {
+          transform: translateX(50px);
+        }
+        body.lang-ar .features-row > .features-visual {
+          transform: translateX(-50px);
+        }
+        body.lang-ar .features-visual.animate-in {
+          transform: translateX(0);
+        }
+
+        body.lang-ar .prepaid-checkout-peek {
+          left: -22%;
+          right: auto;
+        }
+        body.lang-ar .cancel-redirect-peek {
+          left: -30%;
+          right: auto;
+        }
+        body.lang-ar .prepaid-mockup-wrapper {
+          margin-right: 0;
+          margin-left: 2.5rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body.lang-ar .ivr-section.in-view .ivr-tap-hint {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      (function () {
+        var savedLang = localStorage.getItem("confirmit-lang") || "en";
+        document.documentElement.lang = savedLang;
+        document.documentElement.dir = savedLang === "ar" ? "rtl" : "ltr";
+        document.body.className =
+          (document.body.className + " lang-" + savedLang).trim();
+      })();
+    </script>
+    <div class="top-bar">
+      <div class="container top-bar-inner">
+        <div class="social-icons" aria-label="Follow us on social media">
+          <a
+            href="#"
+            class="social-icon-link"
+            aria-label="Instagram"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 40 40" class="social-icon icon-instagram">
+              <defs>
+                <linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#27ae60" />
+                  <stop offset="1" stop-color="#4ade80" />
+                </linearGradient>
+              </defs>
+              <rect
+                x="6"
+                y="6"
+                width="28"
+                height="28"
+                rx="9"
+                fill="none"
+                stroke="url(#igGrad)"
+                stroke-width="2"
+              />
+              <circle
+                cx="20"
+                cy="20"
+                r="7"
+                fill="none"
+                stroke="url(#igGrad)"
+                stroke-width="2"
+              />
+              <circle cx="28.5" cy="11.5" r="1.6" fill="url(#igGrad)" />
+            </svg>
+          </a>
+          <a
+            href="#"
+            class="social-icon-link"
+            aria-label="TikTok"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 40 40" class="social-icon icon-tiktok">
+              <path
+                d="M22 7c0.6 3.4 2.9 5.6 6.3 5.9v4.2c-2.2 0.1-4.2-0.6-6.1-2v9.1c0 4.6-3.7 8-8.1 7.6-4-0.4-6.9-4-6.5-8.1 0.4-3.8 3.7-6.7 7.5-6.5v4.3c-1.8-0.3-3.4 0.9-3.6 2.6-0.2 1.7 1 3.2 2.7 3.4 1.8 0.2 3.4-1.2 3.4-3V7h4.4z"
+                fill="none"
+                stroke="var(--brand-green-bright)"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+          <a
+            href="#"
+            class="social-icon-link"
+            aria-label="Facebook"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 40 40" class="social-icon icon-facebook">
+              <circle
+                cx="20"
+                cy="20"
+                r="14"
+                fill="none"
+                stroke="var(--brand-green)"
+                stroke-width="2"
+              />
+              <path
+                d="M22.5 14.5h2.2v-3.4h-2.6c-2.6 0-4.3 1.7-4.3 4.4v2.1h-2.4v3.4h2.4v8.4h3.5v-8.4h2.6l0.5-3.4h-3.1v-1.6c0-0.9 0.3-1.5 1.2-1.5z"
+                fill="var(--brand-green-bright)"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <button
+          class="lang-switch"
+          id="langSwitch"
+          type="button"
+          aria-label="Switch language"
+        >
+          <span class="lang-switch-thumb"></span>
+          <span class="lang-switch-option" data-set-lang="en">EN</span>
+          <span class="lang-switch-option" data-set-lang="ar">AR</span>
+        </button>
+      </div>
+    </div>
+    <header class="header">
+      <nav class="nav-container">
+        <a href="#" class="nav-logo-link">
+          <img
+            src="imgs/logooo.png"
+            alt="Confirm It Logo"
+            class="brand-logo"
+            width="210"
+            height="45"
+            fetchpriority="high"
+            loading="eager"
+          />
+        </a>
+
+        <div class="nav-center">
+          <a href="#features"
+            ><span data-lang="en">Features</span
+            ><span data-lang="ar">المميزات</span></a
+          >
+          <a href="#integrations"
+            ><span data-lang="en">Integrations</span
+            ><span data-lang="ar">التكاملات</span></a
+          >
+          <a href="#pricing"
+            ><span data-lang="en">Pricing</span
+            ><span data-lang="ar">الأسعار</span></a
+          >
+        </div>
+
+        <div class="nav-right">
+          <a href="{% url 'login' %}" class="nav-link-login"
+            ><span data-lang="en">Login</span
+            ><span data-lang="ar">تسجيل الدخول</span></a
+          >
+          <a
+            href="{% url 'checkout' %}?plan=starter&price=500"
+            class="btn-cta-green btn-sm"
+            ><span data-lang="en">Start Free Trial</span
+            ><span data-lang="ar">جرّب مجاناً الآن</span></a
+          >
+        </div>
+
+        <button id="menu-btn" class="nav-mobile-btn">
+          <svg class="icon-hamburger" viewBox="0 0 24 24" fill="none">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+    <aside class="mobile-menu-drawer" id="mobile-drawer">
+      <div class="mobile-nav-links">
+        <a href="#features" class="mobile-nav-link">
+          <span data-lang="en">Features</span
+          ><span data-lang="ar">المميزات</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </a>
+        <a href="#integrations" class="mobile-nav-link">
+          <span data-lang="en">Integrations</span
+          ><span data-lang="ar">التكاملات</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </a>
+        <a href="#pricing" class="mobile-nav-link">
+          <span data-lang="en">Pricing</span
+          ><span data-lang="ar">الأسعار</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </a>
+        <a href="{% url 'login' %}" class="mobile-nav-link">
+          <span data-lang="en">Login</span
+          ><span data-lang="ar">تسجيل الدخول</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <div class="mobile-menu-footer">
+        <a
+          href="{% url 'checkout' %}?plan=starter&price=500"
+          class="mobile-cta-btn btn-cta-green"
+          ><span data-lang="en">Start Free Trial</span
+          ><span data-lang="ar">جرّب مجاناً الآن</span></a
+        >
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero-section" id="hero">
+        <div class="hero-glow" aria-hidden="true">
+          <div class="hero-glow-inner"></div>
+        </div>
+
+        <div class="container">
+          <div class="hero-layout-grid">
+            <div class="hero-content">
+              <h1 class="hero-title">
+                <span data-lang="en">
+                  Automate Your
+                  <span style="white-space: nowrap">Order Confirmation</span>
+                  via
+                  <span class="whatsapp-highlight">
+                    WhatsApp
+                    <svg class="icon-tm" viewBox="0 0 24 24">
+                      <path
+                        d="M12.001 2C6.47813 2 1.99377 6.48438 1.99377 12.0072C1.99377 13.7699 2.45523 15.4839 3.34594 17.0272L2 22L7.08625 20.6659C8.56211 21.4697 10.2592 21.9213 12.001 21.9213C17.5239 21.9213 22.0082 17.4369 22.0082 11.9141C22.0082 6.39125 17.5239 2 12.001 2ZM17.562 16.0355C17.3323 16.697 16.3263 17.2797 15.5413 17.4369C14.9984 17.5456 14.2831 17.5855 11.9902 16.6355C9.05727 15.4199 7.16877 12.3922 7.02377 12.1972C6.87877 12.0022 5.83627 10.6122 5.83627 9.17223C5.83627 7.73223 6.55127 7.03223 6.83627 6.74223C7.07627 6.50223 7.47627 6.39223 7.86627 6.39223C7.99127 6.39223 8.10627 6.39723 8.20627 6.40223C8.51627 6.41723 8.67127 6.43723 8.87627 6.92723C9.13627 7.55223 9.76627 9.09223 9.84127 9.25223C9.91627 9.41223 9.99127 9.63223 9.88627 9.84223C9.78127 10.0522 9.69627 10.1472 9.54127 10.3272C9.38627 10.5072 9.23627 10.6022 9.07127 10.8072C8.92127 10.9922 8.75127 11.1972 8.93127 11.5072C9.11127 11.8172 9.73127 12.8272 10.6463 13.6422C11.8263 14.6922 12.7863 15.0272 13.1363 15.1822C13.4863 15.3372 13.6963 15.3072 13.9063 15.0672C14.1163 14.8272 14.8363 13.8222 15.0863 13.4622C15.3363 13.1022 15.5913 13.1522 15.9263 13.2772C16.2613 13.4022 18.0613 14.2922 18.4363 14.4822C18.8113 14.6722 19.0613 14.7672 19.1463 14.9122C19.2313 15.0572 19.2313 15.6322 19.0063 16.2772L17.562 16.0355Z"
+                      ></path>
+                    </svg>
+                  </span>
+                </span>
+                <span data-lang="ar">
+                  طلباتك تتأكد من نفسها عبر
+                  <span class="whatsapp-highlight">WhatsApp</span>
+                </span>
+              </h1>
+              <p class="hero-subtitle">
+                <span data-lang="en">
+                  Stop wasting time on manual calls.
+                  <span class="highlight-brand">Confirm It</span> reduces
+                  cancellations and integrates seamlessly with Bosta, Aramex,
+                  and more.
+                </span>
+                <span data-lang="ar">
+                  وداعاً للمكالمات اليدوية.
+                  <span class="highlight-brand">Confirm It</span> يقلل نسبة
+                  الإلغاء ويتكامل بسهولة مع Bosta و Aramex وغيرهم.
+                </span>
+              </p>
+              <div class="hero-buttons">
+                <a
+                  href="{% url 'checkout' %}?plan=starter&price=500"
+                  class="btn-cta-green"
+                >
+                  <span data-lang="en">Start 30-Day Free Trial</span>
+                  <span data-lang="ar">جرّب 30 يوماً مجاناً</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="hero-image-wrapper">
+              <img
+                src="imgs/HeroLogo.webp"
+                alt="WhatsApp Delivery Automation"
+                class="hero-3d-image"
+                fetchpriority="high"
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="how-it-works-section">
+        <div class="container how-it-works-scale">
+          <div class="how-it-works-header">
+            <h2 class="section-title">
+              <span data-lang="en"
+                >From Checkout to Courier, Fully Automated.</span
+              >
+              <span data-lang="ar">من الطلب للشحن، كله أوتوماتيك.</span>
+            </h2>
+            <p class="section-subtitle">
+              <span data-lang="en"
+                >Eliminate manual follow-ups in 5 simple steps.</span
+              >
+              <span data-lang="ar"
+                >نظّم رحلة الطلب كاملة في 5 خطوات بدون أي متابعة يدوية.</span
+              >
+            </p>
+          </div>
+
+          <div class="how-it-works-grid" id="howItWorksGrid">
+            <div class="timeline-line-bg"></div>
+            <div class="timeline-line-fill" id="timelineLineFill"></div>
+
+            <div class="how-it-works-step" data-step="1">
+              <div class="timeline-dot"></div>
+
+              <div class="how-it-works-text">
+                <div class="how-it-works-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                    />
+                  </svg>
+                </div>
+                <h3>
+                  <span>1.</span>
+                  <span data-lang="en">Order Received</span>
+                  <span data-lang="ar">استقبال الطلب</span>
+                </h3>
+                <p>
+                  <span data-lang="en"
+                    >The system instantly captures the order from your
+                    Shopify, WooCommerce, or custom site.</span
+                  >
+                  <span data-lang="ar"
+                    >بمجرد إتمام الطلب على متجرك، سواء Shopify أو WooCommerce
+                    أو موقعك الخاص، النظام بيستقبله فوراً من غير أي تدخل
+                    منك.</span
+                  >
+                </p>
+              </div>
+              <div class="how-it-works-image-wrapper">
+                <img
+                  src="imgs/Adobe Express - file (1).webp"
+                  alt="Order Received Dashboard"
+                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+1+Image'; this.onerror=null;"
+                />
+              </div>
+            </div>
+
+            <div class="how-it-works-step" data-step="2">
+              <div class="timeline-dot"></div>
+
+              <div class="how-it-works-text">
+                <div class="how-it-works-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25S3.75 16.556 3.75 12 7.61 3.75 12.375 3.75 21 7.444 21 12z"
+                    />
+                  </svg>
+                </div>
+                <h3>
+                  <span>2.</span>
+                  <span data-lang="en">WhatsApp Confirmation</span>
+                  <span data-lang="ar">تأكيد فوري عبر واتساب</span>
+                </h3>
+                <p>
+                  <span data-lang="en"
+                    >A personalized confirmation message is automatically sent
+                    to the customer's WhatsApp.</span
+                  >
+                  <span data-lang="ar"
+                    >العميل بياخد رسالة تأكيد باسمه وتفاصيل طلبه على واتساب،
+                    وكأن حد من فريقك بيتابعه شخصياً.</span
+                  >
+                </p>
+              </div>
+              <div class="how-it-works-image-wrapper">
+                <img
+                  src="imgs/Adobe Express - file (2).webp"
+                  alt="WhatsApp Confirmation Screenshot"
+                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+2+Image'; this.onerror=null;"
+                />
+              </div>
+            </div>
+
+            <div class="how-it-works-step" data-step="3">
+              <div class="how-it-works-row">
+                <div class="timeline-dot"></div>
+                <div class="how-it-works-text">
+                  <div class="how-it-works-icon">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3>
+                    <span>3.</span>
+                    <span data-lang="en">Customer Confirms</span>
+                    <span data-lang="ar">العميل بيرد ويأكد</span>
+                  </h3>
+                  <p>
+                    <span data-lang="en"
+                      >The customer replies to confirm, cancel, or edit their
+                      order. Our system understands their reply.</span
+                    >
+                    <span data-lang="ar"
+                      >العميل يرد بكلمة عادية زي أي محادثة، تأكيد أو إلغاء أو
+                      تعديل، والنظام بيفهم رده وحده من غير أي تدخل.</span
+                    >
+                  </p>
+                </div>
+                <div class="how-it-works-image-wrapper">
+                  <img
+                    src="imgs/Adobe Express - file (3) copy.webp"
+                    alt="Customer Confirms Screenshot"
+                    onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+3+Image'; this.onerror=null;"
+                  />
+                </div>
+              </div>
+
+              <div class="how-it-works-row cancel-feedback-row">
+                <div class="how-it-works-text cancel-feedback-text">
+                  <div class="how-it-works-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-8.99 3.75h.008v.008h-.008v-.008z"
+                      />
+                    </svg>
+                  </div>
+                  <h3>
+                    <span data-lang="en">What if they cancel?</span>
+                    <span data-lang="ar">وإذا حد لغى الطلب؟</span>
+                  </h3>
+                  <p>
+                    <span data-lang="en"
+                      >With Confirm It, every cancellation instantly triggers
+                      a WhatsApp follow-up asking why &mdash; then responds
+                      with a tailored offer to win the order back, all
+                      without lifting a finger.</span
+                    >
+                    <span data-lang="ar"
+                      >كل إلغاء بيبقى فرصة، مش نهاية. Confirm It بيبعت رسالة
+                      واتساب يسأل عن سبب الإلغاء، وبعدها يعرض عرض مخصص يرجّع
+                      العميل ويقفل البيعة، كل ده أوتوماتيك.</span
+                    >
+                  </p>
+                </div>
+                <div class="how-it-works-image-wrapper cancel-mockup-wrapper">
+                  <img
+                    src="imgs/cancellation-reason-tem.png"
+                    alt="Cancellation Follow-up Screenshot"
+                    onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Cancellation+Recovery'; this.onerror=null;"
+                  />
+                  <div class="cancel-redirect-peek">
+                    <img
+                      src="imgs/cancellation-reason-redirect.PNG"
+                      alt="Cancellation reason redirect page"
+                      onerror="this.parentElement.style.display='none';"
+                    />
+                    <span class="cancel-redirect-tag"
+                      ><span data-lang="en">Reason Page</span
+                      ><span data-lang="ar">صفحة السبب</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="how-it-works-step step-highlight" data-step="4">
+              <div class="timeline-dot"></div>
+
+              <div class="how-it-works-text">
+                <span class="step-highlight-badge"
+                  ><span data-lang="en">High Impact</span
+                  ><span data-lang="ar">تأثير كبير</span></span
+                >
+                <div class="how-it-works-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3M3.75 19.5h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z"
+                    />
+                  </svg>
+                </div>
+                <h3>
+                  <span>4.</span>
+                  <span data-lang="en">Get Paid Before You Ship</span>
+                  <span data-lang="ar">تقبض فلوسك قبل الشحن</span>
+                </h3>
+                <p>
+                  <span data-lang="en"
+                    >Right after they confirm on WhatsApp, customers get a
+                    one-tap discount to pay upfront via Apple Pay or card
+                    &mdash; so you get paid sooner and ship with
+                    confidence.</span
+                  >
+                  <span data-lang="ar"
+                    >بعد التأكيد على واتساب بثانية، العميل بياخد خصم فوري لو
+                    دفع مقدماً بـ Apple Pay أو كارت &mdash; يعني فلوسك تدخل
+                    قبل ما الشحنة تتحرك.</span
+                  >
+                </p>
+                <div class="step-highlight-list">
+                  <div class="feature-item">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                    <span data-lang="en"
+                      >Healthier Cash Flow, Paid Before You Ship</span
+                    >
+                    <span data-lang="ar">سيولة أقوى، فلوسك قبل الشحن</span>
+                  </div>
+                  <div class="feature-item">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                    <span data-lang="en"
+                      >Fewer Returns &amp; Failed Deliveries</span
+                    >
+                    <span data-lang="ar">مرتجعات وشحنات فاشلة أقل</span>
+                  </div>
+                </div>
+              </div>
+              <div class="how-it-works-image-wrapper prepaid-mockup-wrapper">
+                <img
+                  src="imgs/apple-pay.png"
+                  alt="Prepaid Upsell Offer Screenshot"
+                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Prepaid+Upsell'; this.onerror=null;"
+                />
+                <div class="prepaid-checkout-peek">
+                  <img
+                    src="imgs/apple-pay-checkout.png"
+                    alt="Confirm It secure checkout page"
+                    onerror="this.parentElement.style.display='none';"
+                  />
+                  <span class="prepaid-checkout-tag"
+                    ><span data-lang="en">Checkout</span
+                    ><span data-lang="ar">الدفع</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="how-it-works-step" data-step="5">
+              <div class="timeline-dot"></div>
+
+              <div class="how-it-works-text">
+                <div class="how-it-works-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5h10.5M15.75 15l-3.75-3.75M15.75 15l3.75 3.75M15.75 15V3.75"
+                    />
+                  </svg>
+                </div>
+                <h3>
+                  <span>5.</span>
+                  <span data-lang="en">Courier API Creation</span>
+                  <span data-lang="ar">إنشاء الشحنة تلقائياً</span>
+                </h3>
+                <p>
+                  <span data-lang="en"
+                    >The delivery order is automatically created in Bosta,
+                    Khazenly, or your courier's system.</span
+                  >
+                  <span data-lang="ar"
+                    >بمجرد التأكيد، الشحنة بتتسجل تلقائياً في نظام Bosta أو
+                    Khazenly أو أي شركة شحن بتتعامل معاها.</span
+                  >
+                </p>
+              </div>
+              <div class="how-it-works-image-wrapper">
+                <img
+                  src="imgs/Adobe Express - file (4).png"
+                  alt="Courier Integration Dashboard"
+                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+5+Image'; this.onerror=null;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ivr-fallback" class="ivr-section">
+        <div class="ivr-cinematic-veil" aria-hidden="true"></div>
+        <div class="container">
+          <div class="ivr-header">
+            <span class="ivr-eyebrow">
+              <span data-lang="en">Zero Orders Left Behind</span>
+              <span data-lang="ar">مفيش طلب يضيع</span>
+            </span>
+            <h2 class="section-title">
+              <span data-lang="en">
+                Unread Messages Meet
+                <span style="color: var(--brand-green)">Automated Voice</span>.
+              </span>
+              <span data-lang="ar">
+                الرسالة ما اتقرأتش؟
+                <span style="color: var(--brand-green)">المكالمة تتكلم بدالك</span>.
+              </span>
+            </h2>
+            <p class="section-subtitle">
+              <span data-lang="en">
+                Not every customer reads WhatsApp, replies to it, or even has it
+                installed. Whether your confirmation gets buried, sits ignored,
+                or the customer has no WhatsApp at all, Confirm It automatically
+                switches to a phone call &mdash; so a quiet inbox never costs
+                you a sale.
+              </span>
+              <span data-lang="ar">
+                مش كل عميل بيفتح واتساب، ولا بيرد، ولا عنده التطبيق أصلاً.
+                سواء الرسالة اتدفنت، أو العميل تجاهلها، أو مفيش واتساب —
+                Confirm It بيحوّل تلقائياً لمكالمة صوتية بالذكاء الاصطناعي،
+                عشان أي رسالة صامتة ما تكلفك طلب.
+              </span>
+            </p>
+          </div>
+
+          <div class="ivr-grid">
+            <div class="ivr-pitch-col">
+              <div class="ivr-transition-anim" aria-hidden="true">
+                <div class="ivr-anim-message">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25S3.75 16.556 3.75 12 7.61 3.75 12.375 3.75 21 7.444 21 12z"
+                    />
+                  </svg>
+                  <span class="ivr-anim-badge">1</span>
+                </div>
+                <div class="ivr-anim-arrow">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                    />
+                  </svg>
+                </div>
+                <div class="ivr-anim-call">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <h3 class="ivr-pitch-heading">
+                <span data-lang="en">No WhatsApp? No Reply? No Problem.</span>
+                <span data-lang="ar">مفيش واتساب؟ مفيش رد؟ مفيش مشكلة.</span>
+              </h3>
+              <p class="ivr-pitch-copy">
+                <span data-lang="en">
+                  Buried, ignored, or no WhatsApp at all &mdash; Confirm It
+                  automatically calls the customer with a natural AI voice,
+                  hands-free. No missed message ever becomes a missed sale.
+                </span>
+                <span data-lang="ar">
+                  رسالة مدفونة، عميل متجاهل، أو مفيش واتساب — Confirm It
+                  بيتصل بالعميل بصوت AI طبيعي، بدون أي تدخل منك. أي رسالة
+                  فائتة ما تتحولش لطلب ضايع.
+                </span>
+              </p>
+
+              <div class="ivr-pitch-list features-list">
+                <div class="feature-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                  <span data-lang="en">Buried or Unread? We Call Instead</span>
+                  <span data-lang="ar">الرسالة مدفونة؟ بنتصل بدالها</span>
+                </div>
+                <div class="feature-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                  <span data-lang="en">Ignored the Message? We Follow Up by Phone</span>
+                  <span data-lang="ar">تجاهل الرسالة؟ بنتابع بالمكالمة</span>
+                </div>
+                <div class="feature-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                  <span data-lang="en">No WhatsApp? We Call Automatically</span>
+                  <span data-lang="ar">مفيش واتساب؟ المكالمة تلقائية</span>
+                </div>
+              </div>
+              <p class="ivr-pitch-note">
+                <span data-lang="en">
+                  Also configurable: send one reminder message before
+                  escalating to a call.
+                </span>
+                <span data-lang="ar">
+                  وكمان تقدر تخصّص: نبعت رسالة تذكير قبل ما نحوّل
+                  لمكالمة.
+                </span>
+              </p>
+
+              <div class="ivr-audio-player" id="ivrAudioPlayer">
+                <button
+                  class="ivr-audio-toggle"
+                  id="ivrAudioToggle"
+                  type="button"
+                  aria-label="Play AI voice demo"
+                >
+                  <span class="ivr-audio-ring"></span>
+                  <svg class="icon-play" viewBox="0 0 24 24">
+                    <path
+                      d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653z"
+                    />
+                  </svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24">
+                    <path
+                      d="M6.75 4.5h2.25a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V5.25a.75.75 0 01.75-.75zm8.25 0h2.25a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H15a.75.75 0 01-.75-.75V5.25a.75.75 0 01.75-.75z"
+                    />
+                  </svg>
+                </button>
+                <div class="ivr-audio-meta">
+                  <span class="ivr-audio-label">
+                    <span data-lang="en">Hear the AI Voice Agent</span>
+                    <span data-lang="ar">اسمع صوت الـ AI</span>
+                  </span>
+                  <div class="ivr-waveform" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span
+                    ><span></span><span></span><span></span><span></span
+                    ><span></span><span></span><span></span><span></span
+                    ><span></span><span></span><span></span><span></span
+                    ><span></span><span></span><span></span><span></span
+                    ><span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ivr-script-preview" id="ivrScriptPreview">
+                <p dir="rtl">
+                  &ldquo;شكراً لطلبك من باسل، سعر الطلب 200 جنيه. لتأكيد الطلب
+                  اضغط 1، للإلغاء اضغط 2، للتواصل مع الدعم اضغط 3.&rdquo;
+                </p>
+              </div>
+              <p class="ivr-audio-disclaimer">
+                <span data-lang="en">
+                  Real AI voice for the greeting &mdash; responses are
+                  simulated for this preview.
+                </span>
+                <span data-lang="ar">
+                  صوت AI حقيقي للترحيب &mdash; الردود في المعاينة محاكاة.
+                </span>
+              </p>
+              <audio id="ivrGreetingAudio" preload="none">
+                <source src="audio/ivr-greeting.mp3" type="audio/mpeg" />
+              </audio>
+            </div>
+
+            <div class="ivr-visual-col" id="ivrVisualCol">
+              <div class="ivr-phone-stage">
+                <div class="ivr-phone-glow"></div>
+
+                <div class="ivr-phone-overlay" id="ivrPhone" data-state="incoming">
+                  <!-- Incoming call screen -->
+                  <div class="ivr-phone-screen ivr-phone-screen-incoming">
+                    <div class="ivr-phone-callscreen">
+                      <span class="ivr-phone-callstatus">Incoming Call</span>
+                      <div class="ivr-phone-avatar">
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                          />
+                        </svg>
+                      </div>
+                      <span class="ivr-phone-callername">Confirm It AI</span>
+                    </div>
+                    <div class="ivr-phone-actions">
+                      <button
+                        class="ivr-phone-btn decline"
+                        id="ivrDeclineBtn"
+                        type="button"
+                        aria-label="Decline call"
+                      >
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+                            transform="rotate(135 12 12)"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="ivr-phone-btn accept"
+                        id="ivrAcceptBtn"
+                        type="button"
+                        aria-label="Accept call and start demo"
+                      >
+                        <span class="ivr-accept-ring"></span>
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Active call screen -->
+                  <div class="ivr-phone-screen ivr-phone-screen-active">
+                    <div class="ivr-phone-callscreen">
+                      <span class="ivr-phone-callstatus">جارٍ الاتصال</span>
+                      <div class="ivr-phone-avatar small">
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                          />
+                        </svg>
+                      </div>
+                      <span class="ivr-phone-callername">Confirm It AI</span>
+                    </div>
+                    <div class="ivr-caption-box">
+                      <p class="ivr-caption-text" id="ivrCaptionText" dir="rtl"></p>
+                    </div>
+                    <div class="ivr-keypad">
+                      <button class="ivr-key" type="button" data-key="1" aria-label="Press 1 to confirm">
+                        <span class="ivr-key-num">1</span>
+                        <span class="ivr-key-label">تأكيد</span>
+                      </button>
+                      <button class="ivr-key" type="button" data-key="2" aria-label="Press 2 to cancel">
+                        <span class="ivr-key-num">2</span>
+                        <span class="ivr-key-label">إلغاء</span>
+                      </button>
+                      <button class="ivr-key" type="button" data-key="3" aria-label="Press 3 to contact support">
+                        <span class="ivr-key-num">3</span>
+                        <span class="ivr-key-label">تواصل</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Ended / outcome screen -->
+                  <div class="ivr-phone-screen ivr-phone-screen-ended">
+                    <div class="ivr-outcome-icon" id="ivrOutcomeIcon">
+                      <svg class="icon-confirm" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                      <svg class="icon-cancel" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      <svg class="icon-contact" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+                        />
+                      </svg>
+                    </div>
+                    <p class="ivr-caption-text ivr-outcome-text" id="ivrOutcomeText" dir="rtl"></p>
+                    <button class="ivr-replay-btn" id="ivrReplayBtn" type="button">
+                      إعادة الاستماع
+                    </button>
+                  </div>
+                </div>
+
+                <div class="ivr-tap-hint" id="ivrTapHint">
+                  <svg class="ivr-tap-hint-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M12 19V5M12 5l-5 5M12 5l5 5"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span class="ivr-tap-hint-label">
+                    <span data-lang="en">Tap me to answer</span>
+                    <span data-lang="ar">اضغط للرد</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="features-cta-wrapper">
+            <a
+              href="{% url 'checkout' %}?plan=starter&price=500"
+              class="btn-feature-match"
+            >
+              <span data-lang="en">Never Miss Another Order &mdash; Start Free Trial</span>
+              <span data-lang="ar">ما تضيعش طلب تاني &mdash; جرّب مجاناً</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="integrations" class="integrations-section">
+        <div class="container">
+          <h2 class="integrations-subtitle">
+            <span data-lang="en">Integrated with the tools you already use</span>
+            <span data-lang="ar">متكامل مع الأدوات اللي بتستخدمها أصلاً</span>
+          </h2>
+          <div class="integrations-grid">
+            <div class="integrations-row integrations-row-1">
+              <img
+                class="logo-bosta"
+                src="imgs/bosta.svg"
+                alt="Bosta"
+                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Bosta'; this.onerror=null;"
+              />
+              <img
+                class="logo-khazenly"
+                src="imgs/khazenly.png"
+                alt="Khazenly"
+                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Khazenly'; this.onerror=null;"
+              />
+              <img
+                class="logo-aramex"
+                src="imgs/aramexx.png"
+                alt="Aramex"
+                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Aramex'; this.onerror=null;"
+              />
+            </div>
+            <div class="integrations-row integrations-row-2">
+              <img
+                class="logo-shopify"
+                src="imgs/shopify.png"
+                alt="Shopify"
+                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Shopify'; this.onerror=null;"
+              />
+              <img
+                class="logo-woocommerce"
+                src="imgs/woocommerce.png"
+                alt="WooCommerce"
+                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=WooCommerce'; this.onerror=null;"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="features-section">
+        <div class="container">
+          <div class="features-row">
+            <div class="features-text-content">
+              <h2>
+                <span data-lang="en">
+                  Actionable <br />
+                  <span style="color: var(--brand-green)">Data Insights</span>
+                </span>
+                <span data-lang="ar">
+                  بيانات تفيدك <br />
+                  <span style="color: var(--brand-green)">وتزود مبيعاتك</span>
+                </span>
+              </h2>
+              <p>
+                <span data-lang="en">
+                  Turn raw data into actionable growth. Deep-dive into agent
+                  performance metrics, confirmation rates, and revenue statistics
+                  to optimize your funnel and maximize profitability.
+                </span>
+                <span data-lang="ar">
+                  حوّل الأرقام لقرارات تزود أرباحك. تابع أداء التأكيدات،
+                  نسب الإلغاء، والإيرادات — وظبّط مسار البيع خطوة بخطوة.
+                </span>
+              </p>
+
+              <div class="features-list">
+                <div class="feature-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                  <span data-lang="en">Smart WhatsApp Templates</span>
+                  <span data-lang="ar">قوالب واتساب ذكية</span>
+                </div>
+                <div class="feature-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                  <span data-lang="en">Direct Courier API Integration</span>
+                  <span data-lang="ar">تكامل مباشر مع شركات الشحن</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="features-visual visual-right">
+              <div class="dashboard-console tilt-left-persp">
+                <img
+                  class="dashboard-img"
+                  src="imgs/ipad.png"
+                  alt="Analytics Detail"
+                  style="max-width: 100%; margin: 0 auto"
+                  onerror="this.src='https://placehold.co/600x800/1e1e1e/3a3a3a?text=Tablet+Analytics'; this.onerror=null;"
+                />
+                <div class="float-card">
+                  <span data-lang="en">Live Update</span>
+                  <span data-lang="ar">تحديث مباشر</span>
+                  <strong>+12% Conv.</strong>
+                </div>
+                <div class="dashboard-glow"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="features-row reverse-mobile">
+            <div class="features-visual visual-left">
+              <div class="dashboard-console tilt-right-persp">
+                <img
+                  class="dashboard-img"
+                  src="imgs/BBB.png"
+                  alt="Dashboard Overview"
+                  onerror="this.src='https://placehold.co/800x500/1e1e1e/3a3a3a?text=Laptop+Dashboard'; this.onerror=null;"
+                />
+                <div class="dashboard-glow"></div>
+              </div>
+            </div>
+
+            <div class="features-text-content">
+              <h2>
+                <span data-lang="en">
+                  All Your Operations in <br />
+                  <span style="color: var(--brand-green)">One Single View</span>
+                </span>
+                <span data-lang="ar">
+                  كل عملياتك في <br />
+                  <span style="color: var(--brand-green)">شاشة واحدة</span>
+                </span>
+              </h2>
+              <p>
+                <span data-lang="en">
+                  Gain total visibility over your operations. Our live command
+                  center categorizes every order in real-time, giving you an
+                  instant snapshot of pending validations versus confirmed
+                  shipments—all in one professional interface.
+                </span>
+                <span data-lang="ar">
+                  راقب كل طلب لحظة بلحظة. لوحة التحكم بتصنّف الطلبات
+                  تلقائياً — تأكيدات، انتظار، وشحنات — في واجهة واحدة
+                  احترافية.
+                </span>
+              </p>
+
+              <div class="features-list">
+                <div class="feature-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                  <span data-lang="en">Real-time Confirmation Rates</span>
+                  <span data-lang="ar">نسب تأكيد لحظية</span>
+                </div>
+                <div class="feature-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                  <span data-lang="en">AI-Powered Reply Analysis</span>
+                  <span data-lang="ar">تحليل ردود العملاء بالذكاء الاصطناعي</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="features-cta-wrapper">
+            <a
+              href="{% url 'checkout' %}?plan=starter&price=500"
+              class="btn-feature-match"
+            >
+              <span data-lang="en">Explore Dashboard</span>
+              <span data-lang="ar">استكشف لوحة التحكم</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="pricing-section">
+        <div class="container">
+          <div class="section-header text-center">
+            <h2 class="section-title">
+              <span data-lang="en">Select Your <span class="highlight-brand">Capacity</span></span>
+              <span data-lang="ar">اختار <span class="highlight-brand">باقتك</span> المناسبة</span>
+            </h2>
+            <p class="section-subtitle">
+              <span data-lang="en">Swipe to find the plan that fits your volume.</span>
+              <span data-lang="ar">مرّر واختار الباقة اللي تناسب حجم طلباتك.</span>
+            </p>
+          </div>
+
+          <div class="carousel-scene" id="pricingCarousel">
+            <button class="nav-arrow left" onclick="moveCarousel(-1)">
+              &#10094;
+            </button>
+
+            <div class="carousel-track" id="carouselTrack">
+              <div class="pricing-card" data-index="0">
+                <span class="line-1"></span><span class="line-2"></span
+                ><span class="line-3"></span><span class="line-4"></span>
+                <div class="card-top">
+                  <span class="tier-label">Micro</span>
+                  <div class="tier-price">
+                    <span class="currency">EGP</span>290<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    >
+                  </div>
+                </div>
+                <div class="card-specs">
+                  <div class="spec-row">
+                    <span class="spec-dot"></span
+                    ><strong><span data-lang="en">100 Points</span><span data-lang="ar">100 نقطة</span></strong>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                  </div>
+                </div>
+                <a href="{% url 'checkout' %}?plan=micro" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                >
+              </div>
+
+              <div class="pricing-card" data-index="1">
+                <span class="line-1"></span><span class="line-2"></span
+                ><span class="line-3"></span><span class="line-4"></span>
+                <div class="card-top">
+                  <span class="tier-label">Starter</span>
+                  <div class="tier-price">
+                    <span class="currency">EGP</span>1,290<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    >
+                  </div>
+                </div>
+                <div class="card-specs">
+                  <div class="spec-row">
+                    <span class="spec-dot"></span
+                    ><strong><span data-lang="en">500 Points</span><span data-lang="ar">500 نقطة</span></strong>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                  </div>
+                </div>
+                <a href="{% url 'checkout' %}?plan=starter" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                >
+              </div>
+
+              <div class="pricing-card" data-index="2">
+                <span class="line-1"></span><span class="line-2"></span
+                ><span class="line-3"></span><span class="line-4"></span>
+                <div class="card-top">
+                  <span class="tier-label">Growth</span>
+                  <div class="tier-price">
+                    <span class="currency">EGP</span>2,390<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    >
+                  </div>
+                </div>
+                <div class="card-specs">
+                  <div class="spec-row">
+                    <span class="spec-dot"></span
+                    ><strong><span data-lang="en">1,000 Points</span><span data-lang="ar">1,000 نقطة</span></strong>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                  </div>
+                </div>
+                <a href="{% url 'checkout' %}?plan=growth" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                >
+              </div>
+
+              <div class="pricing-card" data-index="3">
+                <span class="line-1"></span><span class="line-2"></span
+                ><span class="line-3"></span><span class="line-4"></span>
+                <div class="card-top">
+                  <span class="tier-label">Pro</span>
+                  <div class="tier-price">
+                    <span class="currency">EGP</span>4,290<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    >
+                  </div>
+                </div>
+                <div class="card-specs">
+                  <div class="spec-row">
+                    <span class="spec-dot"></span
+                    ><strong><span data-lang="en">2,000 Points</span><span data-lang="ar">2,000 نقطة</span></strong>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                  </div>
+                </div>
+                <a href="{% url 'checkout' %}?plan=pro" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                >
+              </div>
+
+              <div class="pricing-card" data-index="4">
+                <span class="line-1"></span><span class="line-2"></span
+                ><span class="line-3"></span><span class="line-4"></span>
+                <div class="card-top">
+                  <span class="tier-label">Scale</span>
+                  <div class="tier-price">
+                    <span class="currency">EGP</span>5,490<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    >
+                  </div>
+                </div>
+                <div class="card-specs">
+                  <div class="spec-row">
+                    <span class="spec-dot"></span
+                    ><strong><span data-lang="en">3,000 Points</span><span data-lang="ar">3,000 نقطة</span></strong>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                  </div>
+                </div>
+                <a href="{% url 'checkout' %}?plan=scale" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                >
+              </div>
+
+              <div class="pricing-card" data-index="5">
+                <span class="line-1"></span><span class="line-2"></span
+                ><span class="line-3"></span><span class="line-4"></span>
+                <div class="card-top">
+                  <span class="tier-label">Elite</span>
+                  <div class="tier-price">
+                    <span class="currency">EGP</span>7,490<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    >
+                  </div>
+                </div>
+                <div class="card-specs">
+                  <div class="spec-row">
+                    <span class="spec-dot"></span
+                    ><strong><span data-lang="en">5,000 Points</span><span data-lang="ar">5,000 نقطة</span></strong>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                  </div>
+                </div>
+                <a href="{% url 'checkout' %}?plan=elite" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                >
+              </div>
+
+              <div class="pricing-card" data-index="6">
+                <span class="line-1"></span><span class="line-2"></span
+                ><span class="line-3"></span><span class="line-4"></span>
+                <div class="card-top">
+                  <span class="tier-label">Enterprise</span>
+                  <div class="tier-price">
+                    <span class="currency"><span data-lang="en">Contact Us</span><span data-lang="ar">تواصل معنا</span></span>
+                  </div>
+                </div>
+                <div class="card-specs">
+                  <div class="spec-row">
+                    <span class="spec-dot"></span
+                    ><strong><span data-lang="en">5,000+ Points</span><span data-lang="ar">5,000+ نقطة</span></strong>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                  </div>
+                </div>
+                <a href="mailto:sales@confirmit.com" class="btn-unified"><span data-lang="en">Contact Sales</span><span data-lang="ar">تواصل مع المبيعات</span></a
+                >
+              </div>
+            </div>
+
+            <button class="nav-arrow right" onclick="moveCarousel(1)">
+              &#10095;
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-box">
+            <h2 class="section-title">
+              <span data-lang="en">Ready to stop losing orders?</span>
+              <span data-lang="ar">مستعد توقف خسارة الطلبات؟</span>
+            </h2>
+            <p class="section-subtitle">
+              <span data-lang="en">
+                Start your 30-day free trial today. No credit card required. See
+                your confirmation rate increase in minutes.
+              </span>
+              <span data-lang="ar">
+                ابدأ تجربتك المجانية 30 يوماً النهارده. بدون بطاقة ائتمان.
+                شوف نسبة التأكيد ترتفع في دقائق.
+              </span>
+            </p>
+            <div class="cta-buttons">
+              <a
+                href="{% url 'checkout' %}?plan=starter&price=500"
+                class="btn-cta-green"
+              >
+                <span data-lang="en">Start 30-Day Free Trial</span>
+                <span data-lang="ar">جرّب 30 يوماً مجاناً</span>
+              </a>
+              <a href="#" class="btn-unified">
+                <span data-lang="en">Book a Demo</span>
+                <span data-lang="ar">احجز عرضاً تجريبياً</span>
+              </a>
+            </div>
+
+            <svg viewBox="0 0 1024 1024" class="cta-glow" aria-hidden="true">
+              <circle cx="512" cy="512" r="512"></circle>
+              <defs>
+                <radialGradient
+                  id="gradient-glow"
+                  cx="0"
+                  cy="0"
+                  r="1"
+                  gradientUnits="userSpaceOnUse"
+                  gradientTransform="translate(512 512) rotate(90) scale(512)"
+                >
+                  <stop stop-color="#27ae60"></stop>
+                  <stop offset="1" stop-color="#27ae60" stop-opacity="0"></stop>
+                </radialGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col-1">
+            <a href="#" class="nav-logo-link">
+              <img
+                src="imgs/logooo.png"
+                alt="Confirm It Logo"
+                class="brand-logo"
+                width="210"
+                height="45"
+                loading="lazy"
+              />
+            </a>
+            <p>
+              <span data-lang="en">Automating e-Commerce confirmations and logistics.</span>
+              <span data-lang="ar">أتمتة تأكيدات الطلبات واللوجستيات للتجارة الإلكترونية.</span>
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h3><span data-lang="en">Product</span><span data-lang="ar">المنتج</span></h3>
+            <ul>
+              <li><a href="#features"><span data-lang="en">Features</span><span data-lang="ar">المميزات</span></a></li>
+              <li><a href="#pricing"><span data-lang="en">Pricing</span><span data-lang="ar">الأسعار</span></a></li>
+              <li><a href="#how-it-works"><span data-lang="en">How it Works</span><span data-lang="ar">كيف يعمل</span></a></li>
+              <li><a href="#integrations"><span data-lang="en">Integrations</span><span data-lang="ar">التكاملات</span></a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3><span data-lang="en">Legal</span><span data-lang="ar">قانوني</span></h3>
+            <ul>
+              <li><a href="{% url 'privacy' %}"><span data-lang="en">Privacy Policy</span><span data-lang="ar">سياسة الخصوصية</span></a></li>
+              <li><a href="{% url 'terms' %}"><span data-lang="en">Terms of Service</span><span data-lang="ar">شروط الخدمة</span></a></li>
+              <li><a href="{% url 'refund' %}"><span data-lang="en">Refund Policy</span><span data-lang="ar">سياسة الاسترداد</span></a></li>
+              <li><a href="{% url 'home' %}#"><span data-lang="en">About Us</span><span data-lang="ar">من نحن</span></a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3><span data-lang="en">Company</span><span data-lang="ar">الشركة</span></h3>
+            <ul>
+              <li><span data-lang="en">New Cairo, 5th settlement</span><span data-lang="ar">القاهرة الجديدة، التجمع الخامس</span></li>
+              <li>01505626767</li>
+              <li>info@confirmit-eg.com</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-copyright">
+            <span data-lang="en">&copy; 2026 Confirm It. All rights reserved.</span>
+            <span data-lang="ar">&copy; 2026 Confirm It. جميع الحقوق محفوظة.</span>
+          </p>
+          <div class="footer-legal-strip">
+            <p class="footer-legal-line">
+              <span>Confirm It for Software Solutions</span>
+              <span class="footer-legal-divider" aria-hidden="true">&bull;</span>
+              <span dir="rtl">كونفرم ات للخدمات الإلكترونية</span>
+            </p>
+            <p class="footer-legal-line">
+              <span>Address: Cairo, New Cairo, 305 The Southern Ninety Street</span>
+              <span class="footer-legal-divider" aria-hidden="true">&bull;</span>
+              <span dir="rtl"
+                >العنوان: القاهرة الجديدة، ٣٠٥ شارع التسعين الجنوبي</span
+              >
+              <span class="footer-legal-divider" aria-hidden="true">&bull;</span>
+              <span dir="rtl">سجل تجاري: 291643</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- LANGUAGE SWITCHER LOGIC ---
+        function setLanguage(lang) {
+          document.documentElement.lang = lang;
+          document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+          document.body.classList.remove("lang-en", "lang-ar");
+          document.body.classList.add("lang-" + lang);
+          localStorage.setItem("confirmit-lang", lang);
+        }
+
+        const langSwitch = document.getElementById("langSwitch");
+        if (langSwitch) {
+          langSwitch.addEventListener("click", () => {
+            const current = document.body.classList.contains("lang-ar")
+              ? "ar"
+              : "en";
+            setLanguage(current === "en" ? "ar" : "en");
+          });
+        }
+
+        // --- MOBILE MENU LOGIC ---
+        const menuBtn = document.getElementById("menu-btn");
+        const mobileDrawer = document.getElementById("mobile-drawer");
+        const mobileOverlay = document.getElementById("mobile-overlay");
+        const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+
+        function toggleMenu() {
+          const isActive = mobileDrawer.classList.contains("active");
+          if (!isActive) {
+            mobileDrawer.classList.add("active");
+            mobileOverlay.classList.add("active");
+            document.body.classList.add("menu-open");
+          } else {
+            mobileDrawer.classList.remove("active");
+            mobileOverlay.classList.remove("active");
+            document.body.classList.remove("menu-open");
+          }
+        }
+
+        menuBtn.addEventListener("click", toggleMenu);
+        mobileOverlay.addEventListener("click", toggleMenu);
+
+        mobileLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            if (mobileDrawer.classList.contains("active")) toggleMenu();
+          });
+        });
+
+        // Image Scroll Animation Logic
+        const imageWrappers = document.querySelectorAll(
+          ".how-it-works-image-wrapper"
+        );
+        const imgObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("img-visible");
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+
+        imageWrappers.forEach((wrapper) => {
+          imgObserver.observe(wrapper);
+        });
+
+        // Cancellation Recovery Alert Animation Logic
+        const cancelFeedbackRow = document.querySelector(
+          ".cancel-feedback-row"
+        );
+        if (cancelFeedbackRow) {
+          let cancelAlertFirstReveal = true;
+          // NOTE: entry.isIntersecting is true the moment even 1px is
+          // visible, regardless of the threshold given below - it does NOT
+          // wait for the ratio to reach that threshold. So we check
+          // intersectionRatio directly to keep the effect scoped tightly to
+          // "actually looking at this row", and off as soon as it's mostly
+          // scrolled past.
+          const cancelAlertObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.intersectionRatio >= 0.4) {
+                  entry.target.classList.add("in-view");
+                  if (cancelAlertFirstReveal) {
+                    entry.target.classList.add("shake-once");
+                    cancelAlertFirstReveal = false;
+                  }
+                } else {
+                  entry.target.classList.remove("in-view");
+                }
+              });
+            },
+            { threshold: [0, 0.4] }
+          );
+          cancelAlertObserver.observe(cancelFeedbackRow);
+        }
+
+        // Integration Pop Animation Logic
+        const integrationSection = document.querySelector("#integrations");
+        const integrationLogos = document.querySelectorAll(
+          ".integrations-grid img"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                integrationLogos.forEach((logo, index) => {
+                  logo.style.animationDelay = `${index * 0.3}s`;
+                  logo.classList.add("animate-pop");
+                });
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.2 }
+        );
+
+        if (integrationSection) {
+          observer.observe(integrationSection);
+        }
+
+        // Features Section Fade In Animation
+        const featuresElements = document.querySelectorAll(
+          ".features-text-content, .features-visual"
+        );
+        const featuresObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate-in");
+              }
+            });
+          },
+          { threshold: 0.2 }
+        );
+
+        featuresElements.forEach((el) => featuresObserver.observe(el));
+
+        // --- IVR FALLBACK SECTION ---
+
+        // Single cinematic trigger: the whole section "lights up" once scrolled
+        // into view, and every child element's staggered entrance (header,
+        // veil, pitch copy, message-to-call icons, phone power-on, tap hint)
+        // is choreographed off this one .in-view class via CSS transition-delay.
+        const ivrSectionEl = document.getElementById("ivr-fallback");
+        if (ivrSectionEl) {
+          const ivrSectionObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("in-view");
+                  ivrSectionObserver.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.15 }
+          );
+          ivrSectionObserver.observe(ivrSectionEl);
+        }
+
+        // --- Interactive IVR call demo (Arabic text-to-speech, no audio file needed) ---
+        const ivrVisualCol = document.getElementById("ivrVisualCol");
+        const ivrPlayer = document.getElementById("ivrAudioPlayer");
+        const ivrToggleBtn = document.getElementById("ivrAudioToggle");
+        const ivrPhone = document.getElementById("ivrPhone");
+        const ivrAcceptBtn = document.getElementById("ivrAcceptBtn");
+        const ivrDeclineBtn = document.getElementById("ivrDeclineBtn");
+        const ivrCaptionText = document.getElementById("ivrCaptionText");
+        const ivrOutcomeIcon = document.getElementById("ivrOutcomeIcon");
+        const ivrOutcomeText = document.getElementById("ivrOutcomeText");
+        const ivrReplayBtn = document.getElementById("ivrReplayBtn");
+        const ivrKeyButtons = document.querySelectorAll(".ivr-key");
+        const ivrGreetingAudio = document.getElementById("ivrGreetingAudio");
+        const ivrScriptPreview = document.getElementById("ivrScriptPreview");
+
+        if (ivrPhone && ivrPlayer) {
+          const ivrScript = {
+            greeting:
+              "شكراً لطلبك من باسل، سعر الطلب 200 جنيه. لتأكيد الطلب اضغط 1، للإلغاء اضغط 2، للتواصل مع الدعم اضغط 3.",
+            1: "شكراً لتأكيد طلبك، جاري تجهيزه للشحن الآن.",
+            2: "تم إلغاء طلبك. يمكنك زيارة موقعنا لإعادة الطلب في أي وقت.",
+            3: "شكراً لك، سيتواصل معك أحد أفراد فريقنا في أقرب وقت.",
+          };
+          const ivrOutcomeMap = { 1: "confirm", 2: "cancel", 3: "contact" };
+
+          let ivrVoices = [];
+          const ivrSpeechSupported = "speechSynthesis" in window;
+
+          function loadIvrVoices() {
+            if (ivrSpeechSupported) {
+              ivrVoices = window.speechSynthesis.getVoices();
+            }
+          }
+          if (ivrSpeechSupported) {
+            loadIvrVoices();
+            window.speechSynthesis.onvoiceschanged = loadIvrVoices;
+          }
+
+          function pickArabicVoice() {
+            const arabicVoices = ivrVoices.filter(
+              (v) => v.lang && v.lang.toLowerCase().startsWith("ar")
+            );
+            return (
+              arabicVoices.find((v) => v.lang.toLowerCase() === "ar-eg") ||
+              arabicVoices[0] ||
+              null
+            );
+          }
+
+          function setPlaying(isPlaying) {
+            ivrPlayer.classList.toggle("playing", isPlaying);
+            if (isPlaying) {
+              ivrPlayer.classList.add("audio-interacted");
+            }
+            if (ivrScriptPreview) {
+              ivrScriptPreview.classList.toggle("visible", isPlaying);
+            }
+          }
+
+          function speak(text, captionEl, onDone) {
+            captionEl.textContent = "";
+            setPlaying(true);
+
+            if (!ivrSpeechSupported) {
+              // Fallback: reveal caption without audio, timed to a rough reading pace.
+              captionEl.textContent = text;
+              window.setTimeout(() => {
+                setPlaying(false);
+                if (onDone) onDone();
+              }, Math.min(4000, text.length * 45));
+              return;
+            }
+
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "ar-EG";
+            utterance.rate = 0.95;
+            const voice = pickArabicVoice();
+            if (voice) utterance.voice = voice;
+
+            utterance.onboundary = (e) => {
+              if (typeof e.charIndex === "number") {
+                captionEl.textContent = text.slice(
+                  0,
+                  e.charIndex + (e.charLength || 1)
+                );
+              }
+            };
+            utterance.onend = () => {
+              captionEl.textContent = text;
+              setPlaying(false);
+              if (onDone) onDone();
+            };
+            utterance.onerror = () => {
+              captionEl.textContent = text;
+              setPlaying(false);
+              if (onDone) onDone();
+            };
+
+            window.speechSynthesis.speak(utterance);
+          }
+
+          function markInteracted() {
+            if (ivrVisualCol) ivrVisualCol.classList.add("interacted");
+          }
+
+          function setPhoneState(state) {
+            ivrPhone.setAttribute("data-state", state);
+          }
+
+          const ivrHasRealAudio = !!(
+            ivrGreetingAudio &&
+            ivrGreetingAudio.canPlayType &&
+            ivrGreetingAudio.canPlayType("audio/mpeg") !== ""
+          );
+
+          function playGreetingAudio() {
+            ivrCaptionText.textContent = ivrScript.greeting;
+            setPlaying(true);
+            ivrGreetingAudio.currentTime = 0;
+            const playPromise = ivrGreetingAudio.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+              playPromise.catch(() => {
+                speak(ivrScript.greeting, ivrCaptionText);
+              });
+            }
+          }
+
+          function scrollPhoneIntoViewIfNeeded() {
+            if (!ivrVisualCol) return;
+            const isPreDesktop = window.matchMedia(
+              "(max-width: 1023px)"
+            ).matches;
+            if (!isPreDesktop) return;
+
+            const rect = ivrVisualCol.getBoundingClientRect();
+            const viewportHeight =
+              window.innerHeight || document.documentElement.clientHeight;
+            const isFullyVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+
+            if (!isFullyVisible) {
+              ivrVisualCol.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }
+          }
+
+          function startDemo() {
+            markInteracted();
+            setPhoneState("active");
+            scrollPhoneIntoViewIfNeeded();
+            if (ivrSpeechSupported) window.speechSynthesis.cancel();
+
+            if (ivrHasRealAudio) {
+              playGreetingAudio();
+            } else {
+              speak(ivrScript.greeting, ivrCaptionText);
+            }
+          }
+
+          function handleKeyPress(key) {
+            if (ivrSpeechSupported) window.speechSynthesis.cancel();
+            if (ivrHasRealAudio && !ivrGreetingAudio.paused) {
+              ivrGreetingAudio.pause();
+            }
+            setPhoneState("ended");
+            ivrOutcomeIcon.setAttribute("data-outcome", ivrOutcomeMap[key]);
+            speak(ivrScript[key], ivrOutcomeText);
+          }
+
+          function resetDemo() {
+            if (ivrSpeechSupported) window.speechSynthesis.cancel();
+            if (ivrHasRealAudio) {
+              ivrGreetingAudio.pause();
+              ivrGreetingAudio.currentTime = 0;
+            }
+            setPlaying(false);
+            setPhoneState("incoming");
+          }
+
+          if (ivrHasRealAudio) {
+            ivrGreetingAudio.addEventListener("ended", () => setPlaying(false));
+            ivrGreetingAudio.addEventListener("error", () => {
+              setPlaying(false);
+              speak(ivrScript.greeting, ivrCaptionText);
+            });
+          }
+
+          ivrAcceptBtn.addEventListener("click", startDemo);
+
+          ivrDeclineBtn.addEventListener("click", () => {
+            resetDemo();
+          });
+
+          ivrKeyButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              handleKeyPress(btn.getAttribute("data-key"));
+            });
+          });
+
+          ivrReplayBtn.addEventListener("click", resetDemo);
+
+          if (ivrToggleBtn) {
+            ivrToggleBtn.addEventListener("click", () => {
+              if (ivrPlayer.classList.contains("playing")) {
+                resetDemo();
+              } else {
+                startDemo();
+              }
+            });
+          }
+        }
+      });
+
+      // Ambient Line Scroll Logic (WORKS ON MOBILE NOW)
+      window.addEventListener("scroll", () => {
+        const grid = document.getElementById("howItWorksGrid");
+        const fill = document.getElementById("timelineLineFill");
+        const dots = document.querySelectorAll(".timeline-dot");
+
+        if (grid) {
+          const rect = grid.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+
+          const beamHeight = 200;
+          const totalTrackHeight = rect.height;
+
+          // Check if bottom of page is reached
+          const scrolledToBottom =
+            window.innerHeight + window.scrollY >=
+            document.body.scrollHeight - 5;
+
+          let scrollPercentage;
+
+          if (scrolledToBottom) {
+            scrollPercentage = 1;
+          } else {
+            const activationOffset = windowHeight * 0.6;
+            let scrollDistance = activationOffset - rect.top;
+            scrollPercentage = scrollDistance / totalTrackHeight;
+
+            if (scrollPercentage < 0) scrollPercentage = 0;
+            if (scrollPercentage > 1) scrollPercentage = 1;
+          }
+
+          // Move the beam
+          let beamTop =
+            (totalTrackHeight + 100) * scrollPercentage - beamHeight / 2;
+
+          if (fill) {
+            fill.style.top = `${beamTop}px`;
+          }
+
+          const beamBottom = beamTop + beamHeight;
+
+          let closestDot = null;
+          let minDistance = Infinity;
+
+          dots.forEach((dot) => {
+            const stepParent = dot.closest(".how-it-works-step");
+            const dotTopRelative = stepParent.offsetTop + dot.offsetTop;
+
+            const distance = Math.abs(beamBottom - dotTopRelative);
+
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestDot = dot;
+            }
+          });
+
+          // Reset ALL active states
+          dots.forEach((dot) => {
+            dot.classList.remove("active");
+            dot.closest(".how-it-works-step").classList.remove("active-step");
+          });
+
+          // Activate closest one
+          if (closestDot && minDistance < 250) {
+            closestDot.classList.add("active");
+            closestDot
+              .closest(".how-it-works-step")
+              .classList.add("active-step");
+          }
+        }
+      });
+
+      // --- CAROUSEL LOGIC ---
+      let activeIndex = 0;
+      const cards = document.querySelectorAll(".pricing-card");
+      const totalCards = cards.length;
+
+      function updateCarousel() {
+        cards.forEach((card, index) => {
+          card.classList.remove("active", "prev", "next");
+
+          if (index === activeIndex) {
+            card.classList.add("active");
+          } else if (index === (activeIndex - 1 + totalCards) % totalCards) {
+            card.classList.add("prev");
+          } else if (index === (activeIndex + 1) % totalCards) {
+            card.classList.add("next");
+          }
+        });
+      }
+
+      function moveCarousel(direction) {
+        activeIndex = (activeIndex + direction + totalCards) % totalCards;
+        updateCarousel();
+      }
+
+      // Initialize
+      if (cards.length > 0) {
+        updateCarousel();
+      }
+
+      // --- CAROUSEL ENTRANCE ANIMATION ---
+      const pricingSection = document.getElementById("pricing");
+      const carouselScene = document.getElementById("pricingCarousel");
+
+      if (pricingSection && carouselScene) {
+        const carouselObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                carouselScene.classList.add("animate-entrance");
+                carouselObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+
+        carouselObserver.observe(pricingSection);
+      }
+    </script>
+  </body>
+</html>

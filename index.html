@@ -2319,22 +2319,61 @@
       .ivr-pitch-list {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 0.6rem;
+        align-items: stretch;
+        gap: 0.55rem;
         margin-bottom: 0.5rem;
-        max-width: 26rem;
+        width: 100%;
+        max-width: 22rem;
         margin-left: auto;
         margin-right: auto;
       }
 
-      /* Top-align the checkmark with the first line of text when a bullet wraps */
       .ivr-pitch-list .feature-item {
+        width: 100%;
         align-items: flex-start;
+        gap: 0.55rem;
         text-align: left;
       }
 
       .ivr-pitch-list .feature-item svg {
-        margin-top: 0.2rem;
+        margin-top: 0.15rem;
+        width: 1.1rem;
+        height: 1.1rem;
+      }
+
+      body.lang-en .ivr-pitch-list .feature-item > [data-lang="en"] {
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+
+      body.lang-ar .ivr-pitch-list .feature-item > [data-lang="ar"] {
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      body.lang-en .ivr-pitch-list {
+        margin-left: 0;
+        margin-right: auto;
+      }
+
+      body.lang-en .ivr-pitch-list .feature-item {
+        text-align: left;
+      }
+
+      body.lang-ar .ivr-pitch-list {
+        margin-left: auto;
+        margin-right: 0;
+      }
+
+      body.lang-ar .ivr-pitch-list .feature-item {
+        text-align: right;
+        flex-direction: row;
+        direction: rtl;
+      }
+
+      body.lang-ar .ivr-anim-message .ivr-anim-badge {
+        right: auto;
+        left: -4px;
       }
 
       .ivr-pitch-note {
@@ -3939,12 +3978,20 @@
           margin-right: 0;
         }
         .ivr-pitch-list {
-          align-items: flex-start;
+          align-items: stretch;
+          width: 100%;
           max-width: none;
           margin-left: 0;
           margin-right: 0;
         }
         .ivr-pitch-note {
+          text-align: left;
+        }
+        body.lang-en .ivr-pitch-list {
+          margin-left: 0;
+          margin-right: auto;
+        }
+        body.lang-en .ivr-pitch-list .feature-item {
           text-align: left;
         }
         .ivr-script-preview {
@@ -3969,15 +4016,17 @@
           margin-right: 0;
         }
         body.lang-ar .ivr-pitch-list {
-          align-items: flex-start;
+          align-items: stretch;
           margin-left: auto;
           margin-right: 0;
         }
         body.lang-ar .ivr-pitch-list .feature-item {
           text-align: right;
+          flex-direction: row;
+          direction: rtl;
         }
         body.lang-ar .ivr-transition-anim {
-          justify-content: flex-end;
+          justify-content: flex-start;
         }
         body.lang-ar .ivr-audio-disclaimer {
           text-align: right;
@@ -4224,7 +4273,7 @@
         align-items: flex-start;
       }
       body.lang-ar .ivr-pitch-list {
-        align-items: flex-start;
+        align-items: stretch;
       }
       body.lang-ar .step-highlight-list {
         align-items: flex-start;
@@ -4236,6 +4285,8 @@
       }
       body.lang-ar .ivr-pitch-list .feature-item {
         text-align: right;
+        flex-direction: row;
+        direction: rtl;
       }
 
       /* IVR section */
@@ -4585,8 +4636,8 @@
             ><span data-lang="ar">التكاملات</span></a
           >
           <a class="nav-link" href="#pricing"
-            ><span data-lang="en">Pricing</span
-            ><span data-lang="ar">الأسعار</span></a
+            ><span data-lang="en">Bundles</span
+            ><span data-lang="ar">الباقات</span></a
           >
         </div>
 
@@ -4674,7 +4725,7 @@
           </svg>
         </a>
         <a href="#pricing" class="mobile-nav-link">
-          <span data-lang="en">Pricing</span><span data-lang="ar">الأسعار</span>
+          <span data-lang="en">Bundles</span><span data-lang="ar">الباقات</span>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -4766,8 +4817,8 @@
             d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
           />
         </svg>
-        <span data-lang="en">Pricing</span>
-        <span data-lang="ar">الأسعار</span>
+        <span data-lang="en">Bundles</span>
+        <span data-lang="ar">الباقات</span>
       </a>
     </nav>
 
@@ -5216,17 +5267,13 @@
             </h2>
             <p class="section-subtitle">
               <span data-lang="en">
-                Not every customer reads WhatsApp, replies to it, or even has it
-                installed. Whether your confirmation gets buried, sits ignored,
-                or the customer has no WhatsApp at all, Confirm It automatically
-                switches to a phone call &mdash; so a quiet inbox never costs
-                you a sale.
+                If WhatsApp goes unread, ignored, or missing, Confirm It
+                auto-switches to a voice call &mdash; so a quiet inbox never
+                costs you a sale.
               </span>
               <span data-lang="ar">
-                مش كل عميل بيفتح واتساب، ولا بيرد، ولا عنده التطبيق أصلاً. سواء
-                الرسالة اتدفنت، أو العميل تجاهلها، أو مفيش واتساب — Confirm It
-                بيحوّل تلقائياً لمكالمة صوتية بالذكاء الاصطناعي، عشان أي رسالة
-                صامتة ما تكلفك طلب.
+                لو الواتساب ما اتقرأش، اتجاهل، أو مفيش أصلاً &mdash; Confirm It
+                بيتصل أوتوماتيك، عشان أي رسالة صامتة ما تكلفك طلب.
               </span>
             </p>
           </div>
@@ -5270,14 +5317,13 @@
               </h3>
               <p class="ivr-pitch-copy">
                 <span data-lang="en">
-                  Buried, ignored, or no WhatsApp at all &mdash; Confirm It
-                  automatically calls the customer with a natural AI voice,
-                  hands-free. No missed message ever becomes a missed sale.
+                  Buried, ignored, or no WhatsApp &mdash; Confirm It calls with
+                  natural AI voice, hands-free. No missed message, no missed
+                  sale.
                 </span>
                 <span data-lang="ar">
-                  رسالة مدفونة، عميل متجاهل، أو مفيش واتساب — Confirm It بيتصل
-                  بالعميل بصوت AI طبيعي، بدون أي تدخل منك. أي رسالة فائتة ما
-                  تتحولش لطلب ضايع.
+                  مدفونة، متجاهلة، أو مفيش واتساب &mdash; Confirm It بيتصل بصوت
+                  AI طبيعي أوتوماتيك. أي رسالة فائتة ما تتحولش لطلب ضايع.
                 </span>
               </p>
 
@@ -5295,7 +5341,7 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en">Buried or Unread? We Call Instead</span>
+                  <span data-lang="en">Buried or unread? We call instead</span>
                   <span data-lang="ar">الرسالة مدفونة؟ بنتصل بدالها</span>
                 </div>
                 <div class="feature-item">
@@ -5311,9 +5357,7 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en"
-                    >Ignored the Message? We Follow Up by Phone</span
-                  >
+                  <span data-lang="en">Message ignored? We follow up by phone</span>
                   <span data-lang="ar">تجاهل الرسالة؟ بنتابع بالمكالمة</span>
                 </div>
                 <div class="feature-item">
@@ -5329,7 +5373,7 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en">No WhatsApp? We Call Automatically</span>
+                  <span data-lang="en">No WhatsApp? Auto-call</span>
                   <span data-lang="ar">مفيش واتساب؟ المكالمة تلقائية</span>
                 </div>
               </div>
@@ -6376,8 +6420,8 @@
               </li>
               <li>
                 <a href="#pricing"
-                  ><span data-lang="en">Pricing</span
-                  ><span data-lang="ar">الأسعار</span></a
+                  ><span data-lang="en">Bundles</span
+                  ><span data-lang="ar">الباقات</span></a
                 >
               </li>
               <li>

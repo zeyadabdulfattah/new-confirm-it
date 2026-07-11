@@ -1,13 +1,19 @@
-{% load static %}
-<!DOCTYPE html>
+=-p0o9i8i90p{% load static %}
+<!doctype html>
 <html lang="en">
   <head>
-    <link rel="icon" type="image/png" href="imgs/logooo.png">
-    <link rel="apple-touch-icon" href="imgs/logooo.png">
+    <link rel="icon" type="image/png" href="imgs/logooo.png" />
+    <link rel="apple-touch-icon" href="imgs/logooo.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="Ew0cvasxdIkyF7znEE-AMz_DiELiTQ0e9AuhjbRlHJU" />
-    <meta name="facebook-domain-verification" content="zldjgptx9hd0f4uq82uniufhva9vmm" />
+    <meta
+      name="google-site-verification"
+      content="Ew0cvasxdIkyF7znEE-AMz_DiELiTQ0e9AuhjbRlHJU"
+    />
+    <meta
+      name="facebook-domain-verification"
+      content="zldjgptx9hd0f4uq82uniufhva9vmm"
+    />
     <title>
       Confirm It — Automate E-commerce Order Confirmations via WhatsApp
     </title>
@@ -36,7 +42,8 @@
         --font-arabic: "IBM Plex Sans Arabic", "Inter", sans-serif;
 
         --header-height: 80px;
-        --topbar-height: 44px;
+        --mobile-langbar-height: 36px;
+        --mobile-dock-height: 4.35rem;
       }
 
       /* Basic Reset */
@@ -50,8 +57,13 @@
 
       html {
         scroll-behavior: smooth;
+        scroll-padding-top: calc(var(--header-height) + 1.25rem);
         overflow-x: hidden;
         width: 100%;
+      }
+
+      section[id] {
+        scroll-margin-top: calc(var(--header-height) + 1.25rem);
       }
 
       body {
@@ -118,6 +130,16 @@
       body.lang-ar .features-text-content h2 > [data-lang="ar"],
       body.lang-en .features-text-content p > [data-lang="en"],
       body.lang-ar .features-text-content p > [data-lang="ar"] {
+        display: block;
+      }
+      /* One visible label per feature row — avoids ghost EN boxes offsetting AR text */
+      .feature-item > [data-lang] {
+        display: none;
+        flex: 1;
+        min-width: 0;
+      }
+      body.lang-en .feature-item > [data-lang="en"],
+      body.lang-ar .feature-item > [data-lang="ar"] {
         display: block;
       }
       [data-lang="ar"] {
@@ -277,31 +299,14 @@
         text-align: center;
       }
 
-      /* --- 2.5 Top Bar (social + language switcher) --- */
-      .top-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 101;
-        width: 100%;
-        height: var(--topbar-height);
-        background-color: #0a0a0a;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      }
-
-      .top-bar-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 100%;
-        max-width: 1400px;
-      }
-
       .social-icons {
         display: flex;
         align-items: center;
         gap: 0.9rem;
+      }
+
+      .footer-col-1 .social-icons {
+        margin-top: 1.25rem;
       }
 
       .social-icon-link {
@@ -330,60 +335,203 @@
 
       .lang-switch {
         position: relative;
-        display: flex;
-        align-items: center;
-        width: 76px;
-        height: 26px;
+        display: inline-flex;
+        align-items: stretch;
         padding: 3px;
         border-radius: 100px;
-        border: 1px solid var(--brand-border);
-        background: rgba(255, 255, 255, 0.03);
-        cursor: pointer;
-        font-family: var(--font-nav);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(255, 255, 255, 0.02) 100%
+          ),
+          rgba(8, 8, 8, 0.72);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.06),
+          0 8px 24px rgba(0, 0, 0, 0.28);
+        direction: ltr;
+        isolation: isolate;
       }
 
-      .lang-switch-thumb {
+      .lang-switch::before {
+        content: "";
         position: absolute;
         top: 3px;
         left: 3px;
-        width: 34px;
-        height: 18px;
+        width: calc(50% - 3px);
+        height: calc(100% - 6px);
         border-radius: 100px;
         background: linear-gradient(
-          135deg,
-          var(--brand-green),
-          var(--brand-green-bright)
+          145deg,
+          var(--brand-green) 0%,
+          var(--brand-green-bright) 100%
         );
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        box-shadow:
+          0 0 18px rgba(74, 222, 128, 0.42),
+          inset 0 1px 0 rgba(255, 255, 255, 0.28);
+        transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 0;
       }
 
-      body.lang-ar .lang-switch-thumb {
-        transform: translateX(36px);
+      body.lang-ar .lang-switch::before {
+        transform: translateX(100%);
       }
 
-      .lang-switch-option {
+      .lang-switch:hover {
+        border-color: rgba(74, 222, 128, 0.35);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.08),
+          0 8px 28px rgba(0, 0, 0, 0.34),
+          0 0 0 1px rgba(74, 222, 128, 0.08);
+      }
+
+      .lang-switch-seg {
         position: relative;
         z-index: 1;
-        flex: 1;
-        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        flex: 1 1 0;
+        min-width: 3.35rem;
+        height: 2rem;
+        padding: 0 0.65rem;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        border-radius: 100px;
+        color: rgba(255, 255, 255, 0.42);
+        font-family: var(--font-nav);
         font-size: 0.62rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        color: var(--brand-text-grey);
-        transition: color 0.3s ease;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: none;
+        transition:
+          color 0.28s ease,
+          transform 0.28s ease;
       }
 
-      body.lang-en .lang-switch-option[data-set-lang="en"],
-      body.lang-ar .lang-switch-option[data-set-lang="ar"] {
-        color: #08150c;
+      .lang-switch-label[data-lang="en"] {
+        text-transform: uppercase;
+      }
+
+      body.lang-ar .lang-switch-label[data-lang="ar"] {
+        font-family: var(--font-arabic);
+        font-size: 0.68rem;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      body.lang-ar .lang-switch.lang-switch--drawer {
+        min-width: 8.25rem;
+      }
+
+      /* Compact header switcher beside logo — desktop only */
+      .lang-switch.lang-switch--brand {
+        display: none;
+        padding: 2px;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.05),
+          0 4px 14px rgba(0, 0, 0, 0.18);
+      }
+
+      .lang-switch.lang-switch--brand .lang-switch-seg {
+        min-width: 2.35rem;
+        height: 1.75rem;
+        padding: 0 0.45rem;
+        font-size: 0.58rem;
+        gap: 0.22rem;
+      }
+
+      body.lang-ar .lang-switch.lang-switch--brand .lang-switch-seg {
+        min-width: 3.35rem;
+        padding: 0 0.4rem;
+      }
+
+      body.lang-ar .lang-switch.lang-switch--brand .lang-switch-label[data-lang="ar"] {
+        font-size: 0.62rem;
+      }
+
+      .lang-switch.lang-switch--brand .lang-switch-icon {
+        width: 0.72rem;
+        height: 0.72rem;
+        opacity: 0.72;
+      }
+
+      .lang-switch.lang-switch--brand
+        .lang-switch-seg[aria-pressed="true"]
+        .lang-switch-icon {
+        opacity: 0.9;
+      }
+
+      .lang-switch-icon--ar text {
+        font-family: var(--font-arabic);
+      }
+
+      .lang-switch.lang-switch--brand .lang-switch-icon--ar text {
+        font-size: 5.5px;
+      }
+
+      .lang-switch.lang-switch--drawer .lang-switch-icon--ar text {
+        font-size: 7px;
+      }
+
+      .lang-switch.lang-switch--brand::before {
+        top: 2px;
+        left: 2px;
+        width: calc(50% - 2px);
+        height: calc(100% - 4px);
+      }
+
+      .lang-switch-seg:hover {
+        color: rgba(255, 255, 255, 0.88);
+      }
+
+      .lang-switch-seg[aria-pressed="true"] {
+        color: #04140a;
+      }
+
+      .lang-switch-seg[aria-pressed="true"]:hover {
+        color: #04140a;
+      }
+
+      .lang-switch-icon {
+        width: 0.85rem;
+        height: 0.85rem;
+        flex-shrink: 0;
+        display: block;
+        opacity: 0.75;
+      }
+
+      .lang-switch-seg[aria-pressed="true"] .lang-switch-icon {
+        opacity: 0.95;
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.14));
+      }
+
+      .lang-switch.lang-switch--drawer {
+        width: 100%;
+        max-width: 13.5rem;
+        margin: 0 auto;
+      }
+
+      .lang-switch.lang-switch--drawer .lang-switch-seg {
+        flex: 1;
+        width: auto;
+        height: 2.35rem;
+        font-size: 0.68rem;
+      }
+
+      .lang-switch.lang-switch--drawer .lang-switch-icon {
+        width: 0.9rem;
+        height: 0.9rem;
       }
 
       /* --- 3. Page Header & Navigation --- */
 
       .header {
         position: fixed;
-        top: var(--topbar-height);
+        top: 0;
         left: 0;
         right: 0;
         z-index: 100;
@@ -417,6 +565,12 @@
         z-index: 101;
       }
 
+      .nav-brand-cluster {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+      }
+
       .brand-logo {
         width: 210px;
         height: auto;
@@ -424,27 +578,88 @@
 
       .nav-center {
         display: none;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.4rem;
+        padding: 0;
         font-family: var(--font-nav);
       }
 
-      .nav-center a {
-        font-weight: 500;
-        font-size: 0.95rem;
-        color: #a0a0a0;
-        transition: all 0.2s ease;
-        padding: 0.5rem 1rem;
+      .nav-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        padding: 0.65rem 1rem;
         border-radius: 6px;
+        border: 1px solid transparent;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: rgba(255, 255, 255, 0.48);
+        transition:
+          color 0.3s ease,
+          border-color 0.3s ease,
+          background 0.3s ease,
+          transform 0.3s ease;
       }
 
-      .nav-center a:hover {
+      .nav-link:hover {
         color: #fff;
-        background-color: rgba(255, 255, 255, 0.08);
+        border-color: rgba(74, 222, 128, 0.22);
+        background: rgba(74, 222, 128, 0.05);
+        transform: translateY(-1px);
+      }
+
+      body.lang-ar .nav-link [data-lang="ar"] {
+        font-family: var(--font-arabic);
+        font-size: 0.9rem;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      body.lang-ar .nav-link {
+        padding: 0.65rem 1rem;
+      }
+
+      body.lang-ar .nav-link:hover {
+        transform: translateY(-1px);
+      }
+
+      @media (min-width: 1024px) and (max-width: 1320px) {
+        .nav-center {
+          gap: 0.25rem;
+        }
+
+        .nav-link {
+          padding: 0.58rem 0.85rem;
+          font-size: 0.74rem;
+          letter-spacing: 0.08em;
+        }
+
+        body.lang-ar .nav-link {
+          padding: 0.58rem 0.85rem;
+        }
+
+        body.lang-ar .nav-link [data-lang="ar"] {
+          font-size: 0.84rem;
+        }
+
+        .nav-brand-cluster {
+          gap: 0.65rem;
+        }
+
+        .lang-switch.lang-switch--brand .lang-switch-seg {
+          min-width: 2.15rem;
+          padding: 0 0.4rem;
+        }
+
+        body.lang-ar .lang-switch.lang-switch--brand .lang-switch-seg {
+          min-width: 3.1rem;
+          padding: 0 0.35rem;
+        }
       }
 
       .nav-right {
@@ -536,6 +751,7 @@
         flex-direction: column;
         padding: calc(var(--header-height) + 2rem) 2rem 2rem;
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
       }
 
       .mobile-menu-drawer.active {
@@ -545,46 +761,313 @@
       .mobile-nav-links {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 0.45rem;
       }
 
       .mobile-nav-link {
-        font-size: 1.1rem;
+        position: relative;
+        overflow: hidden;
+        font-size: 0.98rem;
         font-weight: 500;
-        color: #e0e0e0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        padding-bottom: 0.8rem;
+        color: rgba(255, 255, 255, 0.68);
+        border: 1px solid transparent;
+        border-radius: 6px;
+        padding: 0.9rem 1rem;
+        background: transparent;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        transition: color 0.2s ease;
+        transition:
+          color 0.28s ease,
+          border-color 0.28s ease,
+          background 0.28s ease;
       }
 
       .mobile-nav-link:hover {
         color: #fff;
+        border-color: rgba(74, 222, 128, 0.22);
+        background: rgba(74, 222, 128, 0.05);
       }
 
       .mobile-nav-link svg {
-        width: 1rem;
-        height: 1rem;
-        color: var(--brand-green);
-        opacity: 0;
-        transform: translateX(-10px);
-        transition: all 0.3s ease;
+        width: 0.85rem;
+        height: 0.85rem;
+        color: var(--brand-green-bright);
+        opacity: 0.25;
+        transform: translateX(-3px);
+        transition:
+          opacity 0.28s ease,
+          transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .mobile-nav-link:hover svg {
-        opacity: 1;
+        opacity: 0.85;
         transform: translateX(0);
+      }
+
+      body.lang-ar .mobile-nav-link {
+        padding: 0.9rem 1rem;
       }
 
       .mobile-menu-footer {
         margin-top: auto;
         padding-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
       }
       .mobile-cta-btn {
         display: block;
         width: 100%;
+      }
+
+      /* --- Mobile lang strip + quick dock (phone only) --- */
+      .mobile-lang-bar,
+      .mobile-quick-dock {
+        display: none;
+      }
+
+      .lang-switch.lang-switch--mobile-bar {
+        padding: 2px;
+        box-shadow: none;
+        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .lang-switch.lang-switch--mobile-bar .lang-switch-seg {
+        min-width: 2.5rem;
+        height: 1.55rem;
+        padding: 0 0.45rem;
+        font-size: 0.56rem;
+        gap: 0.18rem;
+      }
+
+      .lang-switch.lang-switch--mobile-bar .lang-switch-icon {
+        width: 0.65rem;
+        height: 0.65rem;
+        opacity: 0.8;
+      }
+
+      .lang-switch.lang-switch--mobile-bar::before {
+        top: 2px;
+        left: 2px;
+        width: calc(50% - 2px);
+        height: calc(100% - 4px);
+      }
+
+      body.lang-ar .lang-switch.lang-switch--mobile-bar .lang-switch-seg {
+        min-width: 2.9rem;
+        padding: 0 0.4rem;
+      }
+
+      body.lang-ar .lang-switch.lang-switch--mobile-bar .lang-switch-label[data-lang="ar"] {
+        font-size: 0.58rem;
+      }
+
+      .mobile-quick-dock {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 105;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 0.35rem;
+        padding: 0.4rem 0.55rem
+          calc(0.4rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(10, 10, 10, 0.94);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .mobile-dock-item {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.22rem;
+        padding: 0.38rem 0.2rem;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        color: rgba(255, 255, 255, 0.52);
+        font-family: var(--font-nav);
+        font-size: 0.56rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-align: center;
+        line-height: 1.15;
+        transition:
+          color 0.25s ease,
+          background 0.25s ease,
+          border-color 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      .mobile-dock-item svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        flex-shrink: 0;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+      }
+
+      .mobile-dock-item.is-active {
+        color: var(--brand-green-bright);
+        background: rgba(74, 222, 128, 0.06);
+        border-color: rgba(74, 222, 128, 0.14);
+      }
+
+      .mobile-dock-item--cta {
+        flex: 1.15;
+        color: #04140a;
+        background: linear-gradient(
+          145deg,
+          var(--brand-green) 0%,
+          var(--brand-green-bright) 100%
+        );
+        border-color: rgba(74, 222, 128, 0.45);
+        box-shadow: 0 4px 18px rgba(74, 222, 128, 0.28);
+        transform: translateY(-2px);
+      }
+
+      .mobile-dock-item--cta.is-active {
+        color: #04140a;
+        background: linear-gradient(
+          145deg,
+          var(--brand-green-bright) 0%,
+          #86efac 100%
+        );
+        border-color: rgba(134, 239, 172, 0.55);
+      }
+
+      body.lang-ar .mobile-dock-item {
+        font-family: var(--font-arabic);
+        font-size: 0.6rem;
+        letter-spacing: 0;
+      }
+
+      .mobile-header-login,
+      .mobile-header-trial {
+        display: none;
+      }
+
+      .mobile-header-login {
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        padding: 0.42rem 0.55rem;
+        font-family: var(--font-nav);
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 6px;
+        white-space: nowrap;
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .mobile-header-login:hover {
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .mobile-header-trial {
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        padding: 0.45rem 0.62rem;
+        font-size: 0.56rem;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        line-height: 1.1;
+      }
+
+      body.lang-ar .mobile-header-login,
+      body.lang-ar .mobile-header-trial {
+        font-family: var(--font-arabic);
+        text-transform: none;
+        letter-spacing: 0;
+        font-size: 0.62rem;
+      }
+
+      @media (max-width: 1023px) {
+        body {
+          padding-bottom: calc(
+            var(--mobile-dock-height) + env(safe-area-inset-bottom, 0px)
+          );
+        }
+
+        .mobile-lang-bar {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 110;
+          height: var(--mobile-langbar-height);
+          background: rgba(10, 10, 10, 0.96);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .header {
+          top: var(--mobile-langbar-height);
+        }
+
+        .mobile-quick-dock {
+          display: flex;
+        }
+
+        .nav-mobile-btn,
+        .mobile-menu-overlay,
+        .mobile-menu-drawer {
+          display: none !important;
+        }
+
+        .hero-section {
+          padding-top: calc(
+            var(--header-height) + var(--mobile-langbar-height) + 5rem
+          );
+        }
+
+        .nav-container {
+          justify-content: space-between;
+          align-items: center;
+          gap: 0.45rem;
+          padding-inline: 0.85rem;
+        }
+
+        .nav-brand-cluster {
+          flex: 1;
+          justify-content: center;
+          min-width: 0;
+        }
+
+        .nav-logo-link {
+          margin-inline: 0;
+        }
+
+        .brand-logo {
+          width: 132px;
+        }
+
+        .mobile-header-login,
+        .mobile-header-trial {
+          display: inline-flex;
+        }
       }
 
       /* --- 4. Hero Section --- */
@@ -592,7 +1075,7 @@
         position: relative;
         isolation: isolate;
         overflow: hidden;
-        padding-top: calc(var(--header-height) + var(--topbar-height) + 8rem);
+        padding-top: calc(var(--header-height) + 8rem);
         padding-bottom: 5rem;
       }
 
@@ -699,6 +1182,9 @@
         border-radius: 4px;
         z-index: -1;
       }
+      body.lang-ar .highlight-brand::before {
+        transform: rotate(2deg);
+      }
 
       .hero-buttons {
         margin-top: 2.5rem;
@@ -758,10 +1244,31 @@
         }
       }
 
+      /* Same float animation, mirrored horizontally for Arabic — a static
+         scaleX(-1) on .hero-3d-image would get clobbered every frame since
+         the float animation also drives `transform`, so the flip has to be
+         baked into its own keyframes instead. */
+      @keyframes floatImageRtl {
+        0% {
+          transform: scaleX(-1) scale(1.2) translateY(0px);
+        }
+        100% {
+          transform: scaleX(-1) translateY(-15px);
+        }
+      }
+
+      body.lang-ar .hero-3d-image {
+        animation-name: floatImageRtl;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .hero-3d-image {
           animation: none;
           transform: scale(1.2);
+        }
+        body.lang-ar .hero-3d-image {
+          animation: none;
+          transform: scaleX(-1) scale(1.2);
         }
       }
 
@@ -775,11 +1282,20 @@
         }
       }
 
+      @keyframes floatImageDesktopRtl {
+        0% {
+          transform: scaleX(-1) scale(1.5) translateY(0px);
+        }
+        100% {
+          transform: scaleX(-1) scale(1.5) translateY(-15px);
+        }
+      }
+
       /* --- 5. "How It Works" Section (MOBILE FIXED) --- */
       .how-it-works-section {
         background-color: var(--brand-dark);
         padding-top: 5rem;
-        padding-bottom: 5rem;
+        padding-bottom: 1rem;
         position: relative;
       }
 
@@ -809,7 +1325,7 @@
       .timeline-line-bg {
         position: absolute;
         top: 2rem;
-        bottom: 2rem;
+        bottom: 0;
         left: 30px;
         transform: translateX(-50%);
         width: 2px;
@@ -868,6 +1384,10 @@
         padding-left: 80px;
       }
 
+      .how-it-works-step[data-step="5"] {
+        padding-bottom: 0.5rem;
+      }
+
       .how-it-works-text {
         text-align: left;
         margin-bottom: 1.5rem;
@@ -883,7 +1403,9 @@
         z-index: 3;
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out;
       }
 
       .how-it-works-image-wrapper.img-visible {
@@ -927,7 +1449,9 @@
         line-height: 2rem;
         color: white;
         margin-bottom: 0.5rem;
-        transition: color 0.3s ease, transform 0.3s ease;
+        transition:
+          color 0.3s ease,
+          transform 0.3s ease;
         transform-origin: left;
       }
       .how-it-works-text h3 span {
@@ -966,29 +1490,45 @@
         margin-top: 2.5rem;
       }
 
+      /* Default: match the standard green step styling */
       .cancel-feedback-text .how-it-works-icon {
-        background-color: rgba(229, 72, 77, 0.12);
-        color: #ff6b6f;
+        background-color: rgba(39, 174, 96, 0.1);
+        color: var(--brand-green);
+        transition:
+          background-color 0.4s ease,
+          color 0.4s ease,
+          box-shadow 0.4s ease;
       }
 
       .cancel-feedback-text h3 {
-        color: #ff6b6f;
+        color: white;
+        transition:
+          color 0.4s ease,
+          transform 0.3s ease,
+          text-shadow 0.4s ease;
       }
 
-      /* Gets a spotlight moment as the scroll timeline reaches this step,
-         overriding the default green highlight with red for this sub-row */
+      .cancel-feedback-text h3 span {
+        color: var(--brand-green);
+        transition: color 0.4s ease;
+      }
+
       .how-it-works-step.active-step .cancel-feedback-text h3 {
-        color: #ff6b6f;
+        color: var(--brand-green);
         transform: scale(1.05);
+      }
+
+      .how-it-works-step.active-step .cancel-feedback-text h3 span {
+        color: var(--brand-green);
       }
 
       .cancel-mockup-wrapper {
         max-width: 92%;
       }
 
-      /* --- "What if they cancel?" attention effects, triggered purely by
-         this row's own visibility (not the timeline's active-step) so the
-         timing always matches when the user actually scrolls to it --- */
+      /* --- "What if they cancel?" attention effects — green by default,
+         flips to red + alert animations only when this row scrolls into view
+         (works for both EN and AR copy via shared h3/icon selectors) --- */
       @keyframes cancelShakeIn {
         0% {
           transform: translateX(0);
@@ -1026,10 +1566,6 @@
         }
       }
 
-      .cancel-feedback-row.in-view .cancel-feedback-text .how-it-works-icon {
-        animation: cancelIconPing 1.8s ease-out infinite;
-      }
-
       @keyframes cancelHeadingGlow {
         0%,
         100% {
@@ -1038,10 +1574,6 @@
         50% {
           text-shadow: 0 0 16px rgba(255, 107, 111, 0.55);
         }
-      }
-
-      .cancel-feedback-row.in-view .cancel-feedback-text h3 {
-        animation: cancelHeadingGlow 2.2s ease-in-out infinite;
       }
 
       @keyframes cancelMockupPulse {
@@ -1054,33 +1586,75 @@
         }
       }
 
-      .cancel-feedback-row.in-view .cancel-mockup-wrapper img {
+      .cancel-feedback-row.has-revealed .cancel-feedback-text .how-it-works-icon {
+        background-color: rgba(229, 72, 77, 0.12);
+        color: #ff6b6f;
+      }
+
+      .cancel-feedback-row.has-revealed .cancel-feedback-text h3 {
+        color: #ff6b6f;
+      }
+
+      .cancel-feedback-row.has-revealed .cancel-feedback-text h3 span {
+        color: #ff6b6f;
+      }
+
+      .cancel-feedback-row.in-view.has-revealed .cancel-feedback-text .how-it-works-icon {
+        animation: cancelIconPing 1.8s ease-out infinite;
+      }
+
+      .cancel-feedback-row.in-view.has-revealed .cancel-feedback-text h3 {
+        animation: cancelHeadingGlow 2.2s ease-in-out infinite;
+      }
+
+      .cancel-feedback-row.in-view.has-revealed .cancel-mockup-wrapper img {
         animation: cancelMockupPulse 2.2s ease-in-out infinite;
       }
 
-      .how-it-works-step.active-step .cancel-mockup-wrapper img {
-        filter: drop-shadow(0 0 20px rgba(229, 72, 77, 0.25));
+      .how-it-works-step.active-step
+        .cancel-feedback-row.has-revealed.in-view
+        .cancel-mockup-wrapper
+        img {
+        filter: drop-shadow(0 0 20px rgba(229, 72, 77, 0.5));
       }
 
-      /* --- 5b. "Prepaid Upsell" Gold Highlight Step --- */
+      /* --- 5b. "Prepaid Upsell" — green by default, gold + money FX on scroll --- */
+      .step-highlight {
+        position: relative;
+        overflow: visible;
+      }
+
       .step-highlight .how-it-works-icon {
-        background-color: rgba(212, 175, 55, 0.12);
-        color: var(--accent-gold-bright);
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+        background-color: rgba(39, 174, 96, 0.1);
+        color: var(--brand-green);
+        box-shadow: none;
+        transition:
+          background-color 0.4s ease,
+          color 0.4s ease,
+          box-shadow 0.4s ease;
       }
 
       .step-highlight .how-it-works-text h3 {
-        color: var(--accent-gold-bright);
-        text-shadow: 0 0 18px rgba(212, 175, 55, 0.35);
+        color: white;
+        text-shadow: none;
+        transition:
+          color 0.4s ease,
+          transform 0.3s ease,
+          text-shadow 0.4s ease;
       }
 
       .step-highlight .how-it-works-text h3 span {
-        color: var(--accent-gold);
+        color: var(--brand-green);
+        transition: color 0.4s ease;
       }
 
       .step-highlight.active-step .how-it-works-text h3 {
-        color: var(--accent-gold-bright);
+        color: var(--brand-green);
         transform: scale(1.05);
+      }
+
+      .step-highlight.active-step .how-it-works-text h3 span {
+        color: var(--brand-green);
       }
 
       .step-highlight-badge {
@@ -1092,10 +1666,263 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1.5px;
-        color: var(--accent-gold-bright);
-        border: 1px solid rgba(212, 175, 55, 0.4);
+        color: var(--brand-green-bright);
+        border: 1px solid rgba(39, 174, 96, 0.35);
         border-radius: 100px;
-        background: rgba(212, 175, 55, 0.08);
+        background: rgba(39, 174, 96, 0.08);
+        transition:
+          color 0.4s ease,
+          border-color 0.4s ease,
+          background 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+
+      .step-highlight-list .feature-item svg {
+        color: var(--brand-green-bright);
+        transition: color 0.4s ease;
+      }
+
+      .step-highlight .timeline-dot {
+        border-color: #3a3a3a;
+        transition:
+          border-color 0.4s ease,
+          background-color 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+
+      .step-highlight .timeline-dot.active {
+        border-color: var(--brand-green-bright);
+        background-color: var(--brand-green);
+        box-shadow: 0 0 15px var(--brand-green);
+      }
+
+      .step-highlight::before {
+        content: "";
+        position: absolute;
+        left: 30px;
+        top: 10%;
+        bottom: 10%;
+        width: 2px;
+        transform: translateX(-50%);
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(39, 174, 96, 0.35),
+          transparent
+        );
+        filter: blur(1px);
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.5;
+        transition: opacity 0.4s ease, background 0.4s ease;
+      }
+
+      .step-highlight .how-it-works-text {
+        position: relative;
+        overflow: visible;
+      }
+
+      /* Floating money particles — hidden until scroll reveal */
+      .prepaid-money-fx {
+        position: absolute;
+        inset: -0.75rem -1rem auto;
+        height: 11rem;
+        pointer-events: none;
+        overflow: visible;
+        z-index: 6;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .money-particle {
+        position: absolute;
+        font-family: var(--font-nav);
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--accent-gold-bright);
+        text-shadow: 0 0 10px rgba(245, 213, 118, 0.75);
+        opacity: 0;
+      }
+
+      .money-particle:nth-child(1) {
+        left: 4%;
+        top: 8%;
+      }
+      .money-particle:nth-child(2) {
+        left: 82%;
+        top: 18%;
+      }
+      .money-particle:nth-child(3) {
+        left: 14%;
+        top: 58%;
+      }
+      .money-particle:nth-child(4) {
+        left: 72%;
+        top: 68%;
+      }
+      .money-particle:nth-child(5) {
+        left: 46%;
+        top: 2%;
+      }
+
+      @keyframes prepaidMoneyFloat {
+        0% {
+          opacity: 0;
+          transform: translateY(12px) scale(0.7) rotate(-8deg);
+        }
+        15% {
+          opacity: 0.9;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-48px) scale(1.1) rotate(12deg);
+        }
+      }
+
+      @keyframes prepaidGoldPop {
+        0% {
+          transform: translateY(0);
+        }
+        35% {
+          transform: translateY(-4px);
+        }
+        70% {
+          transform: translateY(2px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes prepaidIconPing {
+        0% {
+          box-shadow: 0 0 0 0 rgba(245, 213, 118, 0.55);
+        }
+        70% {
+          box-shadow: 0 0 0 14px rgba(245, 213, 118, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(245, 213, 118, 0);
+        }
+      }
+
+      @keyframes prepaidHeadingShimmer {
+        0%,
+        100% {
+          text-shadow: 0 0 0 rgba(245, 213, 118, 0);
+        }
+        50% {
+          text-shadow:
+            0 0 18px rgba(245, 213, 118, 0.55),
+            0 0 32px rgba(212, 175, 55, 0.25);
+        }
+      }
+
+      @keyframes prepaidMockupGlow {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 0 rgba(212, 175, 55, 0));
+        }
+        50% {
+          filter: drop-shadow(0 0 22px rgba(245, 213, 118, 0.55));
+        }
+      }
+
+      .step-highlight.has-revealed.prepaid-pop-once {
+        animation: prepaidGoldPop 0.55s ease;
+      }
+
+      /* Latched gold styling — stays after first reveal */
+      .step-highlight.has-revealed .how-it-works-icon {
+        background-color: rgba(212, 175, 55, 0.12);
+        color: var(--accent-gold-bright);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+      }
+
+      .step-highlight.has-revealed .how-it-works-text h3 {
+        color: var(--accent-gold-bright);
+      }
+
+      .step-highlight.has-revealed .how-it-works-text h3 span {
+        color: var(--accent-gold);
+      }
+
+      .step-highlight.has-revealed.active-step .how-it-works-text h3 {
+        color: var(--accent-gold-bright);
+      }
+
+      .step-highlight.has-revealed .step-highlight-badge {
+        color: var(--accent-gold-bright);
+        border-color: rgba(212, 175, 55, 0.45);
+        background: rgba(212, 175, 55, 0.1);
+        box-shadow: 0 0 14px rgba(212, 175, 55, 0.2);
+      }
+
+      .step-highlight.has-revealed .step-highlight-list .feature-item svg {
+        color: var(--accent-gold-bright);
+      }
+
+      .step-highlight.has-revealed .timeline-dot {
+        border-color: rgba(212, 175, 55, 0.5);
+      }
+
+      .step-highlight.has-revealed .timeline-dot.active {
+        border-color: var(--accent-gold-bright);
+        background-color: var(--accent-gold);
+        box-shadow: 0 0 15px var(--accent-gold);
+      }
+
+      .step-highlight.has-revealed::before {
+        opacity: 1;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(212, 175, 55, 0.65),
+          transparent
+        );
+      }
+
+      /* Motion + money FX — while step headline is on screen */
+      .step-highlight.in-view.has-revealed .how-it-works-icon,
+      .step-highlight.active-step.in-view .how-it-works-icon {
+        animation: prepaidIconPing 1.8s ease-out infinite;
+      }
+
+      .step-highlight.in-view.has-revealed .how-it-works-text h3,
+      .step-highlight.active-step.in-view .how-it-works-text h3 {
+        animation: prepaidHeadingShimmer 2.2s ease-in-out infinite;
+      }
+
+      .step-highlight.in-view .prepaid-money-fx,
+      .step-highlight.active-step.in-view .prepaid-money-fx {
+        opacity: 1;
+      }
+
+      .step-highlight.in-view .money-particle,
+      .step-highlight.active-step.in-view .money-particle {
+        animation: prepaidMoneyFloat 2.4s ease-out infinite;
+      }
+
+      .step-highlight.in-view .money-particle:nth-child(2),
+      .step-highlight.active-step.in-view .money-particle:nth-child(2) {
+        animation-delay: 0.35s;
+      }
+      .step-highlight.in-view .money-particle:nth-child(3),
+      .step-highlight.active-step.in-view .money-particle:nth-child(3) {
+        animation-delay: 0.7s;
+      }
+      .step-highlight.in-view .money-particle:nth-child(4),
+      .step-highlight.active-step.in-view .money-particle:nth-child(4) {
+        animation-delay: 1.05s;
+      }
+      .step-highlight.in-view .money-particle:nth-child(5),
+      .step-highlight.active-step.in-view .money-particle:nth-child(5) {
+        animation-delay: 1.4s;
+      }
+
+      .step-highlight.in-view.has-revealed .prepaid-mockup-wrapper > img,
+      .step-highlight.active-step.in-view.has-revealed .prepaid-mockup-wrapper > img {
+        animation: prepaidMockupGlow 2.2s ease-in-out infinite;
       }
 
       .step-highlight-list {
@@ -1113,7 +1940,6 @@
       }
 
       .step-highlight-list .feature-item svg {
-        color: var(--accent-gold-bright);
         margin-top: 0.15rem;
       }
 
@@ -1134,7 +1960,9 @@
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55);
         transform: rotate(-7deg) translateY(16px);
         opacity: 0;
-        transition: opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s;
+        transition:
+          opacity 0.7s ease 0.25s,
+          transform 0.7s ease 0.25s;
         z-index: 4;
       }
 
@@ -1186,7 +2014,9 @@
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55);
         transform: rotate(-7deg) translateY(16px);
         opacity: 0;
-        transition: opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s;
+        transition:
+          opacity 0.7s ease 0.25s,
+          transform 0.7s ease 0.25s;
         z-index: 4;
       }
 
@@ -1221,39 +2051,10 @@
         white-space: nowrap;
       }
 
-      .step-highlight .timeline-dot {
-        border-color: rgba(212, 175, 55, 0.5);
-      }
-
-      .step-highlight .timeline-dot.active {
-        border-color: var(--accent-gold-bright);
-        background-color: var(--accent-gold);
-        box-shadow: 0 0 15px var(--accent-gold);
-      }
-
-      .step-highlight::before {
-        content: "";
-        position: absolute;
-        left: 30px;
-        top: 10%;
-        bottom: 10%;
-        width: 2px;
-        transform: translateX(-50%);
-        background: linear-gradient(
-          to bottom,
-          transparent,
-          rgba(212, 175, 55, 0.6),
-          transparent
-        );
-        filter: blur(1px);
-        pointer-events: none;
-        z-index: 1;
-      }
-
       /* --- 5c. "IVR Fallback" Section --- */
       .ivr-section {
         background-color: var(--brand-dark);
-        padding-top: 5rem;
+        padding-top: 1.5rem;
         padding-bottom: 6rem;
         position: relative;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -1287,7 +2088,9 @@
         opacity: 0;
         filter: blur(6px);
         transform: translateY(18px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out,
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out,
           filter 0.8s ease-out;
       }
 
@@ -1335,7 +2138,9 @@
       .ivr-pitch-col > * {
         opacity: 0;
         transform: translateY(24px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out;
       }
 
       .ivr-section.in-view .ivr-pitch-col > * {
@@ -1378,7 +2183,9 @@
         border-radius: 50%;
         opacity: 0;
         transform: scale(0.8);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        transition:
+          opacity 0.6s ease-out,
+          transform 0.6s ease-out;
       }
 
       .ivr-anim-message {
@@ -1448,7 +2255,10 @@
         transition-delay: 1.35s;
         animation: ivrCallRing 1.2s ease-in-out 2s 2;
       }
-      .ivr-section.in-view .ivr-transition-anim .ivr-anim-message .ivr-anim-badge {
+      .ivr-section.in-view
+        .ivr-transition-anim
+        .ivr-anim-message
+        .ivr-anim-badge {
         transform: scale(1);
         transition-delay: 1.7s;
       }
@@ -1529,8 +2339,12 @@
         opacity: 0;
         overflow: hidden;
         transform: translateY(-6px);
-        transition: max-height 0.5s ease, opacity 0.4s ease,
-          transform 0.4s ease, margin 0.4s ease, padding 0.4s ease;
+        transition:
+          max-height 0.5s ease,
+          opacity 0.4s ease,
+          transform 0.4s ease,
+          margin 0.4s ease,
+          padding 0.4s ease;
       }
 
       .ivr-script-preview.visible {
@@ -1573,7 +2387,9 @@
         border-radius: 50%;
         background-color: var(--brand-green);
         border: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
       }
 
       .ivr-audio-toggle:hover {
@@ -1739,11 +2555,10 @@
         opacity: 0;
       }
 
-      /* Cinematic "power on" entrance, then settles into the idle float loop */
+      /* Cinematic "power on" entrance — opacity/filter only so ring can own transform */
       @keyframes ivrPhoneEntrance {
         0% {
           opacity: 0;
-          transform: scale(0.7);
           filter: blur(16px) brightness(0.5);
         }
         55% {
@@ -1752,15 +2567,107 @@
         }
         100% {
           opacity: 1;
-          transform: scale(1);
           filter: blur(0) brightness(1);
         }
       }
 
+      .ivr-section.in-view .ivr-phone-stage {
+        animation: float 5s ease-in-out 1.9s infinite;
+      }
+
       .ivr-section.in-view .ivr-phone-overlay {
         animation: ivrPhoneEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s
-            both,
-          float 5s ease-in-out 1.9s infinite;
+          forwards;
+      }
+
+      /* Inner layer owns buzz transform so entrance opacity/filter can't block it */
+      .ivr-phone-shake {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .ivr-section.in-view
+        .ivr-phone-overlay[data-state="incoming"]
+        .ivr-phone-shake {
+        animation: ivrPhoneRing 2.4s ease-in-out 1.9s infinite;
+      }
+
+      /* iPhone-style ring: two short buzzes, then a long pause */
+      @keyframes ivrPhoneRing {
+        0%,
+        8%,
+        12%,
+        20%,
+        24%,
+        100% {
+          transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+        1% {
+          transform: translate3d(-2px, 1px, 0) rotate(-0.5deg);
+        }
+        2% {
+          transform: translate3d(2px, -1px, 0) rotate(0.5deg);
+        }
+        3% {
+          transform: translate3d(-2px, -0.5px, 0) rotate(-0.4deg);
+        }
+        4% {
+          transform: translate3d(2px, 0.5px, 0) rotate(0.4deg);
+        }
+        5% {
+          transform: translate3d(-1.5px, 0, 0) rotate(-0.3deg);
+        }
+        6% {
+          transform: translate3d(1.5px, 0, 0) rotate(0.3deg);
+        }
+        13% {
+          transform: translate3d(-2px, 1px, 0) rotate(-0.5deg);
+        }
+        14% {
+          transform: translate3d(2px, -1px, 0) rotate(0.5deg);
+        }
+        15% {
+          transform: translate3d(-2px, -0.5px, 0) rotate(-0.4deg);
+        }
+        16% {
+          transform: translate3d(2px, 0.5px, 0) rotate(0.4deg);
+        }
+        17% {
+          transform: translate3d(-1.5px, 0, 0) rotate(-0.3deg);
+        }
+        18% {
+          transform: translate3d(1.5px, 0, 0) rotate(0.3deg);
+        }
+      }
+
+      .ivr-phone-stage:has(.ivr-phone-overlay[data-state="incoming"])
+        .ivr-phone-glow {
+        animation: ivrRingGlowPulse 2.4s ease-out 1.9s infinite;
+      }
+
+      @keyframes ivrRingGlowPulse {
+        0%,
+        7%,
+        11%,
+        18%,
+        22%,
+        100% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        3%,
+        14% {
+          opacity: 0.9;
+          transform: translate(-50%, -50%) scale(1.02);
+        }
       }
 
       .ivr-phone-overlay::before {
@@ -1956,8 +2863,16 @@
 
       /* Respect reduced-motion preference: keep the reveal, drop the loops */
       @media (prefers-reduced-motion: reduce) {
-        .ivr-section.in-view .ivr-phone-overlay {
+        .ivr-section.in-view .ivr-phone-overlay,
+        .ivr-section.in-view .ivr-phone-stage,
+        .ivr-section.in-view
+          .ivr-phone-overlay[data-state="incoming"]
+          .ivr-phone-shake,
+        .ivr-phone-stage:has(.ivr-phone-overlay[data-state="incoming"])
+          .ivr-phone-glow {
           animation: none;
+        }
+        .ivr-section.in-view .ivr-phone-overlay {
           opacity: 1;
           transform: none;
           filter: none;
@@ -1971,9 +2886,18 @@
           animation: none;
         }
         .cancel-feedback-row.shake-once,
-        .cancel-feedback-row.in-view .cancel-feedback-text .how-it-works-icon,
-        .cancel-feedback-row.in-view .cancel-feedback-text h3,
-        .cancel-feedback-row.in-view .cancel-mockup-wrapper img {
+        .cancel-feedback-row.in-view.has-revealed .cancel-feedback-text .how-it-works-icon,
+        .cancel-feedback-row.in-view.has-revealed .cancel-feedback-text h3,
+        .cancel-feedback-row.in-view.has-revealed .cancel-mockup-wrapper img,
+        .step-highlight.has-revealed.prepaid-pop-once,
+        .step-highlight.in-view.has-revealed .how-it-works-icon,
+        .step-highlight.active-step.in-view .how-it-works-icon,
+        .step-highlight.in-view.has-revealed .how-it-works-text h3,
+        .step-highlight.active-step.in-view .how-it-works-text h3,
+        .step-highlight.in-view.has-revealed .prepaid-mockup-wrapper > img,
+        .step-highlight.active-step.in-view.has-revealed .prepaid-mockup-wrapper > img,
+        .step-highlight.in-view .money-particle,
+        .step-highlight.active-step.in-view .money-particle {
           animation: none;
         }
       }
@@ -2180,6 +3104,13 @@
         width: 300px;
         max-height: 70px;
       }
+      .integrations-grid .logo-chainz {
+        width: 14rem;
+        max-width: 14rem;
+        max-height: none;
+        height: auto;
+        object-fit: contain;
+      }
 
       /* --- 7. Features Section (CLEAN MOBILE STACKING) --- */
       .features-section {
@@ -2207,7 +3138,9 @@
         width: 100%;
         position: relative;
         opacity: 0;
-        transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        transition:
+          opacity 1.2s ease-out,
+          transform 1.2s ease-out;
         /* Mobile Slide Up */
         transform: translateY(30px);
       }
@@ -2218,7 +3151,9 @@
         text-align: center; /* Center align for clean mobile look */
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity 1s ease-out, transform 1s ease-out;
+        transition:
+          opacity 1s ease-out,
+          transform 1s ease-out;
       }
 
       .features-text-content.animate-in,
@@ -2614,7 +3549,8 @@
         background-color: var(--brand-card);
         padding: 3rem 1.5rem;
         text-align: center;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
           0 4px 6px -2px rgba(0, 0, 0, 0.05);
       }
 
@@ -2728,7 +3664,9 @@
         display: inline-block;
         font-size: 0.875rem;
         color: var(--brand-text-grey);
-        transition: color 0.25s ease, transform 0.25s ease;
+        transition:
+          color 0.25s ease,
+          transform 0.25s ease;
       }
       .footer-col ul a::before {
         content: "";
@@ -2765,33 +3703,6 @@
         color: var(--brand-text-grey);
       }
 
-      .footer-legal-strip {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.35rem;
-        max-width: 46rem;
-      }
-
-      .footer-legal-line {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 0.45rem;
-        font-size: 0.7rem;
-        line-height: 1.6;
-        color: #6b6b6b;
-      }
-
-      .footer-legal-line span:not(.footer-legal-divider) {
-        white-space: nowrap;
-      }
-
-      .footer-legal-divider {
-        color: rgba(255, 255, 255, 0.15);
-      }
-
       /* Desktop Layout (Zig-Zag) Media Query */
       @media (min-width: 1024px) {
         .nav-mobile-btn {
@@ -2802,7 +3713,9 @@
           display: flex;
         }
         .mobile-menu-overlay,
-        .mobile-menu-drawer {
+        .mobile-menu-drawer,
+        .mobile-lang-bar,
+        .mobile-quick-dock {
           display: none !important;
         }
 
@@ -2811,13 +3724,38 @@
           padding-right: 2rem;
         }
         .nav-container {
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          align-items: center;
+          column-gap: 1.25rem;
           margin-left: 60px;
           padding-left: 0;
           padding-right: 2rem;
         }
 
+        .nav-brand-cluster {
+          grid-column: 1;
+          justify-self: start;
+        }
+
+        .lang-switch.lang-switch--brand {
+          display: inline-flex;
+        }
+
+        .nav-center {
+          grid-column: 2;
+          justify-self: center;
+          width: max-content;
+          margin-inline: auto;
+        }
+
+        .nav-right {
+          grid-column: 3;
+          justify-self: end;
+        }
+
         .hero-section {
-          padding-top: calc(200px + var(--topbar-height));
+          padding-top: 200px;
           padding-bottom: 8rem;
         }
         .hero-layout-grid {
@@ -2882,6 +3820,9 @@
           text-align: left;
           padding-left: 0;
           padding-bottom: 2rem;
+        }
+        .how-it-works-step[data-step="5"] {
+          padding-bottom: 0;
         }
         /* Step 3 stacks a second text+mockup row underneath the main one,
            each row laid out like a normal step (text left, mockup right) */
@@ -3000,6 +3941,27 @@
           margin: 0.75rem 0 0;
           text-align: left;
         }
+        body.lang-ar .ivr-pitch-heading,
+        body.lang-ar .ivr-pitch-copy,
+        body.lang-ar .ivr-pitch-note {
+          text-align: right;
+          margin-left: auto;
+          margin-right: 0;
+        }
+        body.lang-ar .ivr-pitch-list {
+          align-items: flex-start;
+          margin-left: auto;
+          margin-right: 0;
+        }
+        body.lang-ar .ivr-pitch-list .feature-item {
+          text-align: right;
+        }
+        body.lang-ar .ivr-transition-anim {
+          justify-content: flex-end;
+        }
+        body.lang-ar .ivr-audio-disclaimer {
+          text-align: right;
+        }
         .ivr-phone-overlay {
           width: 260px;
         }
@@ -3009,6 +3971,11 @@
         }
         .integrations-grid img {
           max-height: 4rem;
+        }
+        .integrations-grid .logo-chainz {
+          width: 14rem;
+          max-width: 14rem;
+          max-height: none;
         }
 
         /* --- FEATURES SECTION DESKTOP --- */
@@ -3111,17 +4078,8 @@
         }
 
         .footer-bottom {
-          flex-direction: row;
-          justify-content: space-between;
-          text-align: left;
-        }
-
-        .footer-legal-strip {
-          align-items: flex-end;
-        }
-
-        .footer-legal-line {
-          justify-content: flex-end;
+          justify-content: center;
+          text-align: center;
         }
       }
 
@@ -3133,12 +4091,22 @@
       }
 
       /* Nav / header */
+      body.lang-ar .nav-brand-cluster {
+        flex-direction: row-reverse;
+      }
       body.lang-ar .icon-tm {
         margin-left: 0;
         margin-right: 0.15em;
       }
       body.lang-ar .nav-mobile-btn {
         margin-right: 0;
+        margin-left: auto;
+      }
+      body.lang-ar .mobile-nav-link svg {
+        transform: scaleX(-1) translateX(4px);
+      }
+      body.lang-ar .mobile-nav-link:hover svg {
+        transform: scaleX(-1) translateX(0);
       }
       @media (min-width: 1024px) {
         body.lang-ar .nav-container {
@@ -3184,23 +4152,12 @@
       }
       @media (min-width: 1024px) {
         body.lang-ar .footer-bottom {
-          text-align: right;
-        }
-        body.lang-ar .footer-legal-strip {
-          align-items: flex-start;
-        }
-        body.lang-ar .footer-legal-line {
-          justify-content: flex-start;
+          text-align: center;
         }
         body.lang-ar .how-it-works-text,
         body.lang-ar .features-text-content {
           text-align: right;
         }
-      }
-
-      body.lang-ar .mobile-menu-drawer {
-        padding: calc(var(--header-height) + var(--topbar-height) + 2rem) 2rem
-          2rem;
       }
 
       /* Timeline — mirror beam to right on mobile */
@@ -3224,23 +4181,41 @@
         right: -50px;
         transform: translateX(50%);
       }
+      body.lang-ar .step-highlight::before {
+        left: auto;
+        right: 30px;
+      }
       body.lang-ar .how-it-works-text {
         text-align: right;
+      }
+      body.lang-ar .how-it-works-icon {
+        margin-right: 0;
+        margin-left: auto;
+      }
+      body.lang-ar .how-it-works-text h3 {
+        transform-origin: right;
       }
 
       /* Feature list items */
       body.lang-ar .feature-item {
-        flex-direction: row-reverse;
         text-align: right;
       }
       body.lang-ar .features-list {
-        align-items: flex-end;
+        align-items: flex-start;
       }
       body.lang-ar .ivr-pitch-list {
-        align-items: flex-end;
+        align-items: flex-start;
       }
       body.lang-ar .step-highlight-list {
-        align-items: flex-end;
+        align-items: flex-start;
+      }
+      body.lang-ar .ivr-pitch-heading,
+      body.lang-ar .ivr-pitch-copy,
+      body.lang-ar .ivr-pitch-note {
+        text-align: right;
+      }
+      body.lang-ar .ivr-pitch-list .feature-item {
+        text-align: right;
       }
 
       /* IVR section */
@@ -3306,8 +4281,21 @@
         right: auto;
         left: 0;
       }
+      /* The prev/next cards must swap sides to match the swapped arrows above,
+         since translateX is a physical offset that flexbox/direction can't
+         auto-mirror the way row/row-reverse does. */
+      body.lang-ar .pricing-card.prev {
+        transform: translateX(110%) scale(0.85) rotateY(-25deg);
+      }
+      body.lang-ar .pricing-card.next {
+        transform: translateX(-110%) scale(0.85) rotateY(25deg);
+      }
 
       @media (min-width: 1024px) {
+        body.lang-ar .hero-3d-image {
+          animation-name: floatImageDesktopRtl;
+        }
+
         /* Timeline stays centered on desktop */
         body.lang-ar .timeline-line-bg,
         body.lang-ar .timeline-line-fill,
@@ -3325,17 +4313,16 @@
           align-items: center;
         }
 
-        /* Zigzag layout mirrored */
-        body.lang-ar .how-it-works-step:nth-child(even) {
-          flex-direction: row;
-        }
-        body.lang-ar .how-it-works-step:nth-child(odd) {
-          flex-direction: row-reverse;
-        }
+        /* Zigzag layout: flexbox row/row-reverse already auto-mirrors under
+           direction:rtl, so no explicit override is needed here — adding one
+           previously fought the natural mirroring and also clobbered the
+           [data-step="3"] column layout via equal-specificity nth-child rules. */
         body.lang-ar .how-it-works-image-wrapper {
           transform: translateX(-50px);
         }
-        body.lang-ar .how-it-works-step:nth-child(even) .how-it-works-image-wrapper {
+        body.lang-ar
+          .how-it-works-step:nth-child(even)
+          .how-it-works-image-wrapper {
           transform: translateX(50px);
         }
         body.lang-ar .how-it-works-image-wrapper.img-visible {
@@ -3367,6 +4354,10 @@
           margin-right: 0;
           margin-left: 2.5rem;
         }
+        body.lang-ar .float-card {
+          right: auto;
+          left: 0;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -3382,125 +4373,198 @@
         var savedLang = localStorage.getItem("confirmit-lang") || "en";
         document.documentElement.lang = savedLang;
         document.documentElement.dir = savedLang === "ar" ? "rtl" : "ltr";
-        document.body.className =
-          (document.body.className + " lang-" + savedLang).trim();
+        document.body.className = (
+          document.body.className +
+          " lang-" +
+          savedLang
+        ).trim();
       })();
     </script>
-    <div class="top-bar">
-      <div class="container top-bar-inner">
-        <div class="social-icons" aria-label="Follow us on social media">
-          <a
-            href="#"
-            class="social-icon-link"
-            aria-label="Instagram"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 40 40" class="social-icon icon-instagram">
-              <defs>
-                <linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0" stop-color="#27ae60" />
-                  <stop offset="1" stop-color="#4ade80" />
-                </linearGradient>
-              </defs>
-              <rect
-                x="6"
-                y="6"
-                width="28"
-                height="28"
-                rx="9"
-                fill="none"
-                stroke="url(#igGrad)"
-                stroke-width="2"
-              />
-              <circle
-                cx="20"
-                cy="20"
-                r="7"
-                fill="none"
-                stroke="url(#igGrad)"
-                stroke-width="2"
-              />
-              <circle cx="28.5" cy="11.5" r="1.6" fill="url(#igGrad)" />
-            </svg>
-          </a>
-          <a
-            href="#"
-            class="social-icon-link"
-            aria-label="TikTok"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 40 40" class="social-icon icon-tiktok">
-              <path
-                d="M22 7c0.6 3.4 2.9 5.6 6.3 5.9v4.2c-2.2 0.1-4.2-0.6-6.1-2v9.1c0 4.6-3.7 8-8.1 7.6-4-0.4-6.9-4-6.5-8.1 0.4-3.8 3.7-6.7 7.5-6.5v4.3c-1.8-0.3-3.4 0.9-3.6 2.6-0.2 1.7 1 3.2 2.7 3.4 1.8 0.2 3.4-1.2 3.4-3V7h4.4z"
-                fill="none"
-                stroke="var(--brand-green-bright)"
-                stroke-width="1.6"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
-          <a
-            href="#"
-            class="social-icon-link"
-            aria-label="Facebook"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 40 40" class="social-icon icon-facebook">
-              <circle
-                cx="20"
-                cy="20"
-                r="14"
-                fill="none"
-                stroke="var(--brand-green)"
-                stroke-width="2"
-              />
-              <path
-                d="M22.5 14.5h2.2v-3.4h-2.6c-2.6 0-4.3 1.7-4.3 4.4v2.1h-2.4v3.4h2.4v8.4h3.5v-8.4h2.6l0.5-3.4h-3.1v-1.6c0-0.9 0.3-1.5 1.2-1.5z"
-                fill="var(--brand-green-bright)"
-              />
-            </svg>
-          </a>
-        </div>
-
+    <div class="mobile-lang-bar">
+      <div
+        class="lang-switch lang-switch--mobile-bar"
+        role="group"
+        aria-label="Choose language"
+      >
         <button
-          class="lang-switch"
-          id="langSwitch"
+          class="lang-switch-seg"
           type="button"
-          aria-label="Switch language"
+          data-set-lang="en"
+          aria-pressed="true"
+          aria-label="English"
         >
-          <span class="lang-switch-thumb"></span>
-          <span class="lang-switch-option" data-set-lang="en">EN</span>
-          <span class="lang-switch-option" data-set-lang="ar">AR</span>
+          <svg
+            class="lang-switch-icon"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              cx="8"
+              cy="8"
+              r="6"
+              stroke="currentColor"
+              stroke-width="1.25"
+            />
+            <path
+              d="M8 2v12M3.5 8h9"
+              stroke="currentColor"
+              stroke-width="1.25"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span class="lang-switch-label" data-lang="en">EN</span>
+          <span class="lang-switch-label" data-lang="ar">إنجليزي</span>
+        </button>
+        <button
+          class="lang-switch-seg"
+          type="button"
+          data-set-lang="ar"
+          aria-pressed="false"
+          aria-label="Arabic"
+        >
+          <svg
+            class="lang-switch-icon lang-switch-icon--ar"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              cx="8"
+              cy="8"
+              r="6"
+              stroke="currentColor"
+              stroke-width="1.25"
+            />
+            <text
+              x="8"
+              y="10.5"
+              text-anchor="middle"
+              fill="currentColor"
+              font-size="6.5"
+              font-weight="600"
+            >
+              ع
+            </text>
+          </svg>
+          <span class="lang-switch-label" data-lang="en">AR</span>
+          <span class="lang-switch-label" data-lang="ar">عربي</span>
         </button>
       </div>
     </div>
     <header class="header">
       <nav class="nav-container">
-        <a href="#" class="nav-logo-link">
-          <img
-            src="imgs/logooo.png"
-            alt="Confirm It Logo"
-            class="brand-logo"
-            width="210"
-            height="45"
-            fetchpriority="high"
-            loading="eager"
-          />
-        </a>
+        <a href="{% url 'login' %}" class="mobile-header-login"
+          ><span data-lang="en">Login</span
+          ><span data-lang="ar">دخول</span></a
+        >
+
+        <div class="nav-brand-cluster">
+          <a href="#" class="nav-logo-link">
+            <img
+              src="imgs/logooo.png"
+              alt="Confirm It Logo"
+              class="brand-logo"
+              width="210"
+              height="45"
+              fetchpriority="high"
+              loading="eager"
+            />
+          </a>
+
+          <div
+            class="lang-switch lang-switch--brand"
+            role="group"
+            aria-label="Choose language"
+          >
+            <button
+              class="lang-switch-seg"
+              type="button"
+              data-set-lang="en"
+              aria-pressed="true"
+              aria-label="English"
+            >
+              <svg
+                class="lang-switch-icon"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="6"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                />
+                <path
+                  d="M8 2v12M3.5 8h9"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span class="lang-switch-label" data-lang="en">EN</span>
+              <span class="lang-switch-label" data-lang="ar">إنجليزي</span>
+            </button>
+            <button
+              class="lang-switch-seg"
+              type="button"
+              data-set-lang="ar"
+              aria-pressed="false"
+              aria-label="Arabic"
+            >
+              <svg
+                class="lang-switch-icon lang-switch-icon--ar"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="6"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                />
+                <text
+                  x="8"
+                  y="10.5"
+                  text-anchor="middle"
+                  fill="currentColor"
+                  font-size="6.5"
+                  font-weight="600"
+                >
+                  ع
+                </text>
+              </svg>
+              <span class="lang-switch-label" data-lang="en">AR</span>
+              <span class="lang-switch-label" data-lang="ar">عربي</span>
+            </button>
+          </div>
+        </div>
+
+        <a
+          href="{% url 'checkout' %}?plan=starter&price=500"
+          class="mobile-header-trial btn-cta-green btn-sm"
+          ><span data-lang="en">Free Trial</span
+          ><span data-lang="ar">جرّب مجاناً</span></a
+        >
 
         <div class="nav-center">
-          <a href="#features"
-            ><span data-lang="en">Features</span
-            ><span data-lang="ar">المميزات</span></a
+          <a class="nav-link" href="#how-it-works"
+            ><span data-lang="en">How It Works</span
+            ><span data-lang="ar">كيف يعمل</span></a
           >
-          <a href="#integrations"
+          <a class="nav-link" href="#ivr-fallback"
+            ><span data-lang="en">No Reply? We Call</span
+            ><span data-lang="ar">مفيش رد؟ بنتصل</span></a
+          >
+          <a class="nav-link" href="#integrations"
             ><span data-lang="en">Integrations</span
             ><span data-lang="ar">التكاملات</span></a
           >
-          <a href="#pricing"
+          <a class="nav-link" href="#pricing"
             ><span data-lang="en">Pricing</span
             ><span data-lang="ar">الأسعار</span></a
           >
@@ -3541,9 +4605,25 @@
     <div class="mobile-menu-overlay" id="mobile-overlay"></div>
     <aside class="mobile-menu-drawer" id="mobile-drawer">
       <div class="mobile-nav-links">
-        <a href="#features" class="mobile-nav-link">
-          <span data-lang="en">Features</span
-          ><span data-lang="ar">المميزات</span>
+        <a href="#how-it-works" class="mobile-nav-link">
+          <span data-lang="en">How It Works</span
+          ><span data-lang="ar">كيف يعمل</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </a>
+        <a href="#ivr-fallback" class="mobile-nav-link">
+          <span data-lang="en">No Reply? We Call</span
+          ><span data-lang="ar">مفيش رد؟ بنتصل</span>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -3574,8 +4654,7 @@
           </svg>
         </a>
         <a href="#pricing" class="mobile-nav-link">
-          <span data-lang="en">Pricing</span
-          ><span data-lang="ar">الأسعار</span>
+          <span data-lang="en">Pricing</span><span data-lang="ar">الأسعار</span>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -3616,6 +4695,61 @@
         >
       </div>
     </aside>
+
+    <nav class="mobile-quick-dock" aria-label="Quick navigation">
+      <a href="#how-it-works" class="mobile-dock-item" data-dock-section="how-it-works">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+        <span data-lang="en">How It Works</span>
+        <span data-lang="ar">كيف يعمل</span>
+      </a>
+      <a href="#pricing" class="mobile-dock-item" data-dock-section="pricing">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
+          />
+        </svg>
+        <span data-lang="en">Pricing</span>
+        <span data-lang="ar">الأسعار</span>
+      </a>
+      <a
+        href="#ivr-fallback"
+        class="mobile-dock-item"
+        data-dock-section="ivr-fallback"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+          />
+        </svg>
+        <span data-lang="en">We Call</span>
+        <span data-lang="ar">بنتصل</span>
+      </a>
+      <a
+        href="#integrations"
+        class="mobile-dock-item"
+        data-dock-section="integrations"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-2.54a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+          />
+        </svg>
+        <span data-lang="en">Integrations</span>
+        <span data-lang="ar">التكاملات</span>
+      </a>
+    </nav>
 
     <main>
       <section class="hero-section" id="hero">
@@ -3725,13 +4859,12 @@
                 </h3>
                 <p>
                   <span data-lang="en"
-                    >The system instantly captures the order from your
-                    Shopify, WooCommerce, or custom site.</span
+                    >The system instantly captures the order from your Shopify,
+                    WooCommerce, or custom site.</span
                   >
                   <span data-lang="ar"
-                    >بمجرد إتمام الطلب على متجرك، سواء Shopify أو WooCommerce
-                    أو موقعك الخاص، النظام بيستقبله فوراً من غير أي تدخل
-                    منك.</span
+                    >بمجرد إتمام الطلب على متجرك، سواء Shopify أو WooCommerce أو
+                    موقعك الخاص، النظام بيستقبله فوراً من غير أي تدخل منك.</span
                   >
                 </p>
               </div>
@@ -3739,7 +4872,11 @@
                 <img
                   src="imgs/Adobe Express - file (1).webp"
                   alt="Order Received Dashboard"
-                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+1+Image'; this.onerror=null;"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+1+Image';
+                    this.onerror = null;
+                  "
                 />
               </div>
             </div>
@@ -3777,7 +4914,11 @@
                 <img
                   src="imgs/Adobe Express - file (2).webp"
                   alt="WhatsApp Confirmation Screenshot"
-                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+2+Image'; this.onerror=null;"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+2+Image';
+                    this.onerror = null;
+                  "
                 />
               </div>
             </div>
@@ -3815,7 +4956,11 @@
                   <img
                     src="imgs/Adobe Express - file (3) copy.webp"
                     alt="Customer Confirms Screenshot"
-                    onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+3+Image'; this.onerror=null;"
+                    onerror="
+                      this.src =
+                        'https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+3+Image';
+                      this.onerror = null;
+                    "
                   />
                 </div>
               </div>
@@ -3842,10 +4987,10 @@
                   </h3>
                   <p>
                     <span data-lang="en"
-                      >With Confirm It, every cancellation instantly triggers
-                      a WhatsApp follow-up asking why &mdash; then responds
-                      with a tailored offer to win the order back, all
-                      without lifting a finger.</span
+                      >With Confirm It, every cancellation instantly triggers a
+                      WhatsApp follow-up asking why &mdash; then responds with a
+                      tailored offer to win the order back, all without lifting
+                      a finger.</span
                     >
                     <span data-lang="ar"
                       >كل إلغاء بيبقى فرصة، مش نهاية. Confirm It بيبعت رسالة
@@ -3858,13 +5003,17 @@
                   <img
                     src="imgs/cancellation-reason-tem.png"
                     alt="Cancellation Follow-up Screenshot"
-                    onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Cancellation+Recovery'; this.onerror=null;"
+                    onerror="
+                      this.src =
+                        'https://placehold.co/300x533/1e1e1e/3a3a3a?text=Cancellation+Recovery';
+                      this.onerror = null;
+                    "
                   />
                   <div class="cancel-redirect-peek">
                     <img
                       src="imgs/cancellation-reason-redirect.PNG"
                       alt="Cancellation reason redirect page"
-                      onerror="this.parentElement.style.display='none';"
+                      onerror="this.parentElement.style.display = 'none'"
                     />
                     <span class="cancel-redirect-tag"
                       ><span data-lang="en">Reason Page</span
@@ -3879,6 +5028,13 @@
               <div class="timeline-dot"></div>
 
               <div class="how-it-works-text">
+                <div class="prepaid-money-fx" aria-hidden="true">
+                  <span class="money-particle">$</span>
+                  <span class="money-particle">EGP</span>
+                  <span class="money-particle">$</span>
+                  <span class="money-particle">EGP</span>
+                  <span class="money-particle">$</span>
+                </div>
                 <span class="step-highlight-badge"
                   ><span data-lang="en">High Impact</span
                   ><span data-lang="ar">تأثير كبير</span></span
@@ -3905,9 +5061,9 @@
                     confidence.</span
                   >
                   <span data-lang="ar"
-                    >بعد التأكيد على واتساب بثانية، العميل بياخد خصم فوري لو
-                    دفع مقدماً بـ Apple Pay أو كارت &mdash; يعني فلوسك تدخل
-                    قبل ما الشحنة تتحرك.</span
+                    >بعد التأكيد على واتساب بثانية، العميل بياخد خصم فوري لو دفع
+                    مقدماً بـ Apple Pay أو كارت &mdash; يعني فلوسك تدخل قبل ما
+                    الشحنة تتحرك.</span
                   >
                 </p>
                 <div class="step-highlight-list">
@@ -3953,13 +5109,17 @@
                 <img
                   src="imgs/apple-pay.png"
                   alt="Prepaid Upsell Offer Screenshot"
-                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Prepaid+Upsell'; this.onerror=null;"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/300x533/1e1e1e/3a3a3a?text=Prepaid+Upsell';
+                    this.onerror = null;
+                  "
                 />
                 <div class="prepaid-checkout-peek">
                   <img
                     src="imgs/apple-pay-checkout.png"
                     alt="Confirm It secure checkout page"
-                    onerror="this.parentElement.style.display='none';"
+                    onerror="this.parentElement.style.display = 'none'"
                   />
                   <span class="prepaid-checkout-tag"
                     ><span data-lang="en">Checkout</span
@@ -4002,7 +5162,11 @@
                 <img
                   src="imgs/Adobe Express - file (4).png"
                   alt="Courier Integration Dashboard"
-                  onerror="this.src='https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+5+Image'; this.onerror=null;"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/300x533/1e1e1e/3a3a3a?text=Step+5+Image';
+                    this.onerror = null;
+                  "
                 />
               </div>
             </div>
@@ -4025,7 +5189,9 @@
               </span>
               <span data-lang="ar">
                 الرسالة ما اتقرأتش؟
-                <span style="color: var(--brand-green)">المكالمة تتكلم بدالك</span>.
+                <span style="color: var(--brand-green)"
+                  >المكالمة تتكلم بدالك</span
+                >.
               </span>
             </h2>
             <p class="section-subtitle">
@@ -4037,10 +5203,10 @@
                 you a sale.
               </span>
               <span data-lang="ar">
-                مش كل عميل بيفتح واتساب، ولا بيرد، ولا عنده التطبيق أصلاً.
-                سواء الرسالة اتدفنت، أو العميل تجاهلها، أو مفيش واتساب —
-                Confirm It بيحوّل تلقائياً لمكالمة صوتية بالذكاء الاصطناعي،
-                عشان أي رسالة صامتة ما تكلفك طلب.
+                مش كل عميل بيفتح واتساب، ولا بيرد، ولا عنده التطبيق أصلاً. سواء
+                الرسالة اتدفنت، أو العميل تجاهلها، أو مفيش واتساب — Confirm It
+                بيحوّل تلقائياً لمكالمة صوتية بالذكاء الاصطناعي، عشان أي رسالة
+                صامتة ما تكلفك طلب.
               </span>
             </p>
           </div>
@@ -4089,9 +5255,9 @@
                   hands-free. No missed message ever becomes a missed sale.
                 </span>
                 <span data-lang="ar">
-                  رسالة مدفونة، عميل متجاهل، أو مفيش واتساب — Confirm It
-                  بيتصل بالعميل بصوت AI طبيعي، بدون أي تدخل منك. أي رسالة
-                  فائتة ما تتحولش لطلب ضايع.
+                  رسالة مدفونة، عميل متجاهل، أو مفيش واتساب — Confirm It بيتصل
+                  بالعميل بصوت AI طبيعي، بدون أي تدخل منك. أي رسالة فائتة ما
+                  تتحولش لطلب ضايع.
                 </span>
               </p>
 
@@ -4125,7 +5291,9 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en">Ignored the Message? We Follow Up by Phone</span>
+                  <span data-lang="en"
+                    >Ignored the Message? We Follow Up by Phone</span
+                  >
                   <span data-lang="ar">تجاهل الرسالة؟ بنتابع بالمكالمة</span>
                 </div>
                 <div class="feature-item">
@@ -4147,12 +5315,11 @@
               </div>
               <p class="ivr-pitch-note">
                 <span data-lang="en">
-                  Also configurable: send one reminder message before
-                  escalating to a call.
+                  Also configurable: send one reminder message before escalating
+                  to a call.
                 </span>
                 <span data-lang="ar">
-                  وكمان تقدر تخصّص: نبعت رسالة تذكير قبل ما نحوّل
-                  لمكالمة.
+                  وكمان تقدر تخصّص: نبعت رسالة تذكير قبل ما نحوّل لمكالمة.
                 </span>
               </p>
 
@@ -4199,8 +5366,8 @@
               </div>
               <p class="ivr-audio-disclaimer">
                 <span data-lang="en">
-                  Real AI voice for the greeting &mdash; responses are
-                  simulated for this preview.
+                  Real AI voice for the greeting &mdash; responses are simulated
+                  for this preview.
                 </span>
                 <span data-lang="ar">
                   صوت AI حقيقي للترحيب &mdash; الردود في المعاينة محاكاة.
@@ -4215,7 +5382,12 @@
               <div class="ivr-phone-stage">
                 <div class="ivr-phone-glow"></div>
 
-                <div class="ivr-phone-overlay" id="ivrPhone" data-state="incoming">
+                <div
+                  class="ivr-phone-overlay"
+                  id="ivrPhone"
+                  data-state="incoming"
+                >
+                  <div class="ivr-phone-shake">
                   <!-- Incoming call screen -->
                   <div class="ivr-phone-screen ivr-phone-screen-incoming">
                     <div class="ivr-phone-callscreen">
@@ -4277,18 +5449,37 @@
                       <span class="ivr-phone-callername">Confirm It AI</span>
                     </div>
                     <div class="ivr-caption-box">
-                      <p class="ivr-caption-text" id="ivrCaptionText" dir="rtl"></p>
+                      <p
+                        class="ivr-caption-text"
+                        id="ivrCaptionText"
+                        dir="rtl"
+                      ></p>
                     </div>
                     <div class="ivr-keypad">
-                      <button class="ivr-key" type="button" data-key="1" aria-label="Press 1 to confirm">
+                      <button
+                        class="ivr-key"
+                        type="button"
+                        data-key="1"
+                        aria-label="Press 1 to confirm"
+                      >
                         <span class="ivr-key-num">1</span>
                         <span class="ivr-key-label">تأكيد</span>
                       </button>
-                      <button class="ivr-key" type="button" data-key="2" aria-label="Press 2 to cancel">
+                      <button
+                        class="ivr-key"
+                        type="button"
+                        data-key="2"
+                        aria-label="Press 2 to cancel"
+                      >
                         <span class="ivr-key-num">2</span>
                         <span class="ivr-key-label">إلغاء</span>
                       </button>
-                      <button class="ivr-key" type="button" data-key="3" aria-label="Press 3 to contact support">
+                      <button
+                        class="ivr-key"
+                        type="button"
+                        data-key="3"
+                        aria-label="Press 3 to contact support"
+                      >
                         <span class="ivr-key-num">3</span>
                         <span class="ivr-key-label">تواصل</span>
                       </button>
@@ -4299,10 +5490,18 @@
                   <div class="ivr-phone-screen ivr-phone-screen-ended">
                     <div class="ivr-outcome-icon" id="ivrOutcomeIcon">
                       <svg class="icon-confirm" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
                       </svg>
                       <svg class="icon-cancel" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                       <svg class="icon-contact" viewBox="0 0 24 24">
                         <path
@@ -4312,15 +5511,28 @@
                         />
                       </svg>
                     </div>
-                    <p class="ivr-caption-text ivr-outcome-text" id="ivrOutcomeText" dir="rtl"></p>
-                    <button class="ivr-replay-btn" id="ivrReplayBtn" type="button">
+                    <p
+                      class="ivr-caption-text ivr-outcome-text"
+                      id="ivrOutcomeText"
+                      dir="rtl"
+                    ></p>
+                    <button
+                      class="ivr-replay-btn"
+                      id="ivrReplayBtn"
+                      type="button"
+                    >
                       إعادة الاستماع
                     </button>
+                  </div>
                   </div>
                 </div>
 
                 <div class="ivr-tap-hint" id="ivrTapHint">
-                  <svg class="ivr-tap-hint-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg
+                    class="ivr-tap-hint-arrow"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
                     <path
                       d="M12 19V5M12 5l-5 5M12 5l5 5"
                       stroke="currentColor"
@@ -4344,7 +5556,9 @@
               href="{% url 'checkout' %}?plan=starter&price=500"
               class="btn-feature-match"
             >
-              <span data-lang="en">Never Miss Another Order &mdash; Start Free Trial</span>
+              <span data-lang="en"
+                >Never Miss Another Order &mdash; Start Free Trial</span
+              >
               <span data-lang="ar">ما تضيعش طلب تاني &mdash; جرّب مجاناً</span>
             </a>
           </div>
@@ -4354,7 +5568,9 @@
       <section id="integrations" class="integrations-section">
         <div class="container">
           <h2 class="integrations-subtitle">
-            <span data-lang="en">Integrated with the tools you already use</span>
+            <span data-lang="en"
+              >Integrated with the tools you already use</span
+            >
             <span data-lang="ar">متكامل مع الأدوات اللي بتستخدمها أصلاً</span>
           </h2>
           <div class="integrations-grid">
@@ -4363,19 +5579,31 @@
                 class="logo-bosta"
                 src="imgs/bosta.svg"
                 alt="Bosta"
-                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Bosta'; this.onerror=null;"
+                onerror="
+                  this.src =
+                    'https://placehold.co/158x48/f5f5f5/a0a0a0?text=Bosta';
+                  this.onerror = null;
+                "
               />
               <img
-                class="logo-khazenly"
-                src="imgs/khazenly.png"
-                alt="Khazenly"
-                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Khazenly'; this.onerror=null;"
+                class="logo-chainz"
+                src="imgs/chainz.png"
+                alt="Chainz"
+                onerror="
+                  this.src =
+                    'https://placehold.co/158x48/f5f5f5/a0a0a0?text=Chainz';
+                  this.onerror = null;
+                "
               />
               <img
                 class="logo-aramex"
                 src="imgs/aramexx.png"
                 alt="Aramex"
-                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Aramex'; this.onerror=null;"
+                onerror="
+                  this.src =
+                    'https://placehold.co/158x48/f5f5f5/a0a0a0?text=Aramex';
+                  this.onerror = null;
+                "
               />
             </div>
             <div class="integrations-row integrations-row-2">
@@ -4383,13 +5611,31 @@
                 class="logo-shopify"
                 src="imgs/shopify.png"
                 alt="Shopify"
-                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=Shopify'; this.onerror=null;"
+                onerror="
+                  this.src =
+                    'https://placehold.co/158x48/f5f5f5/a0a0a0?text=Shopify';
+                  this.onerror = null;
+                "
               />
               <img
                 class="logo-woocommerce"
                 src="imgs/woocommerce.png"
                 alt="WooCommerce"
-                onerror="this.src='https://placehold.co/158x48/f5f5f5/a0a0a0?text=WooCommerce'; this.onerror=null;"
+                onerror="
+                  this.src =
+                    'https://placehold.co/158x48/f5f5f5/a0a0a0?text=WooCommerce';
+                  this.onerror = null;
+                "
+              />
+              <img
+                class="logo-khazenly"
+                src="imgs/khazenly.png"
+                alt="Khazenly"
+                onerror="
+                  this.src =
+                    'https://placehold.co/158x48/f5f5f5/a0a0a0?text=Khazenly';
+                  this.onerror = null;
+                "
               />
             </div>
           </div>
@@ -4413,12 +5659,12 @@
               <p>
                 <span data-lang="en">
                   Turn raw data into actionable growth. Deep-dive into agent
-                  performance metrics, confirmation rates, and revenue statistics
-                  to optimize your funnel and maximize profitability.
+                  performance metrics, confirmation rates, and revenue
+                  statistics to optimize your funnel and maximize profitability.
                 </span>
                 <span data-lang="ar">
-                  حوّل الأرقام لقرارات تزود أرباحك. تابع أداء التأكيدات،
-                  نسب الإلغاء، والإيرادات — وظبّط مسار البيع خطوة بخطوة.
+                  حوّل الأرقام لقرارات تزود أرباحك. تابع أداء التأكيدات، نسب
+                  الإلغاء، والإيرادات — وظبّط مسار البيع خطوة بخطوة.
                 </span>
               </p>
 
@@ -4465,7 +5711,11 @@
                   src="imgs/ipad.png"
                   alt="Analytics Detail"
                   style="max-width: 100%; margin: 0 auto"
-                  onerror="this.src='https://placehold.co/600x800/1e1e1e/3a3a3a?text=Tablet+Analytics'; this.onerror=null;"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/600x800/1e1e1e/3a3a3a?text=Tablet+Analytics';
+                    this.onerror = null;
+                  "
                 />
                 <div class="float-card">
                   <span data-lang="en">Live Update</span>
@@ -4484,7 +5734,11 @@
                   class="dashboard-img"
                   src="imgs/BBB.png"
                   alt="Dashboard Overview"
-                  onerror="this.src='https://placehold.co/800x500/1e1e1e/3a3a3a?text=Laptop+Dashboard'; this.onerror=null;"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/800x500/1e1e1e/3a3a3a?text=Laptop+Dashboard';
+                    this.onerror = null;
+                  "
                 />
                 <div class="dashboard-glow"></div>
               </div>
@@ -4509,9 +5763,8 @@
                   shipments—all in one professional interface.
                 </span>
                 <span data-lang="ar">
-                  راقب كل طلب لحظة بلحظة. لوحة التحكم بتصنّف الطلبات
-                  تلقائياً — تأكيدات، انتظار، وشحنات — في واجهة واحدة
-                  احترافية.
+                  راقب كل طلب لحظة بلحظة. لوحة التحكم بتصنّف الطلبات تلقائياً —
+                  تأكيدات، انتظار، وشحنات — في واجهة واحدة احترافية.
                 </span>
               </p>
 
@@ -4546,7 +5799,9 @@
                     />
                   </svg>
                   <span data-lang="en">AI-Powered Reply Analysis</span>
-                  <span data-lang="ar">تحليل ردود العملاء بالذكاء الاصطناعي</span>
+                  <span data-lang="ar"
+                    >تحليل ردود العملاء بالذكاء الاصطناعي</span
+                  >
                 </div>
               </div>
             </div>
@@ -4568,12 +5823,20 @@
         <div class="container">
           <div class="section-header text-center">
             <h2 class="section-title">
-              <span data-lang="en">Select Your <span class="highlight-brand">Capacity</span></span>
-              <span data-lang="ar">اختار <span class="highlight-brand">باقتك</span> المناسبة</span>
+              <span data-lang="en"
+                >Select Your <span class="highlight-brand">Capacity</span></span
+              >
+              <span data-lang="ar"
+                >اختار <span class="highlight-brand">باقتك</span> المناسبة</span
+              >
             </h2>
             <p class="section-subtitle">
-              <span data-lang="en">Swipe to find the plan that fits your volume.</span>
-              <span data-lang="ar">مرّر واختار الباقة اللي تناسب حجم طلباتك.</span>
+              <span data-lang="en"
+                >Swipe to find the plan that fits your volume.</span
+              >
+              <span data-lang="ar"
+                >مرّر واختار الباقة اللي تناسب حجم طلباتك.</span
+              >
             </p>
           </div>
 
@@ -4589,29 +5852,45 @@
                 <div class="card-top">
                   <span class="tier-label">Micro</span>
                   <div class="tier-price">
-                    <span class="currency">EGP</span>290<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    <span class="currency">EGP</span>290<span class="period"
+                      ><span data-lang="en">/mo</span
+                      ><span data-lang="ar">/شهر</span></span
                     >
                   </div>
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
-                    ><strong><span data-lang="en">100 Points</span><span data-lang="ar">100 نقطة</span></strong>
+                    ><strong
+                      ><span data-lang="en">100 Points</span
+                      ><span data-lang="ar">100 نقطة</span></strong
+                    >
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Orders Overview</span
+                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Dashboard Analytics</span
+                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Automation Control</span
+                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en"
+                      >Automatic Order Shipment Creation</span
+                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=micro" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                <a href="{% url 'checkout' %}?plan=micro" class="btn-unified"
+                  ><span data-lang="en">Initialize</span
+                  ><span data-lang="ar">ابدأ الآن</span></a
                 >
               </div>
 
@@ -4621,29 +5900,45 @@
                 <div class="card-top">
                   <span class="tier-label">Starter</span>
                   <div class="tier-price">
-                    <span class="currency">EGP</span>1,290<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    <span class="currency">EGP</span>1,290<span class="period"
+                      ><span data-lang="en">/mo</span
+                      ><span data-lang="ar">/شهر</span></span
                     >
                   </div>
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
-                    ><strong><span data-lang="en">500 Points</span><span data-lang="ar">500 نقطة</span></strong>
+                    ><strong
+                      ><span data-lang="en">500 Points</span
+                      ><span data-lang="ar">500 نقطة</span></strong
+                    >
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Orders Overview</span
+                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Dashboard Analytics</span
+                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Automation Control</span
+                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en"
+                      >Automatic Order Shipment Creation</span
+                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=starter" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                <a href="{% url 'checkout' %}?plan=starter" class="btn-unified"
+                  ><span data-lang="en">Initialize</span
+                  ><span data-lang="ar">ابدأ الآن</span></a
                 >
               </div>
 
@@ -4653,29 +5948,45 @@
                 <div class="card-top">
                   <span class="tier-label">Growth</span>
                   <div class="tier-price">
-                    <span class="currency">EGP</span>2,390<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    <span class="currency">EGP</span>2,390<span class="period"
+                      ><span data-lang="en">/mo</span
+                      ><span data-lang="ar">/شهر</span></span
                     >
                   </div>
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
-                    ><strong><span data-lang="en">1,000 Points</span><span data-lang="ar">1,000 نقطة</span></strong>
+                    ><strong
+                      ><span data-lang="en">1,000 Points</span
+                      ><span data-lang="ar">1,000 نقطة</span></strong
+                    >
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Orders Overview</span
+                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Dashboard Analytics</span
+                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Automation Control</span
+                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en"
+                      >Automatic Order Shipment Creation</span
+                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=growth" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                <a href="{% url 'checkout' %}?plan=growth" class="btn-unified"
+                  ><span data-lang="en">Initialize</span
+                  ><span data-lang="ar">ابدأ الآن</span></a
                 >
               </div>
 
@@ -4685,29 +5996,45 @@
                 <div class="card-top">
                   <span class="tier-label">Pro</span>
                   <div class="tier-price">
-                    <span class="currency">EGP</span>4,290<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    <span class="currency">EGP</span>4,290<span class="period"
+                      ><span data-lang="en">/mo</span
+                      ><span data-lang="ar">/شهر</span></span
                     >
                   </div>
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
-                    ><strong><span data-lang="en">2,000 Points</span><span data-lang="ar">2,000 نقطة</span></strong>
+                    ><strong
+                      ><span data-lang="en">2,000 Points</span
+                      ><span data-lang="ar">2,000 نقطة</span></strong
+                    >
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Orders Overview</span
+                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Dashboard Analytics</span
+                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Automation Control</span
+                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en"
+                      >Automatic Order Shipment Creation</span
+                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=pro" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                <a href="{% url 'checkout' %}?plan=pro" class="btn-unified"
+                  ><span data-lang="en">Initialize</span
+                  ><span data-lang="ar">ابدأ الآن</span></a
                 >
               </div>
 
@@ -4717,29 +6044,45 @@
                 <div class="card-top">
                   <span class="tier-label">Scale</span>
                   <div class="tier-price">
-                    <span class="currency">EGP</span>5,490<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    <span class="currency">EGP</span>5,490<span class="period"
+                      ><span data-lang="en">/mo</span
+                      ><span data-lang="ar">/شهر</span></span
                     >
                   </div>
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
-                    ><strong><span data-lang="en">3,000 Points</span><span data-lang="ar">3,000 نقطة</span></strong>
+                    ><strong
+                      ><span data-lang="en">3,000 Points</span
+                      ><span data-lang="ar">3,000 نقطة</span></strong
+                    >
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Orders Overview</span
+                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Dashboard Analytics</span
+                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Automation Control</span
+                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en"
+                      >Automatic Order Shipment Creation</span
+                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=scale" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                <a href="{% url 'checkout' %}?plan=scale" class="btn-unified"
+                  ><span data-lang="en">Initialize</span
+                  ><span data-lang="ar">ابدأ الآن</span></a
                 >
               </div>
 
@@ -4749,29 +6092,45 @@
                 <div class="card-top">
                   <span class="tier-label">Elite</span>
                   <div class="tier-price">
-                    <span class="currency">EGP</span>7,490<span class="period"><span data-lang="en">/mo</span><span data-lang="ar">/شهر</span></span
+                    <span class="currency">EGP</span>7,490<span class="period"
+                      ><span data-lang="en">/mo</span
+                      ><span data-lang="ar">/شهر</span></span
                     >
                   </div>
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
-                    ><strong><span data-lang="en">5,000 Points</span><span data-lang="ar">5,000 نقطة</span></strong>
+                    ><strong
+                      ><span data-lang="en">5,000 Points</span
+                      ><span data-lang="ar">5,000 نقطة</span></strong
+                    >
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Orders Overview</span
+                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Dashboard Analytics</span
+                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Automation Control</span
+                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en"
+                      >Automatic Order Shipment Creation</span
+                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=elite" class="btn-unified"><span data-lang="en">Initialize</span><span data-lang="ar">ابدأ الآن</span></a
+                <a href="{% url 'checkout' %}?plan=elite" class="btn-unified"
+                  ><span data-lang="en">Initialize</span
+                  ><span data-lang="ar">ابدأ الآن</span></a
                 >
               </div>
 
@@ -4781,28 +6140,45 @@
                 <div class="card-top">
                   <span class="tier-label">Enterprise</span>
                   <div class="tier-price">
-                    <span class="currency"><span data-lang="en">Contact Us</span><span data-lang="ar">تواصل معنا</span></span>
+                    <span class="currency"
+                      ><span data-lang="en">Contact Us</span
+                      ><span data-lang="ar">تواصل معنا</span></span
+                    >
                   </div>
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
-                    ><strong><span data-lang="en">5,000+ Points</span><span data-lang="ar">5,000+ نقطة</span></strong>
+                    ><strong
+                      ><span data-lang="en">5,000+ Points</span
+                      ><span data-lang="ar">5,000+ نقطة</span></strong
+                    >
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Orders Overview</span><span data-lang="ar">نظرة شاملة على الطلبات</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Orders Overview</span
+                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Dashboard Analytics</span><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Dashboard Analytics</span
+                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Full Automation Control</span><span data-lang="ar">تحكم كامل في الأتمتة</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en">Full Automation Control</span
+                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
                   </div>
                   <div class="spec-row">
-                    <span class="spec-dot"></span><span data-lang="en">Automatic Order Shipment Creation</span><span data-lang="ar">إنشاء شحنات تلقائي</span>
+                    <span class="spec-dot"></span
+                    ><span data-lang="en"
+                      >Automatic Order Shipment Creation</span
+                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="mailto:sales@confirmit.com" class="btn-unified"><span data-lang="en">Contact Sales</span><span data-lang="ar">تواصل مع المبيعات</span></a
+                <a href="mailto:sales@confirmit.com" class="btn-unified"
+                  ><span data-lang="en">Contact Sales</span
+                  ><span data-lang="ar">تواصل مع المبيعات</span></a
                 >
               </div>
             </div>
@@ -4827,8 +6203,8 @@
                 your confirmation rate increase in minutes.
               </span>
               <span data-lang="ar">
-                ابدأ تجربتك المجانية 30 يوماً النهارده. بدون بطاقة ائتمان.
-                شوف نسبة التأكيد ترتفع في دقائق.
+                ابدأ تجربتك المجانية 30 يوماً النهارده. بدون بطاقة ائتمان. شوف
+                نسبة التأكيد ترتفع في دقائق.
               </span>
             </p>
             <div class="cta-buttons">
@@ -4881,35 +6257,167 @@
               />
             </a>
             <p>
-              <span data-lang="en">Automating e-Commerce confirmations and logistics.</span>
-              <span data-lang="ar">أتمتة تأكيدات الطلبات واللوجستيات للتجارة الإلكترونية.</span>
+              <span data-lang="en"
+                >Automating e-Commerce confirmations and logistics.</span
+              >
+              <span data-lang="ar"
+                >أتمتة تأكيدات الطلبات واللوجستيات للتجارة الإلكترونية.</span
+              >
             </p>
+            <div class="social-icons" aria-label="Follow us on social media">
+              <a
+                href="#"
+                class="social-icon-link"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg viewBox="0 0 40 40" class="social-icon icon-instagram">
+                  <defs>
+                    <linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0">
+                      <stop offset="0" stop-color="#27ae60" />
+                      <stop offset="1" stop-color="#4ade80" />
+                    </linearGradient>
+                  </defs>
+                  <rect
+                    x="6"
+                    y="6"
+                    width="28"
+                    height="28"
+                    rx="9"
+                    fill="none"
+                    stroke="url(#igGrad)"
+                    stroke-width="2"
+                  />
+                  <circle
+                    cx="20"
+                    cy="20"
+                    r="7"
+                    fill="none"
+                    stroke="url(#igGrad)"
+                    stroke-width="2"
+                  />
+                  <circle cx="28.5" cy="11.5" r="1.6" fill="url(#igGrad)" />
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="social-icon-link"
+                aria-label="TikTok"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg viewBox="0 0 40 40" class="social-icon icon-tiktok">
+                  <path
+                    d="M22 7c0.6 3.4 2.9 5.6 6.3 5.9v4.2c-2.2 0.1-4.2-0.6-6.1-2v9.1c0 4.6-3.7 8-8.1 7.6-4-0.4-6.9-4-6.5-8.1 0.4-3.8 3.7-6.7 7.5-6.5v4.3c-1.8-0.3-3.4 0.9-3.6 2.6-0.2 1.7 1 3.2 2.7 3.4 1.8 0.2 3.4-1.2 3.4-3V7h4.4z"
+                    fill="none"
+                    stroke="var(--brand-green-bright)"
+                    stroke-width="1.6"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="social-icon-link"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg viewBox="0 0 40 40" class="social-icon icon-facebook">
+                  <circle
+                    cx="20"
+                    cy="20"
+                    r="14"
+                    fill="none"
+                    stroke="var(--brand-green)"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M22.5 14.5h2.2v-3.4h-2.6c-2.6 0-4.3 1.7-4.3 4.4v2.1h-2.4v3.4h2.4v8.4h3.5v-8.4h2.6l0.5-3.4h-3.1v-1.6c0-0.9 0.3-1.5 1.2-1.5z"
+                    fill="var(--brand-green-bright)"
+                  />
+                </svg>
+              </a>
+            </div>
           </div>
 
           <div class="footer-col">
-            <h3><span data-lang="en">Product</span><span data-lang="ar">المنتج</span></h3>
+            <h3>
+              <span data-lang="en">Product</span
+              ><span data-lang="ar">المنتج</span>
+            </h3>
             <ul>
-              <li><a href="#features"><span data-lang="en">Features</span><span data-lang="ar">المميزات</span></a></li>
-              <li><a href="#pricing"><span data-lang="en">Pricing</span><span data-lang="ar">الأسعار</span></a></li>
-              <li><a href="#how-it-works"><span data-lang="en">How it Works</span><span data-lang="ar">كيف يعمل</span></a></li>
-              <li><a href="#integrations"><span data-lang="en">Integrations</span><span data-lang="ar">التكاملات</span></a></li>
+              <li>
+                <a href="#features"
+                  ><span data-lang="en">Features</span
+                  ><span data-lang="ar">المميزات</span></a
+                >
+              </li>
+              <li>
+                <a href="#pricing"
+                  ><span data-lang="en">Pricing</span
+                  ><span data-lang="ar">الأسعار</span></a
+                >
+              </li>
+              <li>
+                <a href="#how-it-works"
+                  ><span data-lang="en">How it Works</span
+                  ><span data-lang="ar">كيف يعمل</span></a
+                >
+              </li>
+              <li>
+                <a href="#integrations"
+                  ><span data-lang="en">Integrations</span
+                  ><span data-lang="ar">التكاملات</span></a
+                >
+              </li>
             </ul>
           </div>
 
           <div class="footer-col">
-            <h3><span data-lang="en">Legal</span><span data-lang="ar">قانوني</span></h3>
+            <h3>
+              <span data-lang="en">Legal</span
+              ><span data-lang="ar">قانوني</span>
+            </h3>
             <ul>
-              <li><a href="{% url 'privacy' %}"><span data-lang="en">Privacy Policy</span><span data-lang="ar">سياسة الخصوصية</span></a></li>
-              <li><a href="{% url 'terms' %}"><span data-lang="en">Terms of Service</span><span data-lang="ar">شروط الخدمة</span></a></li>
-              <li><a href="{% url 'refund' %}"><span data-lang="en">Refund Policy</span><span data-lang="ar">سياسة الاسترداد</span></a></li>
-              <li><a href="{% url 'home' %}#"><span data-lang="en">About Us</span><span data-lang="ar">من نحن</span></a></li>
+              <li>
+                <a href="{% url 'privacy' %}"
+                  ><span data-lang="en">Privacy Policy</span
+                  ><span data-lang="ar">سياسة الخصوصية</span></a
+                >
+              </li>
+              <li>
+                <a href="{% url 'terms' %}"
+                  ><span data-lang="en">Terms of Service</span
+                  ><span data-lang="ar">شروط الخدمة</span></a
+                >
+              </li>
+              <li>
+                <a href="{% url 'refund' %}"
+                  ><span data-lang="en">Refund Policy</span
+                  ><span data-lang="ar">سياسة الاسترداد</span></a
+                >
+              </li>
+              <li>
+                <a href="{% url 'home' %}#"
+                  ><span data-lang="en">About Us</span
+                  ><span data-lang="ar">من نحن</span></a
+                >
+              </li>
             </ul>
           </div>
 
           <div class="footer-col">
-            <h3><span data-lang="en">Company</span><span data-lang="ar">الشركة</span></h3>
+            <h3>
+              <span data-lang="en">Company</span
+              ><span data-lang="ar">الشركة</span>
+            </h3>
             <ul>
-              <li><span data-lang="en">New Cairo, 5th settlement</span><span data-lang="ar">القاهرة الجديدة، التجمع الخامس</span></li>
+              <li>
+                <span data-lang="en">New Cairo, 5th settlement</span
+                ><span data-lang="ar">القاهرة الجديدة، التجمع الخامس</span>
+              </li>
               <li>01505626767</li>
               <li>info@confirmit-eg.com</li>
             </ul>
@@ -4918,25 +6426,13 @@
 
         <div class="footer-bottom">
           <p class="footer-copyright">
-            <span data-lang="en">&copy; 2026 Confirm It. All rights reserved.</span>
-            <span data-lang="ar">&copy; 2026 Confirm It. جميع الحقوق محفوظة.</span>
+            <span data-lang="en"
+              >&copy; 2026 Confirm It. All rights reserved.</span
+            >
+            <span data-lang="ar"
+              >&copy; 2026 Confirm It. جميع الحقوق محفوظة.</span
+            >
           </p>
-          <div class="footer-legal-strip">
-            <p class="footer-legal-line">
-              <span>Confirm It for Software Solutions</span>
-              <span class="footer-legal-divider" aria-hidden="true">&bull;</span>
-              <span dir="rtl">كونفرم ات للخدمات الإلكترونية</span>
-            </p>
-            <p class="footer-legal-line">
-              <span>Address: Cairo, New Cairo, 305 The Southern Ninety Street</span>
-              <span class="footer-legal-divider" aria-hidden="true">&bull;</span>
-              <span dir="rtl"
-                >العنوان: القاهرة الجديدة، ٣٠٥ شارع التسعين الجنوبي</span
-              >
-              <span class="footer-legal-divider" aria-hidden="true">&bull;</span>
-              <span dir="rtl">سجل تجاري: 291643</span>
-            </p>
-          </div>
         </div>
       </div>
     </footer>
@@ -4944,23 +6440,54 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         // --- LANGUAGE SWITCHER LOGIC ---
+        const langSwitcherCopy = {
+          en: {
+            group: "Choose language",
+            enBtn: "English",
+            arBtn: "Arabic",
+          },
+          ar: {
+            group: "اختر اللغة",
+            enBtn: "الإنجليزية",
+            arBtn: "العربية",
+          },
+        };
+
         function setLanguage(lang) {
           document.documentElement.lang = lang;
           document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
           document.body.classList.remove("lang-en", "lang-ar");
           document.body.classList.add("lang-" + lang);
           localStorage.setItem("confirmit-lang", lang);
+          document.querySelectorAll(".lang-switch-seg").forEach((btn) => {
+            const isActive = btn.getAttribute("data-set-lang") === lang;
+            btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+          });
+          const copy = langSwitcherCopy[lang];
+          document.querySelectorAll(".lang-switch[role='group']").forEach((group) => {
+            group.setAttribute("aria-label", copy.group);
+          });
+          document
+            .querySelectorAll(".lang-switch-seg[data-set-lang='en']")
+            .forEach((btn) => {
+              btn.setAttribute("aria-label", copy.enBtn);
+            });
+          document
+            .querySelectorAll(".lang-switch-seg[data-set-lang='ar']")
+            .forEach((btn) => {
+              btn.setAttribute("aria-label", copy.arBtn);
+            });
         }
 
-        const langSwitch = document.getElementById("langSwitch");
-        if (langSwitch) {
-          langSwitch.addEventListener("click", () => {
-            const current = document.body.classList.contains("lang-ar")
-              ? "ar"
-              : "en";
-            setLanguage(current === "en" ? "ar" : "en");
+        document.querySelectorAll(".lang-switch-seg").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            setLanguage(btn.getAttribute("data-set-lang"));
           });
-        }
+        });
+
+        setLanguage(
+          document.body.classList.contains("lang-ar") ? "ar" : "en",
+        );
 
         // --- MOBILE MENU LOGIC ---
         const menuBtn = document.getElementById("menu-btn");
@@ -4986,13 +6513,138 @@
 
         mobileLinks.forEach((link) => {
           link.addEventListener("click", () => {
+            const href = link.getAttribute("href") || "";
+            if (href.startsWith("#") && href.length > 1) return;
             if (mobileDrawer.classList.contains("active")) toggleMenu();
           });
         });
 
+        // --- PRECISION ANCHOR SCROLL (fixed header + section headlines) ---
+        const SECTION_HEADLINE_SELECTORS = {
+          "how-it-works": ".how-it-works-header",
+          "ivr-fallback": ".ivr-header",
+          integrations: ".integrations-subtitle",
+          pricing: ".section-header",
+        };
+
+        function getHeaderOffset() {
+          const raw = getComputedStyle(document.documentElement)
+            .getPropertyValue("--header-height")
+            .trim();
+          const parsed = parseFloat(raw);
+          const header = Number.isFinite(parsed) ? parsed : 80;
+          const isMobile = window.matchMedia("(max-width: 1023px)").matches;
+          if (!isMobile) return header;
+
+          const langBarRaw = getComputedStyle(document.documentElement)
+            .getPropertyValue("--mobile-langbar-height")
+            .trim();
+          const langBar = parseFloat(langBarRaw);
+          return header + (Number.isFinite(langBar) ? langBar : 36);
+        }
+
+        function getScrollTopForSection(sectionId) {
+          const section = document.getElementById(sectionId);
+          if (!section) return null;
+
+          const headlineSelector = SECTION_HEADLINE_SELECTORS[sectionId];
+          const headline =
+            (headlineSelector && section.querySelector(headlineSelector)) ||
+            section;
+
+          const gap = 20;
+          return (
+            headline.getBoundingClientRect().top +
+            window.scrollY -
+            getHeaderOffset() -
+            gap
+          );
+        }
+
+        function scrollToSection(sectionId, behavior = "smooth") {
+          const top = getScrollTopForSection(sectionId);
+          if (top === null) return;
+          window.scrollTo({ top: Math.max(0, top), behavior });
+        }
+
+        function handleAnchorNavigation(link, event) {
+          const href = link.getAttribute("href");
+          if (!href || href === "#") return;
+
+          const sectionId = href.slice(1);
+          if (!document.getElementById(sectionId)) return;
+
+          event.preventDefault();
+
+          const menuWasOpen = document.body.classList.contains("menu-open");
+          if (menuWasOpen) toggleMenu();
+
+          const runScroll = () => scrollToSection(sectionId);
+          if (menuWasOpen) {
+            window.setTimeout(runScroll, 320);
+          } else {
+            runScroll();
+          }
+
+          history.pushState(null, "", "#" + sectionId);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+          link.addEventListener("click", (event) => {
+            handleAnchorNavigation(link, event);
+          });
+        });
+
+        function scrollToHashOnLoad() {
+          const sectionId = window.location.hash.slice(1);
+          if (!sectionId || !document.getElementById(sectionId)) return;
+          requestAnimationFrame(() => {
+            scrollToSection(sectionId, "instant");
+          });
+        }
+
+        scrollToHashOnLoad();
+        window.addEventListener("hashchange", () => {
+          const sectionId = window.location.hash.slice(1);
+          if (sectionId && document.getElementById(sectionId)) {
+            scrollToSection(sectionId);
+          }
+        });
+
+        // Mobile quick dock — highlight current section
+        const dockNavLinks = document.querySelectorAll(
+          ".mobile-dock-item[data-dock-section]",
+        );
+        if (dockNavLinks.length) {
+          const dockSections = Array.from(dockNavLinks)
+            .map((link) => document.getElementById(link.dataset.dockSection))
+            .filter(Boolean);
+
+          const dockObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const sectionId = entry.target.id;
+                dockNavLinks.forEach((link) => {
+                  link.classList.toggle(
+                    "is-active",
+                    link.dataset.dockSection === sectionId,
+                  );
+                });
+              });
+            },
+            {
+              rootMargin: `-${getHeaderOffset() + 24}px 0px -55% 0px`,
+              threshold: 0.12,
+            },
+          );
+
+          dockSections.forEach((section) => dockObserver.observe(section));
+        }
+
         // Image Scroll Animation Logic
         const imageWrappers = document.querySelectorAll(
-          ".how-it-works-image-wrapper"
+          ".how-it-works-image-wrapper",
         );
         const imgObserver = new IntersectionObserver(
           (entries) => {
@@ -5002,48 +6654,96 @@
               }
             });
           },
-          { threshold: 0.3 }
+          { threshold: 0.3 },
         );
 
         imageWrappers.forEach((wrapper) => {
           imgObserver.observe(wrapper);
         });
 
+        // Timeline FX: latch colors once revealed; run motion while the step
+        // headline is in the readable zone (stops when scrolled past).
+        function isTimelineFxActive(entry, focusSelector) {
+          const el = entry.target;
+          const rect = entry.boundingClientRect;
+          const vh =
+            window.innerHeight || document.documentElement.clientHeight;
+          const headerRaw = getComputedStyle(document.documentElement)
+            .getPropertyValue("--header-height")
+            .trim();
+          const header = parseFloat(headerRaw) || 80;
+
+          if (rect.bottom <= header + 32) return false;
+          if (rect.top >= vh - 32) return false;
+
+          const focusEl =
+            (focusSelector && el.querySelector(focusSelector)) || el;
+          const focusRect = focusEl.getBoundingClientRect();
+          const inFocusBand =
+            focusRect.bottom > header + 40 && focusRect.top < vh * 0.84;
+
+          return entry.intersectionRatio >= 0.08 && inFocusBand;
+        }
+
+        function latchTimelineReveal(el, popClass) {
+          if (!el.classList.contains("has-revealed")) {
+            el.classList.add("has-revealed");
+            if (popClass) el.classList.add(popClass);
+          }
+        }
+
         // Cancellation Recovery Alert Animation Logic
         const cancelFeedbackRow = document.querySelector(
-          ".cancel-feedback-row"
+          ".cancel-feedback-row",
         );
         if (cancelFeedbackRow) {
-          let cancelAlertFirstReveal = true;
-          // NOTE: entry.isIntersecting is true the moment even 1px is
-          // visible, regardless of the threshold given below - it does NOT
-          // wait for the ratio to reach that threshold. So we check
-          // intersectionRatio directly to keep the effect scoped tightly to
-          // "actually looking at this row", and off as soon as it's mostly
-          // scrolled past.
           const cancelAlertObserver = new IntersectionObserver(
             (entries) => {
               entries.forEach((entry) => {
-                if (entry.intersectionRatio >= 0.4) {
+                if (isTimelineFxActive(entry, ".cancel-feedback-text")) {
                   entry.target.classList.add("in-view");
-                  if (cancelAlertFirstReveal) {
-                    entry.target.classList.add("shake-once");
-                    cancelAlertFirstReveal = false;
-                  }
+                  latchTimelineReveal(entry.target, "shake-once");
                 } else {
                   entry.target.classList.remove("in-view");
                 }
+                if (entry.intersectionRatio >= 0.2) {
+                  latchTimelineReveal(entry.target, "shake-once");
+                }
               });
             },
-            { threshold: [0, 0.4] }
+            { threshold: [0, 0.15, 0.22, 0.35, 0.5, 0.65] },
           );
           cancelAlertObserver.observe(cancelFeedbackRow);
+        }
+
+        // Prepaid Upsell gold + money FX on scroll
+        const prepaidHighlightStep = document.querySelector(
+          ".how-it-works-step.step-highlight",
+        );
+        if (prepaidHighlightStep) {
+          const prepaidObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (isTimelineFxActive(entry, ".how-it-works-text")) {
+                  entry.target.classList.add("in-view");
+                  latchTimelineReveal(entry.target, "prepaid-pop-once");
+                } else {
+                  entry.target.classList.remove("in-view");
+                }
+                if (entry.intersectionRatio >= 0.2) {
+                  latchTimelineReveal(entry.target, "prepaid-pop-once");
+                }
+              });
+            },
+            { threshold: [0, 0.15, 0.22, 0.35, 0.5, 0.65] },
+          );
+          prepaidObserver.observe(prepaidHighlightStep);
         }
 
         // Integration Pop Animation Logic
         const integrationSection = document.querySelector("#integrations");
         const integrationLogos = document.querySelectorAll(
-          ".integrations-grid img"
+          ".integrations-grid img",
         );
 
         const observer = new IntersectionObserver(
@@ -5058,7 +6758,7 @@
               }
             });
           },
-          { threshold: 0.2 }
+          { threshold: 0.2 },
         );
 
         if (integrationSection) {
@@ -5067,7 +6767,7 @@
 
         // Features Section Fade In Animation
         const featuresElements = document.querySelectorAll(
-          ".features-text-content, .features-visual"
+          ".features-text-content, .features-visual",
         );
         const featuresObserver = new IntersectionObserver(
           (entries) => {
@@ -5077,7 +6777,7 @@
               }
             });
           },
-          { threshold: 0.2 }
+          { threshold: 0.2 },
         );
 
         featuresElements.forEach((el) => featuresObserver.observe(el));
@@ -5099,7 +6799,7 @@
                 }
               });
             },
-            { threshold: 0.15 }
+            { threshold: 0.15 },
           );
           ivrSectionObserver.observe(ivrSectionEl);
         }
@@ -5144,7 +6844,7 @@
 
           function pickArabicVoice() {
             const arabicVoices = ivrVoices.filter(
-              (v) => v.lang && v.lang.toLowerCase().startsWith("ar")
+              (v) => v.lang && v.lang.toLowerCase().startsWith("ar"),
             );
             return (
               arabicVoices.find((v) => v.lang.toLowerCase() === "ar-eg") ||
@@ -5170,10 +6870,13 @@
             if (!ivrSpeechSupported) {
               // Fallback: reveal caption without audio, timed to a rough reading pace.
               captionEl.textContent = text;
-              window.setTimeout(() => {
-                setPlaying(false);
-                if (onDone) onDone();
-              }, Math.min(4000, text.length * 45));
+              window.setTimeout(
+                () => {
+                  setPlaying(false);
+                  if (onDone) onDone();
+                },
+                Math.min(4000, text.length * 45),
+              );
               return;
             }
 
@@ -5188,7 +6891,7 @@
               if (typeof e.charIndex === "number") {
                 captionEl.textContent = text.slice(
                   0,
-                  e.charIndex + (e.charLength || 1)
+                  e.charIndex + (e.charLength || 1),
                 );
               }
             };
@@ -5212,6 +6915,14 @@
 
           function setPhoneState(state) {
             ivrPhone.setAttribute("data-state", state);
+            if (state === "incoming") {
+              const shakeEl = ivrPhone.querySelector(".ivr-phone-shake");
+              if (shakeEl) {
+                shakeEl.style.animation = "none";
+                void shakeEl.offsetWidth;
+                shakeEl.style.removeProperty("animation");
+              }
+            }
           }
 
           const ivrHasRealAudio = !!(
@@ -5235,14 +6946,15 @@
           function scrollPhoneIntoViewIfNeeded() {
             if (!ivrVisualCol) return;
             const isPreDesktop = window.matchMedia(
-              "(max-width: 1023px)"
+              "(max-width: 1023px)",
             ).matches;
             if (!isPreDesktop) return;
 
             const rect = ivrVisualCol.getBoundingClientRect();
             const viewportHeight =
               window.innerHeight || document.documentElement.clientHeight;
-            const isFullyVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+            const isFullyVisible =
+              rect.top >= 0 && rect.bottom <= viewportHeight;
 
             if (!isFullyVisible) {
               ivrVisualCol.scrollIntoView({
@@ -5434,7 +7146,7 @@
               }
             });
           },
-          { threshold: 0.3 }
+          { threshold: 0.3 },
         );
 
         carouselObserver.observe(pricingSection);

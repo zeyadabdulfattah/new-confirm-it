@@ -1256,9 +1256,159 @@
       .hero-buttons {
         margin-top: 2.5rem;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 1.5rem;
+        gap: 1rem;
+      }
+
+      .hero-cta-cluster {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.85rem;
+        width: 100%;
+        max-width: 22rem;
+      }
+
+      .hero-cta-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero-no-card {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 0.7rem 0.9rem;
+        border-radius: 12px;
+        border: 1px dashed rgba(74, 222, 128, 0.28);
+        background:
+          linear-gradient(
+            135deg,
+            rgba(74, 222, 128, 0.08) 0%,
+            rgba(255, 255, 255, 0.02) 55%,
+            rgba(74, 222, 128, 0.04) 100%
+          );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-no-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          110deg,
+          transparent 20%,
+          rgba(74, 222, 128, 0.12) 45%,
+          transparent 70%
+        );
+        transform: translateX(-120%);
+        animation: heroNoCardShine 4.8s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      @keyframes heroNoCardShine {
+        0%,
+        55% {
+          transform: translateX(-120%);
+        }
+        100% {
+          transform: translateX(120%);
+        }
+      }
+
+      .hero-no-card-seal {
+        position: relative;
+        flex-shrink: 0;
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(10, 10, 10, 0.72);
+        border: 1px solid rgba(74, 222, 128, 0.35);
+        box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.06);
+      }
+
+      .hero-no-card-seal svg {
+        width: 1.35rem;
+        height: 1.35rem;
+        stroke: var(--brand-green-bright);
+        fill: none;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .hero-no-card-seal .ban-slash {
+        stroke: #f87171;
+        stroke-width: 2.1;
+      }
+
+      .hero-no-card-ring {
+        position: absolute;
+        inset: -3px;
+        border-radius: 50%;
+        border: 1px solid rgba(74, 222, 128, 0.25);
+        animation: heroNoCardRing 2.4s ease-out infinite;
+        pointer-events: none;
+      }
+
+      @keyframes heroNoCardRing {
+        0% {
+          transform: scale(0.92);
+          opacity: 0.7;
+        }
+        100% {
+          transform: scale(1.28);
+          opacity: 0;
+        }
+      }
+
+      .hero-no-card-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0.12rem;
+        min-width: 0;
+        text-align: start;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-no-card-copy strong {
+        font-family: var(--font-nav);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: #e8ffe9;
+        line-height: 1.25;
+      }
+
+      .hero-no-card-copy span {
+        font-family: var(--font-main);
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.48);
+        line-height: 1.35;
+      }
+
+      body.lang-ar .hero-no-card-copy strong,
+      body.lang-ar .hero-no-card-copy span {
+        font-family: var(--font-arabic);
+        letter-spacing: 0;
+      }
+
+      body.lang-ar .hero-no-card-copy {
+        text-align: start;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-no-card::before,
+        .hero-no-card-ring {
+          animation: none;
+        }
       }
 
       /* HERO IMAGE CONTAINER */
@@ -3064,6 +3214,11 @@
         background: rgba(39, 174, 96, 0.2);
         border-color: var(--brand-green);
       }
+      .ivr-key.is-pressed {
+        background: rgba(74, 222, 128, 0.22);
+        border-color: rgba(74, 222, 128, 0.55);
+        transform: scale(0.94);
+      }
       .ivr-key-num {
         font-size: 1.1rem;
         font-weight: 700;
@@ -3386,6 +3541,10 @@
         margin-top: 4rem;
         position: relative;
         z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
       }
 
       .btn-feature-match {
@@ -3407,6 +3566,115 @@
         background: #fff;
         color: #000;
         border-color: #fff;
+      }
+
+      /* IVR mid-page CTA: thin trust rail (not the hero seal panel) */
+      .cta-trust-rail {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem 0.85rem;
+        padding: 0.35rem 0.15rem;
+      }
+
+      .cta-trust-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: rgba(255, 255, 255, 0.62);
+        font-family: var(--font-nav);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+      }
+
+      .cta-trust-item svg {
+        width: 1rem;
+        height: 1rem;
+        flex-shrink: 0;
+        stroke: var(--brand-green-bright);
+        fill: none;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cta-trust-item .slash-red {
+        stroke: #f87171;
+        stroke-width: 2;
+      }
+
+      .cta-trust-dot {
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.22);
+        flex-shrink: 0;
+      }
+
+      body.lang-ar .cta-trust-item {
+        font-family: var(--font-arabic);
+        letter-spacing: 0;
+        font-size: 0.78rem;
+      }
+
+      /* Bottom CTA: quiet inline assurance (not a boxed ticket) */
+      .cta-assurance {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem 0.65rem;
+        margin-top: 0.15rem;
+        color: rgba(255, 255, 255, 0.55);
+        font-family: var(--font-nav);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+      }
+
+      .cta-assurance-icon {
+        display: inline-grid;
+        place-items: center;
+        width: 1.55rem;
+        height: 1.55rem;
+        border-radius: 50%;
+        border: 1px solid rgba(74, 222, 128, 0.3);
+        background: rgba(74, 222, 128, 0.08);
+      }
+
+      .cta-assurance-icon svg {
+        width: 0.9rem;
+        height: 0.9rem;
+        stroke: var(--brand-green-bright);
+        fill: none;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cta-assurance-icon .slash-red {
+        stroke: #f87171;
+        stroke-width: 2;
+      }
+
+      .cta-assurance strong {
+        color: rgba(232, 255, 233, 0.92);
+        font-weight: 600;
+      }
+
+      .cta-assurance-sep {
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      body.lang-ar .cta-assurance {
+        font-family: var(--font-arabic);
+        letter-spacing: 0;
+        font-size: 0.84rem;
       }
 
       /* --- 8. NEW 3D CAROUSEL PRICING --- */
@@ -3598,6 +3866,118 @@
         font-weight: 400;
       }
 
+      .pricing-card.has-launch-deal {
+        overflow: hidden;
+      }
+      .launch-deal-badge {
+        position: absolute;
+        top: 0.85rem;
+        right: 0.85rem;
+        z-index: 20;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.28rem 0.7rem;
+        border-radius: 100px;
+        border: 1px solid rgba(248, 113, 113, 0.35);
+        background: rgba(239, 68, 68, 0.1);
+        color: #fca5a5;
+        font-family: var(--font-nav);
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        line-height: 1.2;
+        white-space: nowrap;
+        pointer-events: none;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+      body.lang-ar .launch-deal-badge {
+        right: auto;
+        left: 0.85rem;
+        font-family: var(--font-arabic);
+        letter-spacing: 0;
+        text-transform: none;
+        font-size: 0.72rem;
+      }
+
+      .tier-price-block {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.55rem;
+      }
+      .tier-price-compare {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 0.55rem 0.7rem;
+      }
+      .tier-price-was {
+        display: inline-flex;
+        align-items: baseline;
+        color: rgba(255, 255, 255, 0.4);
+        font-family: var(--font-main);
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1;
+      }
+      .tier-price-was .was-amount {
+        position: relative;
+        text-decoration: none;
+      }
+      .tier-price-was .was-amount::after {
+        content: "";
+        position: absolute;
+        left: -2%;
+        right: -2%;
+        top: 52%;
+        height: 1.5px;
+        background: rgba(248, 113, 113, 0.75);
+        transform: rotate(-8deg);
+        pointer-events: none;
+      }
+      .tier-price-now {
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+        flex-wrap: wrap;
+        font-family: var(--font-main);
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+      }
+      .tier-price-now .currency {
+        font-size: 1rem;
+        color: var(--brand-green);
+        font-weight: 400;
+      }
+      .tier-price-now .period {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: 400;
+      }
+      .tier-save-chip {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 0.15rem;
+        width: fit-content;
+        padding: 0.18rem 0.5rem;
+        border-radius: 999px;
+        background: rgba(74, 222, 128, 0.1);
+        color: var(--brand-green-bright);
+        font-family: var(--font-nav);
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+      body.lang-ar .tier-save-chip {
+        font-family: var(--font-arabic);
+        letter-spacing: 0;
+        font-size: 0.68rem;
+      }
+
       .card-specs {
         flex-grow: 1;
       }
@@ -3676,7 +4056,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 1.5rem;
+        gap: 0.9rem;
       }
 
       .cta-glow {
@@ -3886,6 +4266,11 @@
         }
         .hero-buttons {
           justify-content: flex-start;
+          align-items: flex-start;
+        }
+        .hero-cta-cluster {
+          align-items: stretch;
+          max-width: 24rem;
         }
         .hero-title {
           font-size: 3.5rem;
@@ -4192,7 +4577,8 @@
           padding: 5rem 1.5rem;
         }
         .cta-buttons {
-          flex-direction: row;
+          flex-direction: column;
+          gap: 0.9rem;
         }
 
         .footer-grid {
@@ -4526,7 +4912,7 @@
         >
 
         <a
-          href="{% url 'checkout' %}?plan=starter&price=500"
+          href="{% url 'checkout' %}?plan=starter&price=990"
           class="mobile-header-trial btn-cta-green btn-sm"
           ><span data-lang="en">Start Free Trial!</span
           ><span data-lang="ar">جرّب مجاناً!</span></a
@@ -4642,7 +5028,7 @@
             ><span data-lang="ar">تسجيل الدخول</span></a
           >
           <a
-            href="{% url 'checkout' %}?plan=starter&price=500"
+            href="{% url 'checkout' %}?plan=starter&price=990"
             class="btn-cta-green btn-sm"
             ><span data-lang="en">Start Free Trial</span
             ><span data-lang="ar">جرّب مجاناً الآن</span></a
@@ -4754,7 +5140,7 @@
 
       <div class="mobile-menu-footer">
         <a
-          href="{% url 'checkout' %}?plan=starter&price=500"
+          href="{% url 'checkout' %}?plan=starter&price=990"
           class="mobile-cta-btn btn-cta-green"
           ><span data-lang="en">Start Free Trial</span
           ><span data-lang="ar">جرّب مجاناً الآن</span></a
@@ -4859,13 +5245,43 @@
                 </span>
               </p>
               <div class="hero-buttons">
-                <a
-                  href="{% url 'checkout' %}?plan=starter&price=500"
-                  class="btn-cta-green"
-                >
-                  <span data-lang="en">Start 30-Day Free Trial</span>
-                  <span data-lang="ar">جرّب 30 يوماً مجاناً</span>
-                </a>
+                <div class="hero-cta-cluster">
+                  <a
+                    href="{% url 'checkout' %}?plan=starter&price=990"
+                    class="btn-cta-green hero-cta-btn"
+                  >
+                    <span data-lang="en">Start 30-Day Free Trial</span>
+                    <span data-lang="ar">جرّب 30 يوماً مجاناً</span>
+                  </a>
+                  <div class="hero-no-card" role="note">
+                    <span class="hero-no-card-seal" aria-hidden="true">
+                      <span class="hero-no-card-ring"></span>
+                      <svg viewBox="0 0 24 24">
+                        <rect x="2.5" y="5.5" width="19" height="13" rx="2.2" />
+                        <path d="M2.5 10h19" />
+                        <path d="M6.5 14.5h4" />
+                        <path class="ban-slash" d="M4.5 19.5L19.5 4.5" />
+                      </svg>
+                    </span>
+                    <div class="hero-no-card-copy">
+                      <strong
+                        ><span data-lang="en">No credit card required</span
+                        ><span data-lang="ar"
+                          >من غير أي بطاقة ائتمان</span
+                        ></strong
+                      >
+                      <span
+                        ><span data-lang="en"
+                          >Start free now &mdash; cancel anytime, zero
+                          commitment.</span
+                        ><span data-lang="ar"
+                          >ابدأ مجاناً دلوقتي &mdash; إلغاء في أي وقت، بدون
+                          التزام.</span
+                        ></span
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -5421,21 +5837,31 @@
 
               <div class="ivr-script-preview" id="ivrScriptPreview">
                 <p dir="rtl">
-                  &ldquo;شكراً لطلبك من باسل، سعر الطلب 200 جنيه. لتأكيد الطلب
+                  &ldquo;شكراً لطلبك من Nike. سعر الطلب 500 جنيه لتأكيد الطلب
                   اضغط 1، للإلغاء اضغط 2، للتواصل مع الدعم اضغط 3.&rdquo;
                 </p>
               </div>
               <p class="ivr-audio-disclaimer">
                 <span data-lang="en">
-                  Real AI voice for the greeting &mdash; responses are simulated
-                  for this preview.
+                  Real recorded AI voice &mdash; full call flow preview with
+                  confirm, cancel, and support responses.
                 </span>
                 <span data-lang="ar">
-                  صوت AI حقيقي للترحيب &mdash; الردود في المعاينة محاكاة.
+                  صوت AI مسجّل حقيقي &mdash; معاينة كاملة لردود التأكيد والإلغاء
+                  والدعم.
                 </span>
               </p>
-              <audio id="ivrGreetingAudio" preload="none">
+              <audio id="ivrGreetingAudio" preload="metadata">
                 <source src="audio/ivr-greeting.mp3" type="audio/mpeg" />
+              </audio>
+              <audio id="ivrConfirmAudio" preload="metadata">
+                <source src="audio/ivr-confirm.mp3" type="audio/mpeg" />
+              </audio>
+              <audio id="ivrCancelAudio" preload="metadata">
+                <source src="audio/ivr-cancel.mp3?v=2" type="audio/mpeg" />
+              </audio>
+              <audio id="ivrSupportAudio" preload="metadata">
+                <source src="audio/ivr-support.mp3?v=2" type="audio/mpeg" />
               </audio>
             </div>
 
@@ -5452,7 +5878,10 @@
                   <!-- Incoming call screen -->
                   <div class="ivr-phone-screen ivr-phone-screen-incoming">
                     <div class="ivr-phone-callscreen">
-                      <span class="ivr-phone-callstatus">Incoming Call</span>
+                      <span class="ivr-phone-callstatus">
+                        <span data-lang="en">Incoming Call</span>
+                        <span data-lang="ar">مكالمة واردة</span>
+                      </span>
                       <div class="ivr-phone-avatar">
                         <svg viewBox="0 0 24 24">
                           <path
@@ -5462,7 +5891,7 @@
                           />
                         </svg>
                       </div>
-                      <span class="ivr-phone-callername">Confirm It AI</span>
+                      <span class="ivr-phone-callername">Confirm It</span>
                     </div>
                     <div class="ivr-phone-actions">
                       <button
@@ -5497,7 +5926,10 @@
                   <!-- Active call screen -->
                   <div class="ivr-phone-screen ivr-phone-screen-active">
                     <div class="ivr-phone-callscreen">
-                      <span class="ivr-phone-callstatus">جارٍ الاتصال</span>
+                      <span class="ivr-phone-callstatus" id="ivrActiveCallStatus">
+                        <span data-lang="en">Connecting...</span>
+                        <span data-lang="ar">جارٍ الاتصال</span>
+                      </span>
                       <div class="ivr-phone-avatar small">
                         <svg viewBox="0 0 24 24">
                           <path
@@ -5507,7 +5939,7 @@
                           />
                         </svg>
                       </div>
-                      <span class="ivr-phone-callername">Confirm It AI</span>
+                      <span class="ivr-phone-callername">Confirm It</span>
                     </div>
                     <div class="ivr-caption-box">
                       <p
@@ -5614,18 +6046,44 @@
 
           <div class="features-cta-wrapper">
             <a
-              href="{% url 'checkout' %}?plan=starter&price=500"
+              href="{% url 'checkout' %}?plan=starter&price=990"
               class="btn-feature-match"
             >
               <span data-lang="en"
-                >Never Miss Another Order &mdash; Start Free Now, No Card
-                Needed</span
+                >Never Miss Another Order &mdash; Start Free Now</span
               >
               <span data-lang="ar"
-                >ما تضيعش طلب تاني &mdash; ابدأ مجاناً دلوقتي، من غير أي
-                بطاقة</span
+                >ما تضيعش طلب تاني &mdash; ابدأ مجاناً دلوقتي</span
               >
             </a>
+            <div class="cta-trust-rail" role="note">
+              <span class="cta-trust-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="2.5" y="5.5" width="19" height="13" rx="2" />
+                  <path d="M2.5 10h19" />
+                  <path class="slash-red" d="M5 18.5L19 5.5" />
+                </svg>
+                <span data-lang="en">No card needed</span>
+                <span data-lang="ar">من غير بطاقة</span>
+              </span>
+              <span class="cta-trust-dot" aria-hidden="true"></span>
+              <span class="cta-trust-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+                <span data-lang="en">Cancel anytime</span>
+                <span data-lang="ar">إلغاء في أي وقت</span>
+              </span>
+              <span class="cta-trust-dot" aria-hidden="true"></span>
+              <span class="cta-trust-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="8.25" />
+                  <path d="M12 7.5v5l3 1.75" />
+                </svg>
+                <span data-lang="en">Live in minutes</span>
+                <span data-lang="ar">شغّال في دقايق</span>
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -5884,7 +6342,7 @@
 
           <div class="features-cta-wrapper">
             <a
-              href="{% url 'checkout' %}?plan=starter&price=500"
+              href="{% url 'checkout' %}?plan=starter&price=990"
               class="btn-feature-match"
             >
               <span data-lang="en">Explore Dashboard</span>
@@ -5907,10 +6365,12 @@
             </h2>
             <p class="section-subtitle">
               <span data-lang="en"
-                >Swipe to find the plan that fits your volume.</span
+                >Limited-time pricing is live. Old rates struck through &mdash;
+                lock in the new price before the offer ends.</span
               >
               <span data-lang="ar"
-                >مرّر واختار الباقة اللي تناسب حجم طلباتك.</span
+                >أسعار لفترة محدودة شغّالة دلوقتي. السعر القديم مشطوب &mdash;
+                ثبّت السعر الجديد قبل ما العرض يخلص.</span
               >
             </p>
           </div>
@@ -5921,15 +6381,30 @@
             </button>
 
             <div class="carousel-track" id="carouselTrack">
-              <div class="pricing-card" data-index="0">
+              <div class="pricing-card has-launch-deal" data-index="0">
                 <span class="line-1"></span><span class="line-2"></span
                 ><span class="line-3"></span><span class="line-4"></span>
+                <span class="launch-deal-badge"
+                  ><span data-lang="en">Limited Time Offer</span
+                  ><span data-lang="ar">عرض لفترة محدودة</span></span
+                >
                 <div class="card-top">
                   <span class="tier-label">Micro</span>
-                  <div class="tier-price">
-                    <span class="currency">EGP</span>290<span class="period"
-                      ><span data-lang="en">/mo</span
-                      ><span data-lang="ar">/شهر</span></span
+                  <div class="tier-price-block">
+                    <div class="tier-price-compare">
+                      <div class="tier-price-was">
+                        <span class="was-amount">EGP 290</span>
+                      </div>
+                      <div class="tier-price-now">
+                        <span class="currency">EGP</span>240<span class="period"
+                          ><span data-lang="en">/mo</span
+                          ><span data-lang="ar">/شهر</span></span
+                        >
+                      </div>
+                    </div>
+                    <span class="tier-save-chip"
+                      ><span data-lang="en">Save EGP 50</span
+                      ><span data-lang="ar">وفّر 50 جنيه</span></span
                     >
                   </div>
                 </div>
@@ -5963,21 +6438,38 @@
                     ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=micro" class="btn-unified"
-                  ><span data-lang="en">Initialize</span
-                  ><span data-lang="ar">ابدأ الآن</span></a
+                <a
+                  href="{% url 'checkout' %}?plan=micro&price=240"
+                  class="btn-unified"
+                  ><span data-lang="en">Select Bundle</span
+                  ><span data-lang="ar">اختر الباقة</span></a
                 >
               </div>
 
-              <div class="pricing-card" data-index="1">
+              <div class="pricing-card has-launch-deal" data-index="1">
                 <span class="line-1"></span><span class="line-2"></span
                 ><span class="line-3"></span><span class="line-4"></span>
+                <span class="launch-deal-badge"
+                  ><span data-lang="en">Limited Time Offer</span
+                  ><span data-lang="ar">عرض لفترة محدودة</span></span
+                >
                 <div class="card-top">
                   <span class="tier-label">Starter</span>
-                  <div class="tier-price">
-                    <span class="currency">EGP</span>1,290<span class="period"
-                      ><span data-lang="en">/mo</span
-                      ><span data-lang="ar">/شهر</span></span
+                  <div class="tier-price-block">
+                    <div class="tier-price-compare">
+                      <div class="tier-price-was">
+                        <span class="was-amount">EGP 1,290</span>
+                      </div>
+                      <div class="tier-price-now">
+                        <span class="currency">EGP</span>990<span class="period"
+                          ><span data-lang="en">/mo</span
+                          ><span data-lang="ar">/شهر</span></span
+                        >
+                      </div>
+                    </div>
+                    <span class="tier-save-chip"
+                      ><span data-lang="en">Save EGP 300</span
+                      ><span data-lang="ar">وفّر 300 جنيه</span></span
                     >
                   </div>
                 </div>
@@ -6011,21 +6503,38 @@
                     ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=starter" class="btn-unified"
-                  ><span data-lang="en">Initialize</span
-                  ><span data-lang="ar">ابدأ الآن</span></a
+                <a
+                  href="{% url 'checkout' %}?plan=starter&price=990"
+                  class="btn-unified"
+                  ><span data-lang="en">Select Bundle</span
+                  ><span data-lang="ar">اختر الباقة</span></a
                 >
               </div>
 
-              <div class="pricing-card" data-index="2">
+              <div class="pricing-card has-launch-deal" data-index="2">
                 <span class="line-1"></span><span class="line-2"></span
                 ><span class="line-3"></span><span class="line-4"></span>
+                <span class="launch-deal-badge"
+                  ><span data-lang="en">Limited Time Offer</span
+                  ><span data-lang="ar">عرض لفترة محدودة</span></span
+                >
                 <div class="card-top">
                   <span class="tier-label">Growth</span>
-                  <div class="tier-price">
-                    <span class="currency">EGP</span>2,390<span class="period"
-                      ><span data-lang="en">/mo</span
-                      ><span data-lang="ar">/شهر</span></span
+                  <div class="tier-price-block">
+                    <div class="tier-price-compare">
+                      <div class="tier-price-was">
+                        <span class="was-amount">EGP 2,390</span>
+                      </div>
+                      <div class="tier-price-now">
+                        <span class="currency">EGP</span>1,890<span class="period"
+                          ><span data-lang="en">/mo</span
+                          ><span data-lang="ar">/شهر</span></span
+                        >
+                      </div>
+                    </div>
+                    <span class="tier-save-chip"
+                      ><span data-lang="en">Save EGP 500</span
+                      ><span data-lang="ar">وفّر 500 جنيه</span></span
                     >
                   </div>
                 </div>
@@ -6059,21 +6568,38 @@
                     ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=growth" class="btn-unified"
-                  ><span data-lang="en">Initialize</span
-                  ><span data-lang="ar">ابدأ الآن</span></a
+                <a
+                  href="{% url 'checkout' %}?plan=growth&price=1890"
+                  class="btn-unified"
+                  ><span data-lang="en">Select Bundle</span
+                  ><span data-lang="ar">اختر الباقة</span></a
                 >
               </div>
 
-              <div class="pricing-card" data-index="3">
+              <div class="pricing-card has-launch-deal" data-index="3">
                 <span class="line-1"></span><span class="line-2"></span
                 ><span class="line-3"></span><span class="line-4"></span>
+                <span class="launch-deal-badge"
+                  ><span data-lang="en">Limited Time Offer</span
+                  ><span data-lang="ar">عرض لفترة محدودة</span></span
+                >
                 <div class="card-top">
                   <span class="tier-label">Pro</span>
-                  <div class="tier-price">
-                    <span class="currency">EGP</span>4,290<span class="period"
-                      ><span data-lang="en">/mo</span
-                      ><span data-lang="ar">/شهر</span></span
+                  <div class="tier-price-block">
+                    <div class="tier-price-compare">
+                      <div class="tier-price-was">
+                        <span class="was-amount">EGP 4,290</span>
+                      </div>
+                      <div class="tier-price-now">
+                        <span class="currency">EGP</span>3,590<span class="period"
+                          ><span data-lang="en">/mo</span
+                          ><span data-lang="ar">/شهر</span></span
+                        >
+                      </div>
+                    </div>
+                    <span class="tier-save-chip"
+                      ><span data-lang="en">Save EGP 700</span
+                      ><span data-lang="ar">وفّر 700 جنيه</span></span
                     >
                   </div>
                 </div>
@@ -6107,21 +6633,38 @@
                     ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=pro" class="btn-unified"
-                  ><span data-lang="en">Initialize</span
-                  ><span data-lang="ar">ابدأ الآن</span></a
+                <a
+                  href="{% url 'checkout' %}?plan=pro&price=3590"
+                  class="btn-unified"
+                  ><span data-lang="en">Select Bundle</span
+                  ><span data-lang="ar">اختر الباقة</span></a
                 >
               </div>
 
-              <div class="pricing-card" data-index="4">
+              <div class="pricing-card has-launch-deal" data-index="4">
                 <span class="line-1"></span><span class="line-2"></span
                 ><span class="line-3"></span><span class="line-4"></span>
+                <span class="launch-deal-badge"
+                  ><span data-lang="en">Limited Time Offer</span
+                  ><span data-lang="ar">عرض لفترة محدودة</span></span
+                >
                 <div class="card-top">
                   <span class="tier-label">Scale</span>
-                  <div class="tier-price">
-                    <span class="currency">EGP</span>5,490<span class="period"
-                      ><span data-lang="en">/mo</span
-                      ><span data-lang="ar">/شهر</span></span
+                  <div class="tier-price-block">
+                    <div class="tier-price-compare">
+                      <div class="tier-price-was">
+                        <span class="was-amount">EGP 5,490</span>
+                      </div>
+                      <div class="tier-price-now">
+                        <span class="currency">EGP</span>4,790<span class="period"
+                          ><span data-lang="en">/mo</span
+                          ><span data-lang="ar">/شهر</span></span
+                        >
+                      </div>
+                    </div>
+                    <span class="tier-save-chip"
+                      ><span data-lang="en">Save EGP 700</span
+                      ><span data-lang="ar">وفّر 700 جنيه</span></span
                     >
                   </div>
                 </div>
@@ -6155,9 +6698,11 @@
                     ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=scale" class="btn-unified"
-                  ><span data-lang="en">Initialize</span
-                  ><span data-lang="ar">ابدأ الآن</span></a
+                <a
+                  href="{% url 'checkout' %}?plan=scale&price=4790"
+                  class="btn-unified"
+                  ><span data-lang="en">Select Bundle</span
+                  ><span data-lang="ar">اختر الباقة</span></a
                 >
               </div>
 
@@ -6204,8 +6749,8 @@
                   </div>
                 </div>
                 <a href="{% url 'checkout' %}?plan=elite" class="btn-unified"
-                  ><span data-lang="en">Initialize</span
-                  ><span data-lang="ar">ابدأ الآن</span></a
+                  ><span data-lang="en">Select Bundle</span
+                  ><span data-lang="ar">اختر الباقة</span></a
                 >
               </div>
 
@@ -6274,26 +6819,40 @@
             </h2>
             <p class="section-subtitle">
               <span data-lang="en">
-                Start your 30-day free trial today. No credit card required. See
-                your confirmation rate increase in minutes.
+                Start your 30-day free trial today. See your confirmation rate
+                increase in minutes.
               </span>
               <span data-lang="ar">
-                ابدأ تجربتك المجانية 30 يوماً النهارده. بدون بطاقة ائتمان. شوف
-                نسبة التأكيد ترتفع في دقائق.
+                ابدأ تجربتك المجانية 30 يوماً النهارده. شوف نسبة التأكيد ترتفع في
+                دقائق.
               </span>
             </p>
             <div class="cta-buttons">
               <a
-                href="{% url 'checkout' %}?plan=starter&price=500"
+                href="{% url 'checkout' %}?plan=starter&price=990"
                 class="btn-cta-green"
               >
-                <span data-lang="en"
-                  >Start 30-Day Free Trial &mdash; No Card Needed</span
-                >
-                <span data-lang="ar"
-                  >جرّب 30 يوم مجاناً &mdash; من غير أي بطاقة</span
-                >
+                <span data-lang="en">Start 30-Day Free Trial</span>
+                <span data-lang="ar">جرّب 30 يوم مجاناً</span>
               </a>
+              <div class="cta-assurance" role="note">
+                <span class="cta-assurance-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="2.5" y="5.5" width="19" height="13" rx="2" />
+                    <path d="M2.5 10h19" />
+                    <path class="slash-red" d="M5 18.5L19 5.5" />
+                  </svg>
+                </span>
+                <strong
+                  ><span data-lang="en">No credit card required</span
+                  ><span data-lang="ar">من غير أي بطاقة ائتمان</span></strong
+                >
+                <span class="cta-assurance-sep" aria-hidden="true"></span>
+                <span
+                  ><span data-lang="en">Cancel anytime</span
+                  ><span data-lang="ar">إلغاء في أي وقت</span></span
+                >
+              </div>
             </div>
 
             <svg viewBox="0 0 1024 1024" class="cta-glow" aria-hidden="true">
@@ -6941,7 +7500,7 @@
           ivrSectionObserver.observe(ivrSectionEl);
         }
 
-        // --- Interactive IVR call demo (Arabic text-to-speech, no audio file needed) ---
+        // --- Interactive IVR call demo (recorded AI voice clips) ---
         const ivrVisualCol = document.getElementById("ivrVisualCol");
         const ivrPlayer = document.getElementById("ivrAudioPlayer");
         const ivrToggleBtn = document.getElementById("ivrAudioToggle");
@@ -6954,19 +7513,66 @@
         const ivrReplayBtn = document.getElementById("ivrReplayBtn");
         const ivrKeyButtons = document.querySelectorAll(".ivr-key");
         const ivrGreetingAudio = document.getElementById("ivrGreetingAudio");
+        const ivrConfirmAudio = document.getElementById("ivrConfirmAudio");
+        const ivrCancelAudio = document.getElementById("ivrCancelAudio");
+        const ivrSupportAudio = document.getElementById("ivrSupportAudio");
         const ivrScriptPreview = document.getElementById("ivrScriptPreview");
 
         if (ivrPhone && ivrPlayer) {
-          const ivrScript = {
-            greeting:
-              "شكراً لطلبك من باسل، سعر الطلب 200 جنيه. لتأكيد الطلب اضغط 1، للإلغاء اضغط 2، للتواصل مع الدعم اضغط 3.",
-            1: "شكراً لتأكيد طلبك، جاري تجهيزه للشحن الآن.",
-            2: "تم إلغاء طلبك. يمكنك زيارة موقعنا لإعادة الطلب في أي وقت.",
-            3: "شكراً لك، سيتواصل معك أحد أفراد فريقنا في أقرب وقت.",
+          const ivrClips = {
+            greeting: {
+              audio: ivrGreetingAudio,
+              caption:
+                "شكراً لطلبك من Nike. سعر الطلب 500 جنيه لتأكيد الطلب اضغط 1، للإلغاء اضغط 2، للتواصل مع الدعم اضغط 3.",
+            },
+            1: {
+              audio: ivrConfirmAudio,
+              caption:
+                "تم تأكيد طلبك بنجاح و سيتم ترتيب الشحن ،شكرا لثقتكم ب Nike",
+            },
+            2: {
+              audio: ivrCancelAudio,
+              caption:
+                "تم إلغاء طلبك لعمل طلب آخر يمكنك زياره الموقع شكرا لثقتكم ب Nike",
+            },
+            3: {
+              audio: ivrSupportAudio,
+              caption:
+                "سيتم التواصل معك في اقرب وقت شكرا لثقتكم ب Nike",
+            },
           };
+          const ivrActiveStatus = document.getElementById("ivrActiveCallStatus");
+
+          const ivrCallStatusCopy = {
+            connecting: {
+              en: "Connecting...",
+              ar: "جارٍ الاتصال",
+            },
+            speaking: {
+              en: "Connected",
+              ar: "متصل",
+            },
+            choose: {
+              en: "Press 1, 2, or 3",
+              ar: "اضغط 1 أو 2 أو 3",
+            },
+          };
+
+          function getIvrLang() {
+            return document.body.classList.contains("lang-ar") ? "ar" : "en";
+          }
+
+          function setActiveCallStatus(statusKey) {
+            if (!ivrActiveStatus) return;
+            const copy = ivrCallStatusCopy[statusKey];
+            if (!copy) return;
+            ivrActiveStatus.textContent = copy[getIvrLang()];
+          }
+
           const ivrOutcomeMap = { 1: "confirm", 2: "cancel", 3: "contact" };
 
           let ivrVoices = [];
+          let ivrActiveAudio = null;
           const ivrSpeechSupported = "speechSynthesis" in window;
 
           function loadIvrVoices() {
@@ -6990,60 +7596,104 @@
             );
           }
 
-          function setPlaying(isPlaying) {
+          function setWaveformPlaying(isPlaying, showPreview = isPlaying) {
             ivrPlayer.classList.toggle("playing", isPlaying);
             if (isPlaying) {
               ivrPlayer.classList.add("audio-interacted");
             }
             if (ivrScriptPreview) {
-              ivrScriptPreview.classList.toggle("visible", isPlaying);
+              ivrScriptPreview.classList.toggle("visible", showPreview);
             }
           }
 
-          function speak(text, captionEl, onDone) {
-            captionEl.textContent = "";
-            setPlaying(true);
+          function stopAllAudio() {
+            if (ivrSpeechSupported) {
+              window.speechSynthesis.cancel();
+            }
+            [ivrGreetingAudio, ivrConfirmAudio, ivrCancelAudio, ivrSupportAudio].forEach(
+              (audioEl) => {
+                if (!audioEl) return;
+                audioEl.pause();
+                audioEl.currentTime = 0;
+              },
+            );
+            ivrActiveAudio = null;
+          }
+
+          function speakFallback(text, captionEl, onDone) {
+            captionEl.textContent = text;
 
             if (!ivrSpeechSupported) {
-              // Fallback: reveal caption without audio, timed to a rough reading pace.
-              captionEl.textContent = text;
-              window.setTimeout(
-                () => {
-                  setPlaying(false);
-                  if (onDone) onDone();
-                },
-                Math.min(4000, text.length * 45),
-              );
+              window.setTimeout(() => {
+                if (onDone) onDone();
+              }, Math.min(4000, text.length * 45));
               return;
             }
 
-            window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = "ar-EG";
             utterance.rate = 0.95;
             const voice = pickArabicVoice();
             if (voice) utterance.voice = voice;
-
-            utterance.onboundary = (e) => {
-              if (typeof e.charIndex === "number") {
-                captionEl.textContent = text.slice(
-                  0,
-                  e.charIndex + (e.charLength || 1),
-                );
-              }
-            };
             utterance.onend = () => {
-              captionEl.textContent = text;
-              setPlaying(false);
               if (onDone) onDone();
             };
             utterance.onerror = () => {
-              captionEl.textContent = text;
-              setPlaying(false);
+              if (onDone) onDone();
+            };
+            window.speechSynthesis.speak(utterance);
+          }
+
+          function playClip(clipKey, captionEl, options = {}) {
+            const clip = ivrClips[clipKey];
+            if (!clip) return;
+
+            const { waveform = false, onDone = null } = options;
+            stopAllAudio();
+            captionEl.textContent = clip.caption;
+
+            if (!clip.audio) {
+              if (waveform) setWaveformPlaying(true, true);
+              speakFallback(clip.caption, captionEl, () => {
+                setWaveformPlaying(false);
+                if (onDone) onDone();
+              });
+              return;
+            }
+
+            ivrActiveAudio = clip.audio;
+            setWaveformPlaying(waveform, waveform);
+            clip.audio.currentTime = 0;
+
+            const handleEnded = () => {
+              clip.audio.removeEventListener("ended", handleEnded);
+              clip.audio.removeEventListener("error", handleError);
+              if (ivrActiveAudio === clip.audio) {
+                ivrActiveAudio = null;
+              }
+              setWaveformPlaying(false);
               if (onDone) onDone();
             };
 
-            window.speechSynthesis.speak(utterance);
+            const handleError = () => {
+              clip.audio.removeEventListener("ended", handleEnded);
+              clip.audio.removeEventListener("error", handleError);
+              ivrActiveAudio = null;
+              setWaveformPlaying(false);
+              speakFallback(clip.caption, captionEl, onDone);
+            };
+
+            clip.audio.addEventListener("ended", handleEnded);
+            clip.audio.addEventListener("error", handleError);
+
+            if (clipKey === "greeting") {
+              setActiveCallStatus("speaking");
+            }
+
+            const playPromise = clip.audio.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+              playPromise.catch(handleError);
+            }
           }
 
           function markInteracted() {
@@ -7059,24 +7709,6 @@
                 void shakeEl.offsetWidth;
                 shakeEl.style.removeProperty("animation");
               }
-            }
-          }
-
-          const ivrHasRealAudio = !!(
-            ivrGreetingAudio &&
-            ivrGreetingAudio.canPlayType &&
-            ivrGreetingAudio.canPlayType("audio/mpeg") !== ""
-          );
-
-          function playGreetingAudio() {
-            ivrCaptionText.textContent = ivrScript.greeting;
-            setPlaying(true);
-            ivrGreetingAudio.currentTime = 0;
-            const playPromise = ivrGreetingAudio.play();
-            if (playPromise && typeof playPromise.catch === "function") {
-              playPromise.catch(() => {
-                speak(ivrScript.greeting, ivrCaptionText);
-              });
             }
           }
 
@@ -7105,41 +7737,31 @@
             markInteracted();
             setPhoneState("active");
             scrollPhoneIntoViewIfNeeded();
-            if (ivrSpeechSupported) window.speechSynthesis.cancel();
-
-            if (ivrHasRealAudio) {
-              playGreetingAudio();
-            } else {
-              speak(ivrScript.greeting, ivrCaptionText);
-            }
+            playClip("greeting", ivrCaptionText, {
+              waveform: true,
+              onDone: () => setActiveCallStatus("choose"),
+            });
           }
 
-          function handleKeyPress(key) {
-            if (ivrSpeechSupported) window.speechSynthesis.cancel();
-            if (ivrHasRealAudio && !ivrGreetingAudio.paused) {
-              ivrGreetingAudio.pause();
+          function handleKeyPress(key, btn) {
+            stopAllAudio();
+            setWaveformPlaying(false);
+            if (btn) {
+              btn.classList.add("is-pressed");
+              window.setTimeout(() => btn.classList.remove("is-pressed"), 280);
             }
             setPhoneState("ended");
             ivrOutcomeIcon.setAttribute("data-outcome", ivrOutcomeMap[key]);
-            speak(ivrScript[key], ivrOutcomeText);
+            playClip(key, ivrOutcomeText, { waveform: false });
           }
 
           function resetDemo() {
-            if (ivrSpeechSupported) window.speechSynthesis.cancel();
-            if (ivrHasRealAudio) {
-              ivrGreetingAudio.pause();
-              ivrGreetingAudio.currentTime = 0;
-            }
-            setPlaying(false);
+            stopAllAudio();
+            setWaveformPlaying(false);
+            ivrCaptionText.textContent = "";
+            ivrOutcomeText.textContent = "";
+            setActiveCallStatus("connecting");
             setPhoneState("incoming");
-          }
-
-          if (ivrHasRealAudio) {
-            ivrGreetingAudio.addEventListener("ended", () => setPlaying(false));
-            ivrGreetingAudio.addEventListener("error", () => {
-              setPlaying(false);
-              speak(ivrScript.greeting, ivrCaptionText);
-            });
           }
 
           ivrAcceptBtn.addEventListener("click", startDemo);
@@ -7150,7 +7772,7 @@
 
           ivrKeyButtons.forEach((btn) => {
             btn.addEventListener("click", () => {
-              handleKeyPress(btn.getAttribute("data-key"));
+              handleKeyPress(btn.getAttribute("data-key"), btn);
             });
           });
 
@@ -7158,7 +7780,10 @@
 
           if (ivrToggleBtn) {
             ivrToggleBtn.addEventListener("click", () => {
-              if (ivrPlayer.classList.contains("playing")) {
+              const isGreetingPlaying =
+                ivrActiveAudio === ivrGreetingAudio &&
+                !ivrGreetingAudio.paused;
+              if (isGreetingPlaying || ivrPlayer.classList.contains("playing")) {
                 resetDemo();
               } else {
                 startDemo();

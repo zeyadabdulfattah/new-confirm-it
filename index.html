@@ -3642,12 +3642,24 @@
         animation-delay: 0.85s;
       }
 
-      .trusted-marquee:hover .trusted-track {
-        animation-play-state: paused;
-      }
+      /* Pause only on real desktop hover — sticky :hover on phones freezes the marquee */
+      @media (hover: hover) and (pointer: fine) {
+        .trusted-marquee:hover .trusted-track {
+          animation-play-state: paused;
+        }
 
-      .trusted-section.in-view .trusted-marquee:hover .trusted-track {
-        animation-play-state: paused;
+        .trusted-section.in-view .trusted-marquee:hover .trusted-track {
+          animation-play-state: paused;
+        }
+
+        .trusted-marquee:hover .trusted-logo img {
+          opacity: 0.55;
+        }
+
+        .trusted-marquee:hover .trusted-logo:hover img {
+          opacity: 1;
+          transform: scale(1.06);
+        }
       }
 
       @keyframes trustedScrollRtl {
@@ -3691,15 +3703,6 @@
       .trusted-logo img.logo-tul8te {
         max-height: 4rem;
         max-width: 11.5rem;
-      }
-
-      .trusted-marquee:hover .trusted-logo img {
-        opacity: 0.55;
-      }
-
-      .trusted-marquee:hover .trusted-logo:hover img {
-        opacity: 1;
-        transform: scale(1.06);
       }
 
       .trusted-footnote {

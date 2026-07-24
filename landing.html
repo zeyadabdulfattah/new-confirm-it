@@ -1,21 +1,58 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
-    <link rel="icon" type="image/webp" href="imgs/logooo.webp" />
-    <link rel="apple-touch-icon" href="imgs/logooo.webp" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="google-site-verification"
-      content="Ew0cvasxdIkyF7znEE-AMz_DiELiTQ0e9AuhjbRlHJU"
-    />
-    <meta
-      name="facebook-domain-verification"
-      content="zldjgptx9hd0f4uq82uniufhva9vmm"
-    />
-    <title>
-      Confirm It — Automate E-commerce Order Confirmations via WhatsApp
-    </title>
+    <meta name="google-site-verification" content="Ew0cvasxdIkyF7znEE-AMz_DiELiTQ0e9AuhjbRlHJU" />
+
+    <title>Confirm It | Order Confirmation via WhatsApp Automation (Egypt)</title>
+    <link rel="icon" type="image/webp" href="{% static 'orders/imgs/applogowebpcopyy.webp' %}">
+    <link rel="apple-touch-icon" href="{% static 'orders/imgs/applogowebpcopyy.png' %}">
+    <meta name="description" content="Stop returns & Automate Order Confirmation with WhatsApp." />
+    <meta name="facebook-domain-verification" content="zldjgptx9hd0f4uq82uniufhva9vmm" />
+
+    <meta name="keywords" content="WhatsApp automation Egypt, reduce RTO, Cash on Delivery verification, Shopify Egypt OTP, WooCommerce confirmation plugin, تقليل المرتجعات, تأكيد الطلبات واتساب, automated IVR call, verify phone numbers, fake order protection, Bosta integration, Aramex automation, Khazenly integration, ecommerce automation Egypt, OTP verification service" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.confirmit-eg.com/" />
+    <meta property="og:title" content="Stop Fake Orders | Automated WhatsApp Confirmation Tool" />
+    <meta property="og:description" content="Automate your order verification with WhatsApp & Voice Calls. Reduce returns and save shipping costs instantly. Try it now." />
+    <meta property="og:image" content="{% static 'orders/imgs/applogowebp.webp' %}" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Confirm It | Eliminate Fake COD Orders" />
+    <meta name="twitter:description" content="The essential tool for Egyptian merchants. Verify COD orders via WhatsApp automatically." />
+    <meta name="twitter:image" content="{% static 'orders/imgs/applogowebp.webp' %}" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": "Confirm It",
+      "image": "https://www.confirmit-eg.com{% static 'orders/imgs/applogowebp.webp' %}",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "BusinessApplication",
+      "description": "Automated WhatsApp and IVR confirmation tool for E-commerce stores to verify Cash on Delivery orders and reduce return rates.",
+      "offers": {
+        "@type": "Offer",
+        "price": "390.00",
+        "priceCurrency": "EGP",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "124",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "Confirm It"
+      }
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -3377,6 +3414,298 @@
         object-fit: contain;
       }
 
+      /* --- 6b. Trusted By Section --- */
+      .trusted-section {
+        padding-top: 2.5rem;
+        padding-bottom: 1.75rem;
+        background-color: var(--brand-bg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .trusted-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: min(48rem, 94%);
+        height: 9rem;
+        transform: translateX(-50%) translateY(0.35rem) scale(0.6);
+        background: radial-gradient(
+          ellipse at center,
+          rgba(39, 174, 96, 0.18) 0%,
+          rgba(39, 174, 96, 0.06) 45%,
+          transparent 72%
+        );
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .trusted-section.in-view::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0.35rem) scale(1);
+      }
+
+      .trusted-header {
+        text-align: center;
+        max-width: 44rem;
+        margin: 0 auto 2.25rem;
+        opacity: 0;
+        transform: translateY(36px) scale(0.94);
+        filter: blur(10px);
+        transition:
+          opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+          filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .trusted-section.in-view .trusted-header {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+
+      .trusted-title {
+        font-size: clamp(1.65rem, 4.2vw, 2.35rem);
+        font-weight: 700;
+        line-height: 1.35;
+        letter-spacing: -0.02em;
+        color: var(--brand-text);
+        margin: 0;
+      }
+
+      .trusted-title .highlight-brand::before {
+        transform: scaleX(0) rotate(-2deg);
+        transform-origin: left center;
+        transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+      }
+
+      body.lang-ar .trusted-title .highlight-brand::before {
+        transform: scaleX(0) rotate(2deg);
+        transform-origin: right center;
+      }
+
+      .trusted-section.in-view .trusted-title .highlight-brand::before {
+        transform: scaleX(1) rotate(-2deg);
+      }
+
+      body.lang-ar .trusted-section.in-view .trusted-title .highlight-brand::before {
+        transform: scaleX(1) rotate(2deg);
+      }
+
+      .trusted-marquee {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: auto;
+        max-width: none;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          #000 8%,
+          #000 92%,
+          transparent 100%
+        );
+        mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          #000 8%,
+          #000 92%,
+          transparent 100%
+        );
+      }
+
+      .trusted-marquee-row {
+        overflow: hidden;
+        width: 100%;
+        opacity: 0;
+        filter: blur(6px);
+        transition:
+          opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 1.15s cubic-bezier(0.16, 1, 0.3, 1),
+          filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .trusted-marquee-row:first-child {
+        transform: translateX(14%);
+        transition-delay: 0.2s;
+      }
+
+      .trusted-marquee-row:nth-child(2) {
+        transform: translateX(-12%);
+        transition-delay: 0.32s;
+      }
+
+      .trusted-marquee-row:nth-child(3) {
+        transform: translateX(10%);
+        transition-delay: 0.44s;
+      }
+
+      .trusted-section.in-view .trusted-marquee-row {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+      }
+
+      .trusted-track {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4rem;
+        width: max-content;
+        will-change: transform;
+      }
+
+      .trusted-track-rtl {
+        animation: trustedScrollRtl 28s linear infinite;
+        animation-play-state: paused;
+      }
+
+      .trusted-track-rtl-alt {
+        animation: trustedScrollRtl 36s linear infinite;
+        animation-play-state: paused;
+      }
+
+      .trusted-track-rtl-mid {
+        animation: trustedScrollRtl 32s linear infinite;
+        animation-play-state: paused;
+      }
+
+      .trusted-section.in-view .trusted-track-rtl,
+      .trusted-section.in-view .trusted-track-rtl-alt,
+      .trusted-section.in-view .trusted-track-rtl-mid {
+        animation-play-state: running;
+        animation-delay: 0.85s;
+      }
+
+      .trusted-marquee:hover .trusted-track {
+        animation-play-state: paused;
+      }
+
+      .trusted-section.in-view .trusted-marquee:hover .trusted-track {
+        animation-play-state: paused;
+      }
+
+      @keyframes trustedScrollRtl {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      .trusted-logo {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem 0.5rem;
+        text-decoration: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .trusted-logo img {
+        max-height: 5.5rem;
+        width: auto;
+        max-width: 16rem;
+        object-fit: contain;
+        mix-blend-mode: screen;
+        opacity: 0.92;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        pointer-events: none;
+      }
+
+      .trusted-logo img.logo-keep-color {
+        mix-blend-mode: normal;
+        filter: brightness(1.35) contrast(1.05);
+      }
+
+      .trusted-logo img.logo-tul8te {
+        max-height: 4rem;
+        max-width: 11.5rem;
+      }
+
+      .trusted-marquee:hover .trusted-logo img {
+        opacity: 0.55;
+      }
+
+      .trusted-marquee:hover .trusted-logo:hover img {
+        opacity: 1;
+        transform: scale(1.06);
+      }
+
+      .trusted-footnote {
+        margin-top: 4.5rem;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: rgba(160, 160, 160, 0.65);
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s,
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s;
+      }
+
+      .trusted-section.in-view .trusted-footnote {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .trusted-footnote img {
+        height: 0.78rem;
+        width: auto;
+        max-width: 4.5rem;
+        object-fit: contain;
+        mix-blend-mode: screen;
+        opacity: 0.65;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .trusted-section::before,
+        .trusted-header,
+        .trusted-marquee-row,
+        .trusted-footnote,
+        .trusted-title .highlight-brand::before {
+          transition: none !important;
+          filter: none !important;
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        .trusted-track-rtl,
+        .trusted-track-rtl-alt,
+        .trusted-track-rtl-mid {
+          animation: none;
+          transform: none;
+          flex-wrap: wrap;
+          justify-content: center;
+          width: 100%;
+        }
+        .trusted-marquee {
+          width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+          -webkit-mask-image: none;
+          mask-image: none;
+        }
+      }
+
       /* --- 7. Features Section (CLEAN MOBILE STACKING) --- */
       .features-section {
         padding-top: 0rem !important;
@@ -4486,6 +4815,50 @@
           width: 11rem;
         }
 
+        .trusted-section {
+          padding-top: 3rem;
+          padding-bottom: 2rem;
+        }
+
+        .trusted-marquee {
+          gap: 2.75rem;
+        }
+
+        .trusted-track-rtl {
+          animation-duration: 40s;
+        }
+
+        .trusted-track-rtl-alt {
+          animation-duration: 52s;
+        }
+
+        .trusted-track-rtl-mid {
+          animation-duration: 46s;
+        }
+
+        .trusted-marquee-row-mobile {
+          display: none;
+        }
+
+        .trusted-track {
+          gap: 5.5rem;
+        }
+
+        .trusted-logo img {
+          max-height: 7rem;
+          max-width: 20rem;
+        }
+
+        .trusted-logo img.logo-tul8te {
+          max-height: 5rem;
+          max-width: 14rem;
+        }
+
+        .trusted-footnote img {
+          height: 0.85rem;
+          max-width: 5rem;
+        }
+
         /* --- FEATURES SECTION DESKTOP --- */
         .features-row {
           flex-direction: row;
@@ -4894,7 +5267,7 @@
     <div class="mobile-lang-bar">
       <a href="#" class="mobile-top-logo-link">
         <img
-          src="imgs/logooo.webp"
+          src="{% static 'orders/imgs/logooo.webp' %}"
           alt="Confirm It Logo"
           class="brand-logo brand-logo--mobile-top"
           width="210"
@@ -4912,7 +5285,7 @@
         >
 
         <a
-          href="{% url 'checkout' %}?plan=starter&price=990"
+          href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan=starter{% endif %}"
           class="mobile-header-trial btn-cta-green btn-sm"
           ><span data-lang="en">Start Free Trial!</span
           ><span data-lang="ar">جرّب مجاناً!</span></a
@@ -4921,7 +5294,7 @@
         <div class="nav-brand-cluster">
           <a href="#" class="nav-logo-link">
             <img
-              src="imgs/logooo.webp"
+              src="{% static 'orders/imgs/logooo.webp' %}"
               alt="Confirm It Logo"
               class="brand-logo"
               width="210"
@@ -5016,10 +5389,10 @@
             ><span data-lang="en">Integrations</span
             ><span data-lang="ar">التكاملات</span></a
           >
-          <a class="nav-link" href="#pricing"
+          {% if not hide_pricing %}<a class="nav-link" href="#pricing"
             ><span data-lang="en">Bundles</span
             ><span data-lang="ar">الباقات</span></a
-          >
+          >{% endif %}
         </div>
 
         <div class="nav-right">
@@ -5028,7 +5401,7 @@
             ><span data-lang="ar">تسجيل الدخول</span></a
           >
           <a
-            href="{% url 'checkout' %}?plan=starter&price=990"
+            href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan=starter{% endif %}"
             class="btn-cta-green btn-sm"
             ><span data-lang="en">Start Free Trial</span
             ><span data-lang="ar">جرّب مجاناً الآن</span></a
@@ -5105,7 +5478,7 @@
             />
           </svg>
         </a>
-        <a href="#pricing" class="mobile-nav-link">
+        {% if not hide_pricing %}<a href="#pricing" class="mobile-nav-link">
           <span data-lang="en">Bundles</span><span data-lang="ar">الباقات</span>
           <svg
             viewBox="0 0 24 24"
@@ -5119,7 +5492,7 @@
               d="M8.25 4.5l7.5 7.5-7.5 7.5"
             />
           </svg>
-        </a>
+        </a>{% endif %}
         <a href="{% url 'login' %}" class="mobile-nav-link">
           <span data-lang="en">Login</span
           ><span data-lang="ar">تسجيل الدخول</span>
@@ -5140,7 +5513,7 @@
 
       <div class="mobile-menu-footer">
         <a
-          href="{% url 'checkout' %}?plan=starter&price=990"
+          href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan=starter{% endif %}"
           class="mobile-cta-btn btn-cta-green"
           ><span data-lang="en">Start Free Trial</span
           ><span data-lang="ar">جرّب مجاناً الآن</span></a
@@ -5190,7 +5563,7 @@
         <span data-lang="en">Integrations</span>
         <span data-lang="ar">التكاملات</span>
       </a>
-      <a href="#pricing" class="mobile-dock-item" data-dock-section="pricing">
+      {% if not hide_pricing %}<a href="#pricing" class="mobile-dock-item" data-dock-section="pricing">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path
             stroke-linecap="round"
@@ -5200,7 +5573,7 @@
         </svg>
         <span data-lang="en">Bundles</span>
         <span data-lang="ar">الباقات</span>
-      </a>
+      </a>{% endif %}
     </nav>
 
     <main>
@@ -5247,7 +5620,7 @@
               <div class="hero-buttons">
                 <div class="hero-cta-cluster">
                   <a
-                    href="{% url 'checkout' %}?plan=starter&price=990"
+                    href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan=starter{% endif %}"
                     class="btn-cta-green hero-cta-btn"
                   >
                     <span data-lang="en">Start 30-Day Free Trial</span>
@@ -5288,9 +5661,9 @@
             <div class="hero-image-wrapper">
               <img
                 id="hero-logo"
-                src="imgs/HeroLogo.webp"
-                data-src-en="imgs/HeroLogo.webp"
-                data-src-ar="imgs/hero-logo-ar.webp"
+                src="{% static 'orders/imgs/HeroLogo.webp' %}"
+                data-src-en="{% static 'orders/imgs/HeroLogo.webp' %}"
+                data-src-ar="{% static 'orders/imgs/hero-logo-ar.webp' %}"
                 alt="WhatsApp Delivery Automation"
                 data-alt-en="WhatsApp Delivery Automation"
                 data-alt-ar="أتمتة تأكيد الطلبات عبر واتساب"
@@ -5357,7 +5730,7 @@
               </div>
               <div class="how-it-works-image-wrapper">
                 <img
-                  src="imgs/Adobe-Express-file-1.webp"
+                  src="{% static 'orders/imgs/Adobe-Express-file-1.webp' %}"
                   alt="Order Received Dashboard"
                   onerror="
                     this.src =
@@ -5399,7 +5772,7 @@
               </div>
               <div class="how-it-works-image-wrapper">
                 <img
-                  src="imgs/Adobe-Express-file-2.webp"
+                  src="{% static 'orders/imgs/Adobe-Express-file-2.webp' %}"
                   alt="WhatsApp Confirmation Screenshot"
                   onerror="
                     this.src =
@@ -5442,7 +5815,7 @@
                 </div>
                 <div class="how-it-works-image-wrapper">
                   <img
-                    src="imgs/Adobe-Express-file-3-copy.webp"
+                    src="{% static 'orders/imgs/Adobe-Express-file-3-copy.webp' %}"
                     alt="Customer Confirms Screenshot"
                     onerror="
                       this.src =
@@ -5490,7 +5863,7 @@
                 </div>
                 <div class="how-it-works-image-wrapper cancel-mockup-wrapper">
                   <img
-                    src="imgs/cancellation-reason-tem.webp"
+                    src="{% static 'orders/imgs/cancellation-reason-tem.webp' %}"
                     alt="Cancellation Follow-up Screenshot"
                     onerror="
                       this.src =
@@ -5500,7 +5873,7 @@
                   />
                   <div class="cancel-redirect-peek">
                     <img
-                      src="imgs/cancellation-reason-redirect.webp"
+                      src="{% static 'orders/imgs/cancellation-reason-redirect.webp' %}"
                       alt="Cancellation reason redirect page"
                       onerror="this.parentElement.style.display = 'none'"
                     />
@@ -5602,7 +5975,7 @@
               </div>
               <div class="how-it-works-image-wrapper prepaid-mockup-wrapper">
                 <img
-                  src="imgs/apple-pay-final.webp"
+                  src="{% static 'orders/imgs/apple-pay-final.webp' %}"
                   alt="WhatsApp prepaid upsell with Apple Pay offer"
                   onerror="
                     this.src =
@@ -5612,7 +5985,7 @@
                 />
                 <div class="prepaid-checkout-peek">
                   <img
-                    src="imgs/apple-pay-checkout.webp"
+                    src="{% static 'orders/imgs/apple-pay-checkout.webp' %}"
                     alt="Confirm It secure checkout page"
                     onerror="this.parentElement.style.display = 'none'"
                   />
@@ -5645,17 +6018,17 @@
                 <p>
                   <span data-lang="en"
                     >The delivery order is automatically created in Bosta,
-                    Khazenly, or your courier's system.</span
+                    Aramex, or your courier's system.</span
                   >
                   <span data-lang="ar"
                     >بمجرد التأكيد، الشحنة بتتسجل تلقائياً في نظام Bosta أو
-                    Khazenly أو أي شركة شحن بتتعامل معاها.</span
+                    Aramex أو أي شركة شحن بتتعامل معاها.</span
                   >
                 </p>
               </div>
               <div class="how-it-works-image-wrapper">
                 <img
-                  src="imgs/Adobe-Express-file-4.webp"
+                  src="{% static 'orders/imgs/Adobe-Express-file-4.webp' %}"
                   alt="Courier Integration Dashboard"
                   onerror="
                     this.src =
@@ -5852,16 +6225,16 @@
                 </span>
               </p>
               <audio id="ivrGreetingAudio" preload="metadata">
-                <source src="audio/ivr-greeting.mp3" type="audio/mpeg" />
+                <source src="{% static 'orders/audio/ivr-greeting.mp3' %}" type="audio/mpeg" />
               </audio>
               <audio id="ivrConfirmAudio" preload="metadata">
-                <source src="audio/ivr-confirm.mp3" type="audio/mpeg" />
+                <source src="{% static 'orders/audio/ivr-confirm.mp3' %}" type="audio/mpeg" />
               </audio>
               <audio id="ivrCancelAudio" preload="metadata">
-                <source src="audio/ivr-cancel.mp3?v=2" type="audio/mpeg" />
+                <source src="{% static 'orders/audio/ivr-cancel.mp3' %}?v=2" type="audio/mpeg" />
               </audio>
               <audio id="ivrSupportAudio" preload="metadata">
-                <source src="audio/ivr-support.mp3?v=2" type="audio/mpeg" />
+                <source src="{% static 'orders/audio/ivr-support.mp3' %}?v=2" type="audio/mpeg" />
               </audio>
             </div>
 
@@ -6046,7 +6419,7 @@
 
           <div class="features-cta-wrapper">
             <a
-              href="{% url 'checkout' %}?plan=starter&price=990"
+              href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan=starter{% endif %}"
               class="btn-feature-match"
             >
               <span data-lang="en"
@@ -6100,7 +6473,7 @@
             <div class="integrations-row integrations-row-1">
               <img
                 class="logo-bosta"
-                src="imgs/bosta.svg"
+                src="{% static 'orders/imgs/bosta.svg' %}"
                 alt="Bosta"
                 onerror="
                   this.src =
@@ -6110,7 +6483,7 @@
               />
               <img
                 class="logo-chainz"
-                src="imgs/chainz.webp"
+                src="{% static 'orders/imgs/chainz.webp' %}"
                 alt="Chainz"
                 onerror="
                   this.src =
@@ -6120,7 +6493,7 @@
               />
               <img
                 class="logo-aramex"
-                src="imgs/aramexx.webp"
+                src="{% static 'orders/imgs/aramexx.webp' %}"
                 alt="Aramex"
                 onerror="
                   this.src =
@@ -6130,7 +6503,7 @@
               />
               <img
                 class="logo-shipblu"
-                src="imgs/navlogo.972e5b91.svg"
+                src="{% static 'orders/imgs/navlogo.972e5b91.svg' %}"
                 alt="ShipBlu"
                 onerror="
                   this.src =
@@ -6142,7 +6515,7 @@
             <div class="integrations-row integrations-row-2">
               <img
                 class="logo-shopify"
-                src="imgs/shopify.webp"
+                src="{% static 'orders/imgs/shopify.webp' %}"
                 alt="Shopify"
                 onerror="
                   this.src =
@@ -6152,7 +6525,7 @@
               />
               <img
                 class="logo-woocommerce"
-                src="imgs/woocommerce.webp"
+                src="{% static 'orders/imgs/woocommerce.webp' %}"
                 alt="WooCommerce"
                 onerror="
                   this.src =
@@ -6162,7 +6535,7 @@
               />
               <img
                 class="logo-khazenly"
-                src="imgs/khazenly.webp"
+                src="{% static 'orders/imgs/khazenly.webp' %}"
                 alt="Khazenly"
                 onerror="
                   this.src =
@@ -6215,7 +6588,7 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en">Smart WhatsApp Templates</span>
+                  <span data-lang="en">Smart WhatsApp Analytics</span>
                   <span data-lang="ar">إحصائيات ذكية</span>
                 </div>
                 <div class="feature-item">
@@ -6231,7 +6604,7 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en">Direct Courier API Integration</span>
+                  <span data-lang="en">Accurate Cancellation Rates</span>
                   <span data-lang="ar">تكامل مباشر مع شركات الشحن</span>
                 </div>
               </div>
@@ -6241,7 +6614,7 @@
               <div class="dashboard-console tilt-left-persp">
                 <img
                   class="dashboard-img"
-                  src="imgs/ipad.webp"
+                  src="{% static 'orders/imgs/ipad.webp' %}"
                   alt="Analytics Detail"
                   style="max-width: 100%; margin: 0 auto"
                   onerror="
@@ -6265,7 +6638,7 @@
               <div class="dashboard-console tilt-right-persp">
                 <img
                   class="dashboard-img"
-                  src="imgs/BBB.webp"
+                  src="{% static 'orders/imgs/BBB.webp' %}"
                   alt="Dashboard Overview"
                   onerror="
                     this.src =
@@ -6315,7 +6688,7 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en">Real-time Confirmation Rates</span>
+                  <span data-lang="en">Real-time Confirmation Status</span>
                   <span data-lang="ar">نسب تأكيد لحظية</span>
                 </div>
                 <div class="feature-item">
@@ -6331,9 +6704,9 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  <span data-lang="en">AI-Powered Reply Analysis</span>
+                  <span data-lang="en">Full Order Information</span>
                   <span data-lang="ar"
-                    >تحليل ردود العملاء بالذكاء الاصطناعي</span
+                    >جميع تفاصيل الأوردر</span
                   >
                 </div>
               </div>
@@ -6342,7 +6715,7 @@
 
           <div class="features-cta-wrapper">
             <a
-              href="{% url 'checkout' %}?plan=starter&price=990"
+              href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan=starter{% endif %}"
               class="btn-feature-match"
             >
               <span data-lang="en">Explore Dashboard</span>
@@ -6352,7 +6725,56 @@
         </div>
       </section>
 
-      <section id="pricing" class="pricing-section">
+      <section id="trusted-by" class="trusted-section">
+        <div class="container">
+          <div class="trusted-header">
+            <h2 class="trusted-title">
+              <span data-lang="en"
+                ><span class="highlight-brand">Trusted by</span> leading brands
+                across Egypt</span
+              >
+              <span data-lang="ar"
+                ><span class="highlight-brand">يثقوا فينا</span> براندات رائدة
+                في مصر</span
+              >
+            </h2>
+          </div>
+
+          <div class="trusted-marquee">
+            <div class="trusted-marquee-row">
+              <div class="trusted-track trusted-track-rtl" data-trusted-track>
+                <!-- filled by JS -->
+              </div>
+            </div>
+            <div class="trusted-marquee-row">
+              <div
+                class="trusted-track trusted-track-rtl-mid"
+                data-trusted-track
+              >
+                <!-- filled by JS -->
+              </div>
+            </div>
+            <div class="trusted-marquee-row trusted-marquee-row-mobile">
+              <div
+                class="trusted-track trusted-track-rtl-alt"
+                data-trusted-track
+              >
+                <!-- filled by JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="trusted-footnote">
+            <span data-lang="en">In collaboration with</span>
+            <span data-lang="ar">بالتعاون مع</span>
+            <img src="imgs/chainz-mark.webp" alt="Chainz" />
+            <span data-lang="en">solutions</span>
+            <span data-lang="ar">حلول</span>
+          </div>
+        </div>
+      </section>
+
+      {% if not hide_pricing %}<section id="pricing" class="pricing-section">
         <div class="container">
           <div class="section-header text-center">
             <h2 class="section-title">
@@ -6381,349 +6803,51 @@
             </button>
 
             <div class="carousel-track" id="carouselTrack">
-              <div class="pricing-card has-launch-deal" data-index="0">
+              {% for bundle in bundles %}
+              <div class="pricing-card{% if bundle.has_discount %} has-launch-deal{% endif %}" data-index="{{ forloop.counter0 }}">
                 <span class="line-1"></span><span class="line-2"></span
                 ><span class="line-3"></span><span class="line-4"></span>
+                {% if bundle.has_discount %}
                 <span class="launch-deal-badge"
                   ><span data-lang="en">Limited Time Offer</span
                   ><span data-lang="ar">عرض لفترة محدودة</span></span
                 >
+                {% endif %}
                 <div class="card-top">
-                  <span class="tier-label">Micro</span>
+                  <span class="tier-label">{{ bundle.name }}</span>
+                  {% if bundle.has_discount %}
                   <div class="tier-price-block">
                     <div class="tier-price-compare">
                       <div class="tier-price-was">
-                        <span class="was-amount">EGP 290</span>
+                        <span class="was-amount">EGP {{ bundle.price_label }}</span>
                       </div>
                       <div class="tier-price-now">
-                        <span class="currency">EGP</span>240<span class="period"
+                        <span class="currency">EGP</span>{{ bundle.final_price_label }}<span class="period"
                           ><span data-lang="en">/mo</span
                           ><span data-lang="ar">/شهر</span></span
                         >
                       </div>
                     </div>
                     <span class="tier-save-chip"
-                      ><span data-lang="en">Save EGP 50</span
-                      ><span data-lang="ar">وفّر 50 جنيه</span></span
+                      ><span data-lang="en">Save EGP {{ bundle.savings_label }}</span
+                      ><span data-lang="ar">وفّر {{ bundle.savings_label }} جنيه</span></span
                     >
                   </div>
-                </div>
-                <div class="card-specs">
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><strong
-                      ><span data-lang="en">100 Points</span
-                      ><span data-lang="ar">100 نقطة</span></strong
-                    >
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Orders Overview</span
-                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Dashboard Analytics</span
-                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Automation Control</span
-                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en"
-                      >Automatic Order Shipment Creation</span
-                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
-                  </div>
-                </div>
-                <a
-                  href="{% url 'checkout' %}?plan=micro&price=240"
-                  class="btn-unified"
-                  ><span data-lang="en">Select Bundle</span
-                  ><span data-lang="ar">اختر الباقة</span></a
-                >
-              </div>
-
-              <div class="pricing-card has-launch-deal" data-index="1">
-                <span class="line-1"></span><span class="line-2"></span
-                ><span class="line-3"></span><span class="line-4"></span>
-                <span class="launch-deal-badge"
-                  ><span data-lang="en">Limited Time Offer</span
-                  ><span data-lang="ar">عرض لفترة محدودة</span></span
-                >
-                <div class="card-top">
-                  <span class="tier-label">Starter</span>
-                  <div class="tier-price-block">
-                    <div class="tier-price-compare">
-                      <div class="tier-price-was">
-                        <span class="was-amount">EGP 1,290</span>
-                      </div>
-                      <div class="tier-price-now">
-                        <span class="currency">EGP</span>990<span class="period"
-                          ><span data-lang="en">/mo</span
-                          ><span data-lang="ar">/شهر</span></span
-                        >
-                      </div>
-                    </div>
-                    <span class="tier-save-chip"
-                      ><span data-lang="en">Save EGP 300</span
-                      ><span data-lang="ar">وفّر 300 جنيه</span></span
-                    >
-                  </div>
-                </div>
-                <div class="card-specs">
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><strong
-                      ><span data-lang="en">500 Points</span
-                      ><span data-lang="ar">500 نقطة</span></strong
-                    >
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Orders Overview</span
-                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Dashboard Analytics</span
-                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Automation Control</span
-                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en"
-                      >Automatic Order Shipment Creation</span
-                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
-                  </div>
-                </div>
-                <a
-                  href="{% url 'checkout' %}?plan=starter&price=990"
-                  class="btn-unified"
-                  ><span data-lang="en">Select Bundle</span
-                  ><span data-lang="ar">اختر الباقة</span></a
-                >
-              </div>
-
-              <div class="pricing-card has-launch-deal" data-index="2">
-                <span class="line-1"></span><span class="line-2"></span
-                ><span class="line-3"></span><span class="line-4"></span>
-                <span class="launch-deal-badge"
-                  ><span data-lang="en">Limited Time Offer</span
-                  ><span data-lang="ar">عرض لفترة محدودة</span></span
-                >
-                <div class="card-top">
-                  <span class="tier-label">Growth</span>
-                  <div class="tier-price-block">
-                    <div class="tier-price-compare">
-                      <div class="tier-price-was">
-                        <span class="was-amount">EGP 2,390</span>
-                      </div>
-                      <div class="tier-price-now">
-                        <span class="currency">EGP</span>1,890<span class="period"
-                          ><span data-lang="en">/mo</span
-                          ><span data-lang="ar">/شهر</span></span
-                        >
-                      </div>
-                    </div>
-                    <span class="tier-save-chip"
-                      ><span data-lang="en">Save EGP 500</span
-                      ><span data-lang="ar">وفّر 500 جنيه</span></span
-                    >
-                  </div>
-                </div>
-                <div class="card-specs">
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><strong
-                      ><span data-lang="en">1,000 Points</span
-                      ><span data-lang="ar">1,000 نقطة</span></strong
-                    >
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Orders Overview</span
-                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Dashboard Analytics</span
-                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Automation Control</span
-                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en"
-                      >Automatic Order Shipment Creation</span
-                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
-                  </div>
-                </div>
-                <a
-                  href="{% url 'checkout' %}?plan=growth&price=1890"
-                  class="btn-unified"
-                  ><span data-lang="en">Select Bundle</span
-                  ><span data-lang="ar">اختر الباقة</span></a
-                >
-              </div>
-
-              <div class="pricing-card has-launch-deal" data-index="3">
-                <span class="line-1"></span><span class="line-2"></span
-                ><span class="line-3"></span><span class="line-4"></span>
-                <span class="launch-deal-badge"
-                  ><span data-lang="en">Limited Time Offer</span
-                  ><span data-lang="ar">عرض لفترة محدودة</span></span
-                >
-                <div class="card-top">
-                  <span class="tier-label">Pro</span>
-                  <div class="tier-price-block">
-                    <div class="tier-price-compare">
-                      <div class="tier-price-was">
-                        <span class="was-amount">EGP 4,290</span>
-                      </div>
-                      <div class="tier-price-now">
-                        <span class="currency">EGP</span>3,590<span class="period"
-                          ><span data-lang="en">/mo</span
-                          ><span data-lang="ar">/شهر</span></span
-                        >
-                      </div>
-                    </div>
-                    <span class="tier-save-chip"
-                      ><span data-lang="en">Save EGP 700</span
-                      ><span data-lang="ar">وفّر 700 جنيه</span></span
-                    >
-                  </div>
-                </div>
-                <div class="card-specs">
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><strong
-                      ><span data-lang="en">2,000 Points</span
-                      ><span data-lang="ar">2,000 نقطة</span></strong
-                    >
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Orders Overview</span
-                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Dashboard Analytics</span
-                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Automation Control</span
-                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en"
-                      >Automatic Order Shipment Creation</span
-                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
-                  </div>
-                </div>
-                <a
-                  href="{% url 'checkout' %}?plan=pro&price=3590"
-                  class="btn-unified"
-                  ><span data-lang="en">Select Bundle</span
-                  ><span data-lang="ar">اختر الباقة</span></a
-                >
-              </div>
-
-              <div class="pricing-card has-launch-deal" data-index="4">
-                <span class="line-1"></span><span class="line-2"></span
-                ><span class="line-3"></span><span class="line-4"></span>
-                <span class="launch-deal-badge"
-                  ><span data-lang="en">Limited Time Offer</span
-                  ><span data-lang="ar">عرض لفترة محدودة</span></span
-                >
-                <div class="card-top">
-                  <span class="tier-label">Scale</span>
-                  <div class="tier-price-block">
-                    <div class="tier-price-compare">
-                      <div class="tier-price-was">
-                        <span class="was-amount">EGP 5,490</span>
-                      </div>
-                      <div class="tier-price-now">
-                        <span class="currency">EGP</span>4,790<span class="period"
-                          ><span data-lang="en">/mo</span
-                          ><span data-lang="ar">/شهر</span></span
-                        >
-                      </div>
-                    </div>
-                    <span class="tier-save-chip"
-                      ><span data-lang="en">Save EGP 700</span
-                      ><span data-lang="ar">وفّر 700 جنيه</span></span
-                    >
-                  </div>
-                </div>
-                <div class="card-specs">
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><strong
-                      ><span data-lang="en">3,000 Points</span
-                      ><span data-lang="ar">3,000 نقطة</span></strong
-                    >
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Orders Overview</span
-                    ><span data-lang="ar">نظرة شاملة على الطلبات</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Dashboard Analytics</span
-                    ><span data-lang="ar">تحليلات لوحة تحكم كاملة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en">Full Automation Control</span
-                    ><span data-lang="ar">تحكم كامل في الأتمتة</span>
-                  </div>
-                  <div class="spec-row">
-                    <span class="spec-dot"></span
-                    ><span data-lang="en"
-                      >Automatic Order Shipment Creation</span
-                    ><span data-lang="ar">إنشاء شحنات تلقائي</span>
-                  </div>
-                </div>
-                <a
-                  href="{% url 'checkout' %}?plan=scale&price=4790"
-                  class="btn-unified"
-                  ><span data-lang="en">Select Bundle</span
-                  ><span data-lang="ar">اختر الباقة</span></a
-                >
-              </div>
-
-              <div class="pricing-card" data-index="5">
-                <span class="line-1"></span><span class="line-2"></span
-                ><span class="line-3"></span><span class="line-4"></span>
-                <div class="card-top">
-                  <span class="tier-label">Elite</span>
+                  {% else %}
                   <div class="tier-price">
-                    <span class="currency">EGP</span>7,490<span class="period"
+                    <span class="currency">EGP</span>{{ bundle.price_label }}<span class="period"
                       ><span data-lang="en">/mo</span
                       ><span data-lang="ar">/شهر</span></span
                     >
                   </div>
+                  {% endif %}
                 </div>
                 <div class="card-specs">
                   <div class="spec-row">
                     <span class="spec-dot"></span
                     ><strong
-                      ><span data-lang="en">5,000 Points</span
-                      ><span data-lang="ar">5,000 نقطة</span></strong
+                      ><span data-lang="en">{{ bundle.points_label }} Points</span
+                      ><span data-lang="ar">{{ bundle.points_label }} نقطة</span></strong
                     >
                   </div>
                   <div class="spec-row">
@@ -6748,11 +6872,14 @@
                     ><span data-lang="ar">إنشاء شحنات تلقائي</span>
                   </div>
                 </div>
-                <a href="{% url 'checkout' %}?plan=elite" class="btn-unified"
+                <a
+                  href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan={{ bundle.slug }}{% endif %}"
+                  class="btn-unified"
                   ><span data-lang="en">Select Bundle</span
                   ><span data-lang="ar">اختر الباقة</span></a
                 >
               </div>
+              {% endfor %}
 
               <div class="pricing-card" data-index="6">
                 <span class="line-1"></span><span class="line-2"></span
@@ -6808,7 +6935,7 @@
             </button>
           </div>
         </div>
-      </section>
+      </section>{% endif %}
 
       <section class="cta-section">
         <div class="container">
@@ -6829,7 +6956,7 @@
             </p>
             <div class="cta-buttons">
               <a
-                href="{% url 'checkout' %}?plan=starter&price=990"
+                href="{% if hide_pricing %}{% url 'signup' %}{% else %}{% url 'checkout' %}?plan=starter{% endif %}"
                 class="btn-cta-green"
               >
                 <span data-lang="en">Start 30-Day Free Trial</span>
@@ -6882,7 +7009,7 @@
           <div class="footer-col-1">
             <a href="#" class="nav-logo-link">
               <img
-                src="imgs/logooo.webp"
+                src="{% static 'orders/imgs/logooo.webp' %}"
                 alt="Confirm It Logo"
                 class="brand-logo"
                 width="210"
@@ -6988,12 +7115,12 @@
                   ><span data-lang="ar">المميزات</span></a
                 >
               </li>
-              <li>
+              {% if not hide_pricing %}<li>
                 <a href="#pricing"
                   ><span data-lang="en">Bundles</span
                   ><span data-lang="ar">الباقات</span></a
                 >
-              </li>
+              </li>{% endif %}
               <li>
                 <a href="#how-it-works"
                   ><span data-lang="en">How it Works</span
@@ -7459,6 +7586,134 @@
 
         if (integrationSection) {
           observer.observe(integrationSection);
+        }
+
+        // Trusted By — continuous RTL marquees
+        const trustedLogos = [
+          {
+            src: "images-trusted/lail.webp",
+            alt: "LAIL",
+            href: "https://www.instagram.com/lail_fragrances/",
+          },
+          {
+            src: "images-trusted/orvano.webp",
+            alt: "Orvano",
+            href: "https://www.instagram.com/orvano.eg/",
+          },
+          {
+            src: "images-trusted/mokoi.webp",
+            alt: "Mokoi",
+            href: "https://www.instagram.com/mokoicollections.eg/",
+          },
+          {
+            src: "images-trusted/ndustry.webp",
+            alt: "Ndustry",
+            href: "https://www.instagram.com/ndustry__/",
+          },
+          {
+            src: "images-trusted-chains/tul8te.webp",
+            alt: "tul8te",
+            href: "https://www.instagram.com/tul8te/",
+            keepColor: true,
+            tul8te: true,
+          },
+          {
+            src: "images-trusted-chains/8tsh.webp",
+            alt: "8TSH",
+            href: "https://www.instagram.com/8tsh.eg/",
+          },
+          {
+            src: "images-trusted-chains/ailah.webp",
+            alt: "Ailah",
+            href: "https://www.instagram.com/ailah.co/",
+            keepColor: true,
+          },
+          {
+            src: "images-trusted-chains/jvnile.webp",
+            alt: "Juvénile",
+            href: "https://www.instagram.com/jvenl.eg/",
+          },
+          {
+            src: "images-trusted-chains/stoclh.webp",
+            alt: "Stolch",
+            href: "https://www.instagram.com/stolchworldwide/",
+          },
+          {
+            src: "images-trusted-chains/crowned-lion.webp",
+            alt: "Cairokee",
+            href: "https://www.instagram.com/cairokeestore/",
+          },
+          {
+            src: "images-trusted-chains/sn2.webp",
+            alt: "SN2",
+            href: "https://www.instagram.com/sn2studios/",
+          },
+          {
+            src: "images-trusted-chains/circle-c.webp",
+            alt: "Coddiwomple",
+            href: "https://www.instagram.com/coddiwmple/",
+          },
+        ];
+
+        function buildTrustedItems(list) {
+          return list
+            .map((logo) => {
+              const classes = [
+                logo.keepColor ? "logo-keep-color" : "",
+                logo.tul8te ? "logo-tul8te" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+              return `<a class="trusted-logo" href="${logo.href}" target="_blank" rel="noopener noreferrer" aria-label="${logo.alt} on Instagram"><img class="${classes}" src="${logo.src}" alt="${logo.alt}" loading="lazy" /></a>`;
+            })
+            .join("");
+        }
+
+        const trustedTracks = document.querySelectorAll("[data-trusted-track]");
+        function fillTrustedTracks() {
+          if (!trustedTracks.length) return;
+          const mobile =
+            window.matchMedia("(max-width: 1023px)").matches;
+          const rowCount = mobile ? 3 : 2;
+          const size = Math.ceil(trustedLogos.length / rowCount);
+          const rows = [];
+          for (let i = 0; i < rowCount; i++) {
+            rows.push(trustedLogos.slice(i * size, (i + 1) * size));
+          }
+          trustedTracks.forEach((track, idx) => {
+            if (!mobile && idx >= 2) {
+              track.innerHTML = "";
+              return;
+            }
+            const set = rows[idx] || [];
+            if (!set.length) {
+              track.innerHTML = "";
+              return;
+            }
+            const html = buildTrustedItems(set);
+            track.innerHTML = html + html;
+          });
+        }
+        fillTrustedTracks();
+        window
+          .matchMedia("(max-width: 1023px)")
+          .addEventListener("change", fillTrustedTracks);
+
+        // Trusted By cinematic entrance
+        const trustedSectionEl = document.getElementById("trusted-by");
+        if (trustedSectionEl) {
+          const trustedEnterObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("in-view");
+                  trustedEnterObserver.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.22 },
+          );
+          trustedEnterObserver.observe(trustedSectionEl);
         }
 
         // Features Section Fade In Animation
